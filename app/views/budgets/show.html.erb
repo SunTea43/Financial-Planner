@@ -1,0 +1,93 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1><%= @budget.name %></h1>
+  <div>
+    <%= link_to "Editar", edit_budget_path(@budget), class: "btn btn-secondary" %>
+    <%= link_to "Eliminar", @budget, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Periodicidad</h6>
+        <span class="badge bg-info"><%= @budget.periodicity %></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Ingresos</h6>
+        <h4 class="text-success"><%= number_to_currency(@budget.total_income) %></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Gastos</h6>
+        <h4 class="text-danger"><%= number_to_currency(@budget.total_expenses) %></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Flujo de Caja Libre</h6>
+        <h4 class="<%= @budget.free_cash_flow >= 0 ? 'text-success' : 'text-danger' %>">
+          <%= number_to_currency(@budget.free_cash_flow) %>
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Ingresos</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <% @budget.budget_items.select { |item| item.item_type == 'income' }.each do |item| %>
+            <li class="list-group-item d-flex justify-content-between">
+              <div>
+                <strong><%= item.name %></strong>
+                <% if item.description.present? %>
+                  <br><small class="text-muted"><%= item.description %></small>
+                <% end %>
+              </div>
+              <strong class="text-success"><%= number_to_currency(item.amount) %></strong>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Gastos</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <% @budget.budget_items.select { |item| item.item_type == 'expense' }.each do |item| %>
+            <li class="list-group-item d-flex justify-content-between">
+              <div>
+                <strong><%= item.name %></strong>
+                <% if item.description.present? %>
+                  <br><small class="text-muted"><%= item.description %></small>
+                <% end %>
+              </div>
+              <strong class="text-danger"><%= number_to_currency(item.amount) %></strong>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

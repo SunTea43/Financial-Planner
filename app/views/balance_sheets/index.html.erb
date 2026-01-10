@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Balances Generales</h1>
+  <%= link_to "Nuevo Balance", new_balance_sheet_path, class: "btn btn-primary" %>
+</div>
+
+<% if @balance_sheets.any? %>
+  <div class="row">
+    <% @balance_sheets.each do |balance_sheet| %>
+      <div class="col-md-6 mb-4">
+        <%= cell(BalanceSheetCell, balance_sheet).call(:summary) %>
+        <div class="d-flex justify-content-between mt-2">
+          <%= link_to "Ver", balance_sheet, class: "btn btn-sm btn-primary" %>
+          <%= link_to "Editar", edit_balance_sheet_path(balance_sheet), class: "btn btn-sm btn-secondary" %>
+          <%= link_to "Eliminar", balance_sheet, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-sm btn-danger" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    <p>No hay balances generales registrados.</p>
+    <%= link_to "Crear primer balance", new_balance_sheet_path, class: "btn btn-primary" %>
+  </div>
+<% end %>
+

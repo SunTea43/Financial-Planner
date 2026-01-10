@@ -1,0 +1,16 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h1>Editar Cuenta</h1>
+    <%= simple_form_for @account do |f| %>
+      <%= f.input :name, label: "Nombre" %>
+      <%= f.input :account_type, label: "Tipo de Cuenta", collection: Account::ACCOUNT_TYPES, prompt: "Selecciona un tipo" %>
+      <%= f.input :description, label: "Descripción", as: :text, input_html: { rows: 4 } %>
+      
+      <div class="d-flex justify-content-between">
+        <%= link_to "Cancelar", @account, class: "btn btn-secondary" %>
+        <%= f.submit "Actualizar Cuenta", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

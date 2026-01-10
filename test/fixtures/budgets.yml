@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  account: one
+  name: MyString
+  periodicity: MyString
+  start_date: 2026-01-10
+  end_date: 2026-01-10
+  total_income: 9.99
+  total_expenses: 9.99
+  free_cash_flow: 9.99
+
+two:
+  user: two
+  account: two
+  name: MyString
+  periodicity: MyString
+  start_date: 2026-01-10
+  end_date: 2026-01-10
+  total_income: 9.99
+  total_expenses: 9.99
+  free_cash_flow: 9.99

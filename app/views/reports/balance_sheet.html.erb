@@ -1,0 +1,96 @@
+<div class="row mb-4">
+  <div class="col-12">
+    <h1>Reporte de Balance General</h1>
+    <p class="text-muted">Filtra y visualiza tus balances generales</p>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <%= form_with url: balance_sheet_reports_path, method: :get, local: true do |f| %>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.select :account_id, options_from_collection_for_select(@accounts, :id, :name, @account_id), { include_blank: "Todas las cuentas" }, { class: "form-select" } %>
+        </div>
+        <div class="col-md-3">
+          <%= f.date_field :start_date, value: @start_date, class: "form-control", placeholder: "Fecha inicio" %>
+        </div>
+        <div class="col-md-3">
+          <%= f.date_field :end_date, value: @end_date, class: "form-control", placeholder: "Fecha fin" %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Total de Balances</h6>
+        <h3><%= @balance_sheets.count %></h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Patrimonio Neto Total</h6>
+        <h3 class="<%= @total_net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+          <%= number_to_currency(@total_net_worth) %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Patrimonio Neto Promedio</h6>
+        <h3 class="<%= @average_net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+          <%= number_to_currency(@average_net_worth) %>
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @balance_sheets.any? %>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Cuenta</th>
+          <th>Total Activos</th>
+          <th>Total Pasivos</th>
+          <th>Patrimonio Neto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @balance_sheets.each do |balance_sheet| %>
+          <tr>
+            <td><%= balance_sheet.recorded_at.strftime("%d/%m/%Y %H:%M") %></td>
+            <td><%= balance_sheet.account&.name || "Sin cuenta" %></td>
+            <td class="text-success"><%= number_to_currency(balance_sheet.total_assets) %></td>
+            <td class="text-danger"><%= number_to_currency(balance_sheet.total_liabilities) %></td>
+            <td class="<%= balance_sheet.net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+              <%= number_to_currency(balance_sheet.net_worth) %>
+            </td>
+            <td>
+              <%= link_to "Ver", balance_sheet, class: "btn btn-sm btn-outline-primary" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    <p>No se encontraron balances generales con los filtros seleccionados.</p>
+  </div>
+<% end %>
+

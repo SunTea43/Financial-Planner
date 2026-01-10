@@ -1,0 +1,273 @@
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1>Reporte de Balance General</h1>
+        <p class="text-muted">Fecha de registro: <%= @balance_sheet.recorded_at.strftime("%d/%m/%Y %H:%M") %></p>
+      </div>
+      <div>
+        <%= link_to "Volver", @balance_sheet, class: "btn btn-secondary" %>
+        <%= link_to "Editar", edit_balance_sheet_path(@balance_sheet), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0">Información General</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Cuenta:</strong> <%= @balance_sheet.account&.name || "Sin cuenta específica" %></p>
+        <p><strong>Fecha y Hora:</strong> <%= @balance_sheet.recorded_at.strftime("%d de %B de %Y a las %H:%M") %></p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Tipo de Cuenta:</strong> <%= @balance_sheet.account&.account_type&.humanize || "Sin especificar" %></p>
+      </div>
+    </div>
+    <% if @balance_sheet.notes.present? %>
+      <div class="row mt-2">
+        <div class="col-12">
+          <p><strong>Notas:</strong></p>
+          <p class="text-muted"><%= @balance_sheet.notes %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-center">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Total Activos</h5>
+      </div>
+      <div class="card-body">
+        <h2 class="text-success"><%= number_to_currency(@balance_sheet.total_assets) %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center">
+      <div class="card-header bg-danger text-white">
+        <h5 class="mb-0">Total Pasivos</h5>
+      </div>
+      <div class="card-body">
+        <h2 class="text-danger"><%= number_to_currency(@balance_sheet.total_liabilities) %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center">
+      <div class="card-header <%= @balance_sheet.net_worth >= 0 ? 'bg-primary' : 'bg-warning' %> text-white">
+        <h5 class="mb-0">Patrimonio Neto</h5>
+      </div>
+      <div class="card-body">
+        <h2 class="<%= @balance_sheet.net_worth >= 0 ? 'text-primary' : 'text-warning' %>">
+          <%= number_to_currency(@balance_sheet.net_worth) %>
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Activos Líquidos</h5>
+      </div>
+      <div class="card-body">
+        <% liquid_assets = @balance_sheet.assets.select { |a| a.asset_type == 'liquid' } %>
+        <% if liquid_assets.any? %>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th class="text-end">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% liquid_assets.each do |asset| %>
+                <tr>
+                  <td><%= asset.name %></td>
+                  <td><%= asset.category || "N/A" %></td>
+                  <td class="text-end"><strong><%= number_to_currency(asset.amount) %></strong></td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr class="table-primary">
+                <th colspan="2">Subtotal Activos Líquidos</th>
+                <th class="text-end"><%= number_to_currency(liquid_assets.sum(&:amount)) %></th>
+              </tr>
+            </tfoot>
+          </table>
+        <% else %>
+          <p class="text-muted">No hay activos líquidos registrados.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Activos Fijos</h5>
+      </div>
+      <div class="card-body">
+        <% fixed_assets = @balance_sheet.assets.select { |a| a.asset_type == 'fixed' } %>
+        <% if fixed_assets.any? %>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th class="text-end">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% fixed_assets.each do |asset| %>
+                <tr>
+                  <td><%= asset.name %></td>
+                  <td><%= asset.category || "N/A" %></td>
+                  <td class="text-end"><strong><%= number_to_currency(asset.amount) %></strong></td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr class="table-primary">
+                <th colspan="2">Subtotal Activos Fijos</th>
+                <th class="text-end"><%= number_to_currency(fixed_assets.sum(&:amount)) %></th>
+              </tr>
+            </tfoot>
+          </table>
+        <% else %>
+          <p class="text-muted">No hay activos fijos registrados.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header bg-warning">
+        <h5 class="mb-0">Pasivos a Corto Plazo</h5>
+      </div>
+      <div class="card-body">
+        <% short_term = @balance_sheet.liabilities.select { |l| l.liability_type == 'short_term' } %>
+        <% if short_term.any? %>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th class="text-end">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% short_term.each do |liability| %>
+                <tr>
+                  <td><%= liability.name %></td>
+                  <td class="text-end"><strong><%= number_to_currency(liability.amount) %></strong></td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr class="table-danger">
+                <th>Subtotal Pasivos Corto Plazo</th>
+                <th class="text-end"><%= number_to_currency(short_term.sum(&:amount)) %></th>
+              </tr>
+            </tfoot>
+          </table>
+        <% else %>
+          <p class="text-muted">No hay pasivos a corto plazo registrados.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header bg-danger text-white">
+        <h5 class="mb-0">Pasivos a Largo Plazo</h5>
+      </div>
+      <div class="card-body">
+        <% long_term = @balance_sheet.liabilities.select { |l| l.liability_type == 'long_term' } %>
+        <% if long_term.any? %>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th class="text-end">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% long_term.each do |liability| %>
+                <tr>
+                  <td><%= liability.name %></td>
+                  <td class="text-end"><strong><%= number_to_currency(liability.amount) %></strong></td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr class="table-danger">
+                <th>Subtotal Pasivos Largo Plazo</th>
+                <th class="text-end"><%= number_to_currency(long_term.sum(&:amount)) %></th>
+              </tr>
+            </tfoot>
+          </table>
+        <% else %>
+          <p class="text-muted">No hay pasivos a largo plazo registrados.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Resumen Ejecutivo</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <p><strong>Total Activos:</strong></p>
+            <h4 class="text-success"><%= number_to_currency(@balance_sheet.total_assets) %></h4>
+          </div>
+          <div class="col-md-3">
+            <p><strong>Total Pasivos:</strong></p>
+            <h4 class="text-danger"><%= number_to_currency(@balance_sheet.total_liabilities) %></h4>
+          </div>
+          <div class="col-md-3">
+            <p><strong>Patrimonio Neto:</strong></p>
+            <h4 class="<%= @balance_sheet.net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+              <%= number_to_currency(@balance_sheet.net_worth) %>
+            </h4>
+          </div>
+          <div class="col-md-3">
+            <p><strong>Ratio Deuda/Activos:</strong></p>
+            <h4 class="<%= (@balance_sheet.total_liabilities.to_f / [@balance_sheet.total_assets, 1].max * 100) < 50 ? 'text-success' : 'text-warning' %>">
+              <%= number_to_percentage(@balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) : 0, precision: 1) %>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4 mb-4">
+  <div class="col-12 text-center">
+    <button onclick="window.print()" class="btn btn-primary btn-lg">
+      <i class="bi bi-printer"></i> Imprimir Reporte
+    </button>
+  </div>
+</div>
+

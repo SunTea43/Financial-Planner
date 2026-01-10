@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Cuentas</h1>
+  <%= link_to "Nueva Cuenta", new_account_path, class: "btn btn-primary" %>
+</div>
+
+<% if @accounts.any? %>
+  <div class="row">
+    <% @accounts.each do |account| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= account.name %></h5>
+            <p class="card-text">
+              <span class="badge bg-secondary"><%= account.account_type %></span>
+            </p>
+            <% if account.description.present? %>
+              <p class="card-text text-muted"><%= truncate(account.description, length: 100) %></p>
+            <% end %>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group w-100" role="group">
+              <%= link_to "Ver", account, class: "btn btn-sm btn-outline-primary" %>
+              <%= link_to "Balance", new_account_balance_sheet_path(account), class: "btn btn-sm btn-outline-info" %>
+              <%= link_to "Presupuesto", new_account_budget_path(account), class: "btn btn-sm btn-outline-success" %>
+              <%= link_to "Editar", edit_account_path(account), class: "btn btn-sm btn-outline-secondary" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    <p>No tienes cuentas creadas aún.</p>
+    <%= link_to "Crear tu primera cuenta", new_account_path, class: "btn btn-primary" %>
+  </div>
+<% end %>
+

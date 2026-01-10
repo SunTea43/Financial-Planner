@@ -1,0 +1,77 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1><%= @account.name %></h1>
+    <p class="text-muted"><span class="badge bg-secondary"><%= @account.account_type %></span></p>
+  </div>
+  <div>
+    <%= link_to "Editar", edit_account_path(@account), class: "btn btn-secondary" %>
+    <%= link_to "Eliminar", @account, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
+  </div>
+</div>
+
+<% if @account.description.present? %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Descripción</h5>
+      <p class="card-text"><%= @account.description %></p>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Últimos Balances Generales</h5>
+        <%= link_to "Nuevo Balance", new_account_balance_sheet_path(@account), class: "btn btn-sm btn-primary" %>
+      </div>
+      <div class="card-body">
+        <% if @balance_sheets.any? %>
+          <ul class="list-group list-group-flush">
+            <% @balance_sheets.each do |balance_sheet| %>
+              <li class="list-group-item">
+                <%= link_to balance_sheet.recorded_at.strftime("%d/%m/%Y %H:%M"), balance_sheet, class: "text-decoration-none" %>
+                <span class="badge bg-<%= balance_sheet.net_worth >= 0 ? 'success' : 'danger' %> float-end">
+                  <%= number_to_currency(balance_sheet.net_worth) %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+          <%= link_to "Ver todos", balance_sheets_path(account_id: @account.id), class: "btn btn-sm btn-outline-primary mt-2" %>
+        <% else %>
+          <p class="text-muted">No hay balances registrados.</p>
+          <%= link_to "Crear primer balance", new_account_balance_sheet_path(@account), class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Presupuestos</h5>
+        <%= link_to "Nuevo Presupuesto", new_account_budget_path(@account), class: "btn btn-sm btn-primary" %>
+      </div>
+      <div class="card-body">
+        <% if @budgets.any? %>
+          <ul class="list-group list-group-flush">
+            <% @budgets.each do |budget| %>
+              <li class="list-group-item">
+                <%= link_to budget.name, budget, class: "text-decoration-none" %>
+                <div class="mt-1">
+                  <small class="text-muted"><%= budget.start_date.strftime("%d/%m/%Y") %> - <%= budget.end_date.strftime("%d/%m/%Y") %></small>
+                  <span class="badge bg-info float-end"><%= budget.periodicity %></span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+          <%= link_to "Ver todos", budgets_path(account_id: @account.id), class: "btn btn-sm btn-outline-primary mt-2" %>
+        <% else %>
+          <p class="text-muted">No hay presupuestos registrados.</p>
+          <%= link_to "Crear primer presupuesto", new_account_budget_path(@account), class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,140 @@
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <h1>Nuevo Presupuesto</h1>
+    
+    <%= simple_form_for @budget do |f| %>
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: "Sin cuenta específica", label: "Cuenta (opcional)" %>
+          <%= f.input :name, label: "Nombre del Presupuesto", placeholder: "Ej: Presupuesto Enero 2024" %>
+          <%= f.input :periodicity, label: "Periodicidad", collection: Budget::PERIODICITIES, selected: 'monthly' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :start_date, label: "Fecha de Inicio", as: :date %>
+          <%= f.input :end_date, label: "Fecha de Fin", as: :date %>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Ingresos</h3>
+      
+      <div id="income-items">
+        <%= f.simple_fields_for :budget_items do |item_form| %>
+          <% if item_form.object.item_type == 'income' || (!item_form.object.persisted? && item_form.object.item_type != 'expense') %>
+            <div class="card mb-3 income-item">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= item_form.input :name, label: "Nombre", placeholder: "Ej: Salario" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= item_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= item_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if item_form.object.persisted? %>
+                    <%= item_form.input :item_type, as: :hidden, input_html: { value: 'income' } %>
+                    <%= item_form.input :id, as: :hidden if item_form.object.persisted? %>
+                  </div>
+                </div>
+                <%= item_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      
+      <button type="button" class="btn btn-sm btn-outline-success mb-4" id="add-income">+ Agregar Ingreso</button>
+
+      <hr>
+
+      <h3>Gastos</h3>
+      
+      <div id="expense-items">
+        <%= f.simple_fields_for :budget_items do |item_form| %>
+          <% if item_form.object.item_type == 'expense' %>
+            <div class="card mb-3 expense-item">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= item_form.input :name, label: "Nombre", placeholder: "Ej: Alquiler" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= item_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= item_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if item_form.object.persisted? %>
+                    <%= item_form.input :item_type, as: :hidden, input_html: { value: 'expense' } %>
+                    <%= item_form.input :id, as: :hidden if item_form.object.persisted? %>
+                  </div>
+                </div>
+                <%= item_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      
+      <button type="button" class="btn btn-sm btn-outline-danger mb-4" id="add-expense">+ Agregar Gasto</button>
+
+      <div class="d-flex justify-content-between mt-4">
+        <%= link_to "Cancelar", budgets_path, class: "btn btn-secondary" %>
+        <%= f.submit "Crear Presupuesto", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= content_for :head do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let incomeIndex = <%= @budget.budget_items.select { |i| i.item_type == 'income' }.size || 0 %>;
+      let expenseIndex = <%= @budget.budget_items.select { |i| i.item_type == 'expense' }.size || 0 %>;
+
+      document.getElementById('add-income')?.addEventListener('click', function() {
+        const container = document.getElementById('income-items');
+        const html = `
+          <div class="card mb-3 income-item">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <input type="text" name="budget[budget_items_attributes][${incomeIndex}][name]" class="form-control" placeholder="Nombre del ingreso" />
+                </div>
+                <div class="col-md-4">
+                  <input type="number" step="0.01" name="budget[budget_items_attributes][${incomeIndex}][amount]" class="form-control" placeholder="Monto" />
+                </div>
+              </div>
+              <input type="hidden" name="budget[budget_items_attributes][${incomeIndex}][item_type]" value="income" />
+              <textarea name="budget[budget_items_attributes][${incomeIndex}][description]" class="form-control mt-2" rows="2" placeholder="Descripción"></textarea>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        incomeIndex++;
+      });
+
+      document.getElementById('add-expense')?.addEventListener('click', function() {
+        const container = document.getElementById('expense-items');
+        const html = `
+          <div class="card mb-3 expense-item">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <input type="text" name="budget[budget_items_attributes][${expenseIndex}][name]" class="form-control" placeholder="Nombre del gasto" />
+                </div>
+                <div class="col-md-4">
+                  <input type="number" step="0.01" name="budget[budget_items_attributes][${expenseIndex}][amount]" class="form-control" placeholder="Monto" />
+                </div>
+              </div>
+              <input type="hidden" name="budget[budget_items_attributes][${expenseIndex}][item_type]" value="expense" />
+              <textarea name="budget[budget_items_attributes][${expenseIndex}][description]" class="form-control mt-2" rows="2" placeholder="Descripción"></textarea>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        expenseIndex++;
+      });
+    });
+  </script>
+<% end %>
+
