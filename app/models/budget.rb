@@ -25,8 +25,8 @@ class Budget < ApplicationRecord
   def calculate_totals
     # Handle both persisted and new records
     items = budget_items.reject(&:marked_for_destruction?)
-    income_items = items.select { |item| item.item_type == 'income' }
-    expense_items = items.select { |item| item.item_type == 'expense' }
+    income_items = items.select { |item| item.item_type == "income" }
+    expense_items = items.select { |item| item.item_type == "expense" }
 
     self.total_income = income_items.sum { |item| item.amount.to_f }
     self.total_expenses = expense_items.sum { |item| item.amount.to_f }
@@ -36,6 +36,6 @@ class Budget < ApplicationRecord
   def end_date_after_start_date
     return unless start_date && end_date
 
-    errors.add(:end_date, 'debe ser posterior a la fecha de inicio') if end_date < start_date
+    errors.add(:end_date, "debe ser posterior a la fecha de inicio") if end_date < start_date
   end
 end

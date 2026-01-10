@@ -23,7 +23,7 @@ module FinancialPlanner
     #
     config.time_zone = "America/Mexico_City"
     config.i18n.default_locale = :es
-    config.i18n.available_locales = [:es, :en]
+    config.i18n.available_locales = [ :es, :en ]
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

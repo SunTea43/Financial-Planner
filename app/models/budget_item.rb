@@ -9,6 +9,6 @@ class BudgetItem < ApplicationRecord
 
   validates :item_type, inclusion: { in: ITEM_TYPES }
 
-  scope :income, -> { where(item_type: 'income') }
-  scope :expense, -> { where(item_type: 'expense') }
+  scope :income, -> { where(item_type: "income") }
+  scope :expense, -> { where(item_type: "expense") }
 end

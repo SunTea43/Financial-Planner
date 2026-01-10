@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_account, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @accounts = current_user.accounts.order(created_at: :desc)
@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
     @account = current_user.accounts.build(account_params)
 
     if @account.save
-      redirect_to @account, notice: 'Cuenta creada exitosamente.'
+      redirect_to @account, notice: "Cuenta creada exitosamente."
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class AccountsController < ApplicationController
 
   def update
     if @account.update(account_params)
-      redirect_to @account, notice: 'Cuenta actualizada exitosamente.'
+      redirect_to @account, notice: "Cuenta actualizada exitosamente."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class AccountsController < ApplicationController
 
   def destroy
     @account.destroy
-    redirect_to accounts_path, notice: 'Cuenta eliminada exitosamente.'
+    redirect_to accounts_path, notice: "Cuenta eliminada exitosamente."
   end
 
   private

@@ -10,6 +10,6 @@ class CreateLiabilities < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :liabilities, [:balance_sheet_id, :liability_type]
+    add_index :liabilities, [ :balance_sheet_id, :liability_type ]
   end
 end

@@ -14,7 +14,7 @@ class CreateBudgets < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :budgets, [:user_id, :start_date]
+    add_index :budgets, [ :user_id, :start_date ]
     add_index :budgets, :periodicity
   end
 end

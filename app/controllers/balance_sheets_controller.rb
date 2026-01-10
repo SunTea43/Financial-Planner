@@ -1,6 +1,6 @@
 class BalanceSheetsController < ApplicationController
-  before_action :set_balance_sheet, only: [:show, :edit, :update, :destroy, :report]
-  before_action :set_account, only: [:new, :create]
+  before_action :set_balance_sheet, only: [ :show, :edit, :update, :destroy, :report ]
+  before_action :set_account, only: [ :new, :create ]
 
   def index
     @balance_sheets = current_user.balance_sheets.includes(:account, :assets, :liabilities)
@@ -23,7 +23,7 @@ class BalanceSheetsController < ApplicationController
     @balance_sheet.recorded_at = parse_recorded_at || Time.current
 
     if @balance_sheet.save
-      redirect_to @balance_sheet, notice: 'Balance general creado exitosamente.'
+      redirect_to @balance_sheet, notice: "Balance general creado exitosamente."
     else
       render :new, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class BalanceSheetsController < ApplicationController
     parsed_time = parse_recorded_at
     @balance_sheet.recorded_at = parsed_time if parsed_time
     if @balance_sheet.save
-      redirect_to @balance_sheet, notice: 'Balance general actualizado exitosamente.'
+      redirect_to @balance_sheet, notice: "Balance general actualizado exitosamente."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -47,7 +47,7 @@ class BalanceSheetsController < ApplicationController
 
   def destroy
     @balance_sheet.destroy
-    redirect_to balance_sheets_path, notice: 'Balance general eliminado exitosamente.'
+    redirect_to balance_sheets_path, notice: "Balance general eliminado exitosamente."
   end
 
   def report
@@ -55,7 +55,7 @@ class BalanceSheetsController < ApplicationController
       format.html
       format.pdf do
         # PDF generation could be added here with prawn or wicked_pdf
-        redirect_to @balance_sheet, notice: 'Reporte PDF en desarrollo.'
+        redirect_to @balance_sheet, notice: "Reporte PDF en desarrollo."
       end
     end
   end
@@ -72,8 +72,8 @@ class BalanceSheetsController < ApplicationController
 
   def balance_sheet_params
     params.require(:balance_sheet).permit(:account_id, :notes,
-      assets_attributes: [:id, :name, :asset_type, :category, :amount, :description, :_destroy],
-      liabilities_attributes: [:id, :name, :liability_type, :amount, :description, :_destroy])
+      assets_attributes: [ :id, :name, :asset_type, :category, :amount, :description, :_destroy ],
+      liabilities_attributes: [ :id, :name, :liability_type, :amount, :description, :_destroy ])
   end
 
   def parse_recorded_at

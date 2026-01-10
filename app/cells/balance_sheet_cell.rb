@@ -16,18 +16,18 @@ class BalanceSheetCell < Cell::ViewModel
   end
 
   def liquid_assets
-    balance_sheet.assets.select { |a| a.asset_type == 'liquid' }
+    balance_sheet.assets.select { |a| a.asset_type == "liquid" }
   end
 
   def fixed_assets
-    balance_sheet.assets.select { |a| a.asset_type == 'fixed' }
+    balance_sheet.assets.select { |a| a.asset_type == "fixed" }
   end
 
   def short_term_liabilities
-    balance_sheet.liabilities.select { |l| l.liability_type == 'short_term' }
+    balance_sheet.liabilities.select { |l| l.liability_type == "short_term" }
   end
 
   def long_term_liabilities
-    balance_sheet.liabilities.select { |l| l.liability_type == 'long_term' }
+    balance_sheet.liabilities.select { |l| l.liability_type == "long_term" }
   end
 end
