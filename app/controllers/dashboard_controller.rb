@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
 
     if @latest_balance_sheet
       @current_net_worth = @latest_balance_sheet.net_worth
-      @previous_balance_sheet = current_user.balance_sheets.where('recorded_at < ?', @latest_balance_sheet.recorded_at).latest.first
+      @previous_balance_sheet = current_user.balance_sheets.where("recorded_at < ?", @latest_balance_sheet.recorded_at).latest.first
       if @previous_balance_sheet
         @net_worth_change = @current_net_worth - @previous_balance_sheet.net_worth
       end

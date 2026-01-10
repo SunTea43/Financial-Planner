@@ -13,6 +13,6 @@ class CreateBalanceSheets < ActiveRecord::Migration[8.1]
     end
 
     add_index :balance_sheets, :recorded_at
-    add_index :balance_sheets, [:user_id, :recorded_at]
+    add_index :balance_sheets, [ :user_id, :recorded_at ]
   end
 end

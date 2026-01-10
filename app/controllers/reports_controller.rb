@@ -13,11 +13,11 @@ class ReportsController < ApplicationController
     @balance_sheets = @balance_sheets.by_account(@account_id) if @account_id.present?
 
     if @start_date.present?
-      @balance_sheets = @balance_sheets.where('recorded_at >= ?', Date.parse(@start_date))
+      @balance_sheets = @balance_sheets.where("recorded_at >= ?", Date.parse(@start_date))
     end
 
     if @end_date.present?
-      @balance_sheets = @balance_sheets.where('recorded_at <= ?', Date.parse(@end_date).end_of_day)
+      @balance_sheets = @balance_sheets.where("recorded_at <= ?", Date.parse(@end_date).end_of_day)
     end
 
     @accounts = current_user.accounts.order(:name)

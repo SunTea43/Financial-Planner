@@ -10,6 +10,6 @@ class ApplicationController < ActionController::Base
   private
 
   def devise_controller_or_home?
-    devise_controller? || controller_name == 'home'
+    devise_controller? || controller_name == "home"
   end
 end
