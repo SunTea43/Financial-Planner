@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  account: one
+  recorded_at: 2026-01-10 13:53:34
+  total_assets: 9.99
+  total_liabilities: 9.99
+  net_worth: 9.99
+  notes: MyText
+
+two:
+  user: two
+  account: two
+  recorded_at: 2026-01-10 13:53:34
+  total_assets: 9.99
+  total_liabilities: 9.99
+  net_worth: 9.99
+  notes: MyText

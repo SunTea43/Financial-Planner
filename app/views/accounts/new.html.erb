@@ -1,0 +1,16 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h1>Nueva Cuenta</h1>
+    <%= simple_form_for @account do |f| %>
+      <%= f.input :name, label: "Nombre", placeholder: "Ej: Cuenta Corriente Principal" %>
+      <%= f.input :account_type, label: "Tipo de Cuenta", collection: Account::ACCOUNT_TYPES, prompt: "Selecciona un tipo" %>
+      <%= f.input :description, label: "Descripción", as: :text, input_html: { rows: 4 } %>
+      
+      <div class="d-flex justify-content-between">
+        <%= link_to "Cancelar", accounts_path, class: "btn btn-secondary" %>
+        <%= f.submit "Crear Cuenta", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

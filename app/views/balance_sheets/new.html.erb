@@ -1,0 +1,184 @@
+<div class="row justify-content-center">
+  <div class="col-md-12">
+    <h1>Nuevo Balance General</h1>
+    
+    <%= simple_form_for @balance_sheet do |f| %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: "Sin cuenta específica", label: "Cuenta (opcional)" %>
+          <%= f.input :recorded_at, label: "Fecha y Hora de Registro", as: :string, input_html: { type: 'datetime-local', value: f.object.recorded_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M") } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :notes, label: "Notas", as: :text, input_html: { rows: 4 } %>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Activos</h3>
+      
+      <div id="assets">
+        <%= f.simple_fields_for :assets do |asset_form| %>
+          <div class="card mb-3 asset-fields">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <%= asset_form.input :name, label: "Nombre", placeholder: "Ej: Efectivo" %>
+                </div>
+                <div class="col-md-2">
+                  <%= asset_form.input :asset_type, label: "Tipo", collection: Asset::ASSET_TYPES, prompt: "Seleccionar" %>
+                </div>
+                <div class="col-md-2">
+                  <%= asset_form.input :category, label: "Categoría", placeholder: "Opcional" %>
+                </div>
+                <div class="col-md-3">
+                  <%= asset_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
+                </div>
+                <div class="col-md-2">
+                  <%= asset_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if asset_form.object.persisted? %>
+                </div>
+              </div>
+              <%= asset_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-asset">+ Agregar Activo</button>
+
+      <hr>
+
+      <h3>Pasivos</h3>
+      
+      <div id="liabilities">
+        <%= f.simple_fields_for :liabilities do |liability_form| %>
+          <div class="card mb-3 liability-fields">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <%= liability_form.input :name, label: "Nombre", placeholder: "Ej: Tarjeta de Crédito" %>
+                </div>
+                <div class="col-md-2">
+                  <%= liability_form.input :liability_type, label: "Tipo", collection: Liability::LIABILITY_TYPES, prompt: "Seleccionar" %>
+                </div>
+                <div class="col-md-5">
+                  <%= liability_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
+                </div>
+                <div class="col-md-2">
+                  <%= liability_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if liability_form.object.persisted? %>
+                </div>
+              </div>
+              <%= liability_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-liability">+ Agregar Pasivo</button>
+
+      <div class="d-flex justify-content-between mt-4">
+        <%= link_to "Cancelar", balance_sheets_path, class: "btn btn-secondary" %>
+        <%= f.submit "Crear Balance General", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Calcular el índice inicial basado en los assets existentes + un buffer
+    let existingAssets = document.querySelectorAll('#assets .asset-fields').length;
+    let existingLiabilities = document.querySelectorAll('#liabilities .liability-fields').length;
+    
+    // Usar un índice alto para evitar conflictos (timestamp + contador)
+    let assetIndex = existingAssets > 0 ? existingAssets + Date.now() : Date.now();
+    let liabilityIndex = existingLiabilities > 0 ? existingLiabilities + Date.now() : Date.now();
+
+    const addAssetButton = document.getElementById('add-asset');
+    if (addAssetButton) {
+      addAssetButton.addEventListener('click', function() {
+        const assetsContainer = document.getElementById('assets');
+        if (!assetsContainer) return;
+        
+        const newAssetHtml = `
+          <div class="card mb-3 asset-fields">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" name="balance_sheet[assets_attributes][${assetIndex}][name]" class="form-control" placeholder="Nombre del activo" />
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Tipo</label>
+                  <select name="balance_sheet[assets_attributes][${assetIndex}][asset_type]" class="form-select">
+                    <option value="">Seleccionar</option>
+                    <option value="liquid">Líquido</option>
+                    <option value="fixed">Fijo</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Categoría</label>
+                  <input type="text" name="balance_sheet[assets_attributes][${assetIndex}][category]" class="form-control" placeholder="Categoría" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Monto</label>
+                  <input type="number" step="0.01" name="balance_sheet[assets_attributes][${assetIndex}][amount]" class="form-control" placeholder="Monto" />
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-12">
+                  <label class="form-label">Descripción</label>
+                  <textarea name="balance_sheet[assets_attributes][${assetIndex}][description]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        assetsContainer.insertAdjacentHTML('beforeend', newAssetHtml);
+        assetIndex++;
+      });
+    }
+
+    const addLiabilityButton = document.getElementById('add-liability');
+    if (addLiabilityButton) {
+      addLiabilityButton.addEventListener('click', function() {
+        const liabilitiesContainer = document.getElementById('liabilities');
+        if (!liabilitiesContainer) return;
+        
+        const newLiabilityHtml = `
+          <div class="card mb-3 liability-fields">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" name="balance_sheet[liabilities_attributes][${liabilityIndex}][name]" class="form-control" placeholder="Nombre del pasivo" />
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Tipo</label>
+                  <select name="balance_sheet[liabilities_attributes][${liabilityIndex}][liability_type]" class="form-select">
+                    <option value="">Seleccionar</option>
+                    <option value="short_term">Corto Plazo</option>
+                    <option value="long_term">Largo Plazo</option>
+                  </select>
+                </div>
+                <div class="col-md-5">
+                  <label class="form-label">Monto</label>
+                  <input type="number" step="0.01" name="balance_sheet[liabilities_attributes][${liabilityIndex}][amount]" class="form-control" placeholder="Monto" />
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-12">
+                  <label class="form-label">Descripción</label>
+                  <textarea name="balance_sheet[liabilities_attributes][${liabilityIndex}][description]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        liabilitiesContainer.insertAdjacentHTML('beforeend', newLiabilityHtml);
+        liabilityIndex++;
+      });
+    }
+  });
+</script>
+

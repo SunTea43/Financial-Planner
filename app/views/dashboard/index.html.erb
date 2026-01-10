@@ -1,0 +1,143 @@
+<div class="row mb-4">
+  <div class="col-12">
+    <h1>Dashboard</h1>
+    <p class="text-muted">Resumen de tus finanzas</p>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Cuentas</h5>
+        <h2 class="text-primary"><%= @total_accounts %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Balances Generales</h5>
+        <h2 class="text-info"><%= @total_balance_sheets %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Presupuestos</h5>
+        <h2 class="text-success"><%= @total_budgets %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Patrimonio Neto</h5>
+        <% if @current_net_worth %>
+          <h2 class="<%= @current_net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+            <%= number_to_currency(@current_net_worth) %>
+          </h2>
+          <% if @net_worth_change %>
+            <small class="text-muted">
+              <%= @net_worth_change >= 0 ? '+' : '' %><%= number_to_currency(@net_worth_change) %>
+            </small>
+          <% end %>
+        <% else %>
+          <h2 class="text-muted">-</h2>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Últimas Cuentas</h5>
+        <%= link_to "Ver todas", accounts_path, class: "btn btn-sm btn-outline-primary" %>
+      </div>
+      <div class="card-body">
+        <% if @accounts.any? %>
+          <ul class="list-group list-group-flush">
+            <% @accounts.each do |account| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= link_to account.name, account, class: "text-decoration-none" %>
+                <span class="badge bg-secondary"><%= account.account_type %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No tienes cuentas aún.</p>
+          <%= link_to "Crear primera cuenta", new_account_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Presupuestos Recientes</h5>
+        <%= link_to "Ver todos", budgets_path, class: "btn btn-sm btn-outline-primary" %>
+      </div>
+      <div class="card-body">
+        <% if @latest_budgets.any? %>
+          <ul class="list-group list-group-flush">
+            <% @latest_budgets.each do |budget| %>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <%= link_to budget.name, budget, class: "text-decoration-none" %>
+                  <span class="badge bg-info"><%= budget.periodicity %></span>
+                </div>
+                <small class="text-muted">
+                  <%= budget.start_date.strftime("%d/%m/%Y") %> - <%= budget.end_date.strftime("%d/%m/%Y") %>
+                </small>
+                <div class="mt-2">
+                  <span class="badge bg-success">Ingresos: <%= number_to_currency(budget.total_income) %></span>
+                  <span class="badge bg-danger">Gastos: <%= number_to_currency(budget.total_expenses) %></span>
+                  <span class="badge bg-primary">Flujo Libre: <%= number_to_currency(budget.free_cash_flow) %></span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No tienes presupuestos aún.</p>
+          <%= link_to "Crear presupuesto", new_budget_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @latest_balance_sheet %>
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Último Balance General</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Fecha:</strong> <%= @latest_balance_sheet.recorded_at.strftime("%d/%m/%Y %H:%M") %></p>
+          <div class="row">
+            <div class="col-md-4">
+              <p><strong>Total Activos:</strong> <%= number_to_currency(@latest_balance_sheet.total_assets) %></p>
+            </div>
+            <div class="col-md-4">
+              <p><strong>Total Pasivos:</strong> <%= number_to_currency(@latest_balance_sheet.total_liabilities) %></p>
+            </div>
+            <div class="col-md-4">
+              <p><strong>Patrimonio Neto:</strong> 
+                <span class="<%= @latest_balance_sheet.net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+                  <%= number_to_currency(@latest_balance_sheet.net_worth) %>
+                </span>
+              </p>
+            </div>
+          </div>
+          <%= link_to "Ver detalles", @latest_balance_sheet, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

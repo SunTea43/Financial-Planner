@@ -1,0 +1,21 @@
+<% bs = balance_sheet %>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h6 class="mb-1"><%= bs.recorded_at.strftime("%d/%m/%Y %H:%M") %></h6>
+        <small class="text-muted">Patrimonio Neto</small>
+      </div>
+      <div class="text-end">
+        <h5 class="mb-0 <%= bs.net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+          <%= number_to_currency(bs.net_worth) %>
+        </h5>
+        <small class="text-muted">
+          Activos: <%= number_to_currency(bs.total_assets) %> | 
+          Pasivos: <%= number_to_currency(bs.total_liabilities) %>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
