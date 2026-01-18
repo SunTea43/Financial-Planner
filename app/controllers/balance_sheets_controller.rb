@@ -1,5 +1,5 @@
 class BalanceSheetsController < ApplicationController
-  before_action :set_balance_sheet, only: [ :show, :edit, :update, :destroy, :report ]
+  before_action :set_balance_sheet, only: [ :show, :edit, :update, :destroy, :report, :duplicate ]
   before_action :set_account, only: [ :new, :create ]
 
   def index
@@ -57,6 +57,41 @@ class BalanceSheetsController < ApplicationController
         # PDF generation could be added here with prawn or wicked_pdf
         redirect_to @balance_sheet, notice: "Reporte PDF en desarrollo."
       end
+    end
+  end
+
+  def duplicate
+    @new_balance_sheet = current_user.balance_sheets.build(
+      account_id: @balance_sheet.account_id,
+      recorded_at: Time.current,
+      notes: @balance_sheet.notes
+    )
+
+    # Construir activos duplicados
+    @balance_sheet.assets.each do |asset|
+      @new_balance_sheet.assets.build(
+        name: asset.name,
+        asset_type: asset.asset_type,
+        category: asset.category,
+        amount: asset.amount,
+        description: asset.description
+      )
+    end
+
+    # Construir pasivos duplicados
+    @balance_sheet.liabilities.each do |liability|
+      @new_balance_sheet.liabilities.build(
+        name: liability.name,
+        liability_type: liability.liability_type,
+        amount: liability.amount,
+        description: liability.description
+      )
+    end
+
+    if @new_balance_sheet.save
+      redirect_to edit_balance_sheet_path(@new_balance_sheet), notice: "Balance general duplicado exitosamente. Puedes editarlo ahora."
+    else
+      redirect_to @balance_sheet, alert: "Error al duplicar el balance general: #{@new_balance_sheet.errors.full_messages.join(', ')}"
     end
   end
 
