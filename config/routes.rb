@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :balance_sheets, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     member do
       get :report
+      post :duplicate
     end
   end
 

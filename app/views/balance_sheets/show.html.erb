@@ -1,9 +1,10 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1>Balance General</h1>
   <div>
+    <%= link_to "Duplicar", duplicate_balance_sheet_path(@balance_sheet), method: :post, data: { turbo_method: :post, turbo_confirm: "¿Deseas duplicar este balance general con todos sus activos y pasivos?" }, class: "btn btn-success" %>
     <%= link_to "Editar", edit_balance_sheet_path(@balance_sheet), class: "btn btn-secondary" %>
-    <%= link_to "Eliminar", @balance_sheet, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
     <%= link_to "Reporte", report_balance_sheet_path(@balance_sheet), class: "btn btn-info" %>
+    <%= link_to "Eliminar", @balance_sheet, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
   </div>
 </div>
 
