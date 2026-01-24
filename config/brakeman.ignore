@@ -1,0 +1,46 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass assignment",
+      "warning_code": 105,
+      "fingerprint": "51b29a72fcfe44008d710f8707b9cdb910c60f7382ca811d25e05a8fedec128b",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "/Users/santiagoperez/financial_planner/app/controllers/balance_sheets_controller.rb",
+      "line": 109,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "s(:call, s(:call, s(:params), :require, s(:lit, :balance_sheet)), :permit, s(:lit, :account_id), s(:lit, :notes), s(:hash, s(:lit, :assets_attributes), s(:array, s(:lit, :id), s(:lit, :name), s(:lit, :asset_type), s(:lit, :category), s(:lit, :amount), s(:lit, :description), s(:lit, :_destroy)), s(:lit, :liabilities_attributes), s(:array, s(:lit, :id), s(:lit, :name), s(:lit, :liability_type), s(:lit, :amount), s(:lit, :description), s(:lit, :_destroy))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BalanceSheetsController",
+        "method": "balance_sheet_params"
+      },
+      "user_input": null,
+      "confidence": "0",
+      "note": "False positive: Using accepts_nested_attributes_for with limited permitted attributes. All attributes are validated and scoped to current_user."
+    },
+    {
+      "warning_type": "Mass assignment",
+      "warning_code": 105,
+      "fingerprint": "16f184052e17ae9e7db6e3ca7c26e775c2904cf29769a24a5662e6be054e307a",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "/Users/santiagoperez/financial_planner/app/controllers/budgets_controller.rb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "s(:call, s(:call, s(:params), :require, s(:lit, :budget)), :permit, s(:lit, :account_id), s(:lit, :name), s(:lit, :periodicity), s(:lit, :start_date), s(:lit, :end_date), s(:hash, s(:lit, :budget_items_attributes), s(:array, s(:lit, :id), s(:lit, :name), s(:lit, :item_type), s(:lit, :amount), s(:lit, :description), s(:lit, :_destroy))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BudgetsController",
+        "method": "budget_params"
+      },
+      "user_input": null,
+      "confidence": "0",
+      "note": "False positive: Using accepts_nested_attributes_for with limited permitted attributes. All attributes are validated and scoped to current_user."
+    }
+  ],
+  "updated": "2026-01-24 16:29:51 +0000",
+  "brakeman_version": "7.1.2"
+}
