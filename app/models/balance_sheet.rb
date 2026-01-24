@@ -38,8 +38,8 @@ class BalanceSheet < ApplicationRecord
   private
 
   def calculate_totals
-    self.total_assets = assets.sum(:amount) || 0.0
-    self.total_liabilities = liabilities.sum(:amount) || 0.0
+    self.total_assets = assets.map(&:amount).compact.sum || 0.0
+    self.total_liabilities = liabilities.map(&:amount).compact.sum || 0.0
     self.net_worth = total_assets - total_liabilities
   end
 
