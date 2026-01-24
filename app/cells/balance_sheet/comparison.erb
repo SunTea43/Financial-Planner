@@ -1,0 +1,90 @@
+<% data = comparison_data %>
+<% if data %>
+<div class="card mt-4">
+  <div class="card-header bg-light">
+    <h5 class="mb-0">Comparativa con Balance Anterior</h5>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-md-4 text-center">
+        <h6>Variación Activos</h6>
+        <h4 class="<%= data[:total_assets_diff] >= 0 ? 'text-success' : 'text-danger' %>">
+          <%= data[:total_assets_diff] >= 0 ? '+' : '' %><%= number_to_currency(data[:total_assets_diff]) %>
+        </h4>
+      </div>
+      <div class="col-md-4 text-center">
+        <h6>Variación Pasivos</h6>
+        <h4 class="<%= data[:total_liabilities_diff] <= 0 ? 'text-success' : 'text-danger' %>">
+          <%= data[:total_liabilities_diff] > 0 ? '+' : '' %><%= number_to_currency(data[:total_liabilities_diff]) %>
+        </h4>
+      </div>
+      <div class="col-md-4 text-center">
+        <h6>Variación Patrimonio</h6>
+        <h4 class="<%= data[:net_worth_diff] >= 0 ? 'text-success' : 'text-danger' %>">
+          <%= data[:net_worth_diff] >= 0 ? '+' : '' %><%= number_to_currency(data[:net_worth_diff]) %>
+        </h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h6>Detalle de Activos</h6>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Cuenta</th>
+                <th class="text-end">Actual</th>
+                <th class="text-end">Anterior</th>
+                <th class="text-end">Dif.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data[:assets].each do |item| %>
+                <% next if item[:diff].abs < 0.01 %>
+                <tr>
+                  <td><%= item[:name] %></td>
+                  <td class="text-end text-muted small"><%= number_to_currency(item[:current_amount]) %></td>
+                  <td class="text-end text-muted small"><%= number_to_currency(item[:previous_amount]) %></td>
+                  <td class="text-end <%= item[:diff] >= 0 ? 'text-success' : 'text-danger' %> fw-bold">
+                    <%= item[:diff] >= 0 ? '+' : '' %><%= number_to_currency(item[:diff]) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h6>Detalle de Pasivos</h6>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Cuenta</th>
+                <th class="text-end">Actual</th>
+                <th class="text-end">Anterior</th>
+                <th class="text-end">Dif.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data[:liabilities].each do |item| %>
+                <% next if item[:diff].abs < 0.01 %>
+                <tr>
+                  <td><%= item[:name] %></td>
+                  <td class="text-end text-muted small"><%= number_to_currency(item[:current_amount]) %></td>
+                  <td class="text-end text-muted small"><%= number_to_currency(item[:previous_amount]) %></td>
+                  <td class="text-end <%= item[:diff] <= 0 ? 'text-success' : 'text-danger' %> fw-bold">
+                    <%= item[:diff] > 0 ? '+' : '' %><%= number_to_currency(item[:diff]) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
