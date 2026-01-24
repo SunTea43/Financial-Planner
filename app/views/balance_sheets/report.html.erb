@@ -263,6 +263,8 @@
   </div>
 </div>
 
+<%= cell(BalanceSheetCell, @balance_sheet).call(:comparison) %>
+
 <div class="row mt-4 mb-4">
   <div class="col-12 text-center">
     <button onclick="window.print()" class="btn btn-primary btn-lg">

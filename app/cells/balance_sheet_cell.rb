@@ -9,7 +9,15 @@ class BalanceSheetCell < Cell::ViewModel
     render(view: :summary)
   end
 
+  def comparison
+    render(view: :comparison)
+  end
+
   private
+
+  def comparison_data
+    @comparison_data ||= balance_sheet.comparison_with_previous
+  end
 
   def balance_sheet
     @balance_sheet ||= model
