@@ -1,0 +1,39 @@
+<div class="row mb-4">
+  <div class="col-12">
+    <h1>Exportar Datos</h1>
+    <p class="text-muted">Descarga una copia de tu información financiera</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Exportación de Datos</h5>
+      </div>
+      <div class="card-body">
+        <p>
+          Puedes exportar todos tus datos (cuentas, presupuestos, balances) en formato JSON.
+          Este archivo puede ser utilizado para importar tu información en otra instancia de esta aplicación
+          o para mantener una copia de seguridad personal.
+        </p>
+
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i>
+          El archivo incluirá:
+          <ul>
+            <li>Cuentas registradas</li>
+            <li>Historial de balances generales (activos y pasivos)</li>
+            <li>Presupuestos y sus partidas</li>
+          </ul>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <%= button_to data_export_path, method: :post, class: "btn btn-primary", data: { turbo: false } do %>
+            <i class="bi bi-download"></i> Descargar Datos (JSON)
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
