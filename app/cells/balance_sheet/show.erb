@@ -49,7 +49,7 @@
         <ul class="list-group mb-3">
           <% short_term_liabilities.each do |liability| %>
             <li class="list-group-item d-flex justify-content-between">
-              <span><%= liability.name %></span>
+              <%= link_to liability.name, financial_liability_path(liability), class: "text-decoration-none text-dark", title: "Ver historial" %>
               <strong><%= number_to_currency(liability.amount) %></strong>
             </li>
           <% end %>
@@ -59,7 +59,7 @@
         <ul class="list-group mb-3">
           <% long_term_liabilities.each do |liability| %>
             <li class="list-group-item d-flex justify-content-between">
-              <span><%= liability.name %></span>
+              <%= link_to liability.name, financial_liability_path(liability), class: "text-decoration-none text-dark", title: "Ver historial" %>
               <strong><%= number_to_currency(liability.amount) %></strong>
             </li>
           <% end %>

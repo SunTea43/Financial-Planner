@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resource :data_export, only: [ :show, :create ]
 
   resources :assets, path: :financial_assets, only: [ :show ], as: :financial_assets
+  resources :liabilities, path: :financial_liabilities, only: [ :show ], as: :financial_liabilities
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
