@@ -20,6 +20,7 @@ class BalanceSheetsController < ApplicationController
 
   def create
     @balance_sheet = current_user.balance_sheets.build(balance_sheet_params)
+    set_account_from_params
     @balance_sheet.recorded_at = parse_recorded_at || Time.current
 
     if @balance_sheet.save
@@ -36,6 +37,7 @@ class BalanceSheetsController < ApplicationController
 
   def update
     @balance_sheet.assign_attributes(balance_sheet_params)
+    set_account_from_params
     parsed_time = parse_recorded_at
     @balance_sheet.recorded_at = parsed_time if parsed_time
     if @balance_sheet.save
@@ -106,7 +108,7 @@ class BalanceSheetsController < ApplicationController
   end
 
   def balance_sheet_params
-    params.require(:balance_sheet).permit(:account_id, :notes,
+    params.require(:balance_sheet).permit(:notes,
       assets_attributes: [ :id, :name, :asset_type, :category, :amount, :description, :position, :_destroy ],
       liabilities_attributes: [ :id, :name, :liability_type, :amount, :description, :position, :_destroy ])
   end
@@ -116,5 +118,11 @@ class BalanceSheetsController < ApplicationController
     Time.zone.parse(params[:balance_sheet][:recorded_at])
   rescue ArgumentError, TypeError
     nil
+  end
+
+  def set_account_from_params
+    if params[:balance_sheet][:account_id].present?
+      @balance_sheet.account = current_user.accounts.find_by(id: params[:balance_sheet][:account_id])
+    end
   end
 end
