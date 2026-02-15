@@ -8,4 +8,6 @@ class Liability < ApplicationRecord
   LIABILITY_TYPES = %w[short_term long_term].freeze
 
   validates :liability_type, inclusion: { in: LIABILITY_TYPES }
+
+  default_scope { order(position: :asc, created_at: :asc) }
 end

@@ -17,9 +17,12 @@
 
       <h3>Activos</h3>
       
-      <div id="assets">
+      <div id="assets" data-controller="sortable">
         <%= f.simple_fields_for :assets do |asset_form| %>
-          <div class="card mb-3 asset-fields">
+          <div class="card mb-3 asset-fields nested-fields">
+            <div class="card-header drag-handle" style="cursor: move;">
+              <span class="text-muted">☰ Reordenar</span>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
@@ -37,6 +40,7 @@
                 <div class="col-md-2">
                   <%= asset_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if asset_form.object.persisted? %>
                   <%= asset_form.input :id, as: :hidden if asset_form.object.persisted? %>
+                  <%= asset_form.input :position, as: :hidden %>
                 </div>
               </div>
               <%= asset_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
@@ -51,9 +55,12 @@
 
       <h3>Pasivos</h3>
       
-      <div id="liabilities">
+      <div id="liabilities" data-controller="sortable">
         <%= f.simple_fields_for :liabilities do |liability_form| %>
-          <div class="card mb-3 liability-fields">
+          <div class="card mb-3 liability-fields nested-fields">
+            <div class="card-header drag-handle" style="cursor: move;">
+              <span class="text-muted">☰ Reordenar</span>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
@@ -68,6 +75,7 @@
                 <div class="col-md-2">
                   <%= liability_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if liability_form.object.persisted? %>
                   <%= liability_form.input :id, as: :hidden if liability_form.object.persisted? %>
+                  <%= liability_form.input :position, as: :hidden %>
                 </div>
               </div>
               <%= liability_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
@@ -101,9 +109,16 @@
       addAssetButton.addEventListener('click', function() {
         const assetsContainer = document.getElementById('assets');
         if (!assetsContainer) return;
+
+        // Calculate next position
+        const currentCount = assetsContainer.querySelectorAll('.nested-fields').length;
+        const nextPosition = currentCount + 1;
         
         const newAssetHtml = `
-          <div class="card mb-3 asset-fields">
+          <div class="card mb-3 asset-fields nested-fields">
+            <div class="card-header drag-handle" style="cursor: move;">
+              <span class="text-muted">☰ Reordenar</span>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
@@ -126,6 +141,9 @@
                   <label class="form-label">Monto</label>
                   <input type="number" step="0.01" name="balance_sheet[assets_attributes][${assetIndex}][amount]" class="form-control" placeholder="Monto" />
                 </div>
+                <div class="col-md-2">
+                  <input type="hidden" name="balance_sheet[assets_attributes][${assetIndex}][position]" value="${nextPosition}" />
+                </div>
               </div>
               <div class="row mt-2">
                 <div class="col-12">
@@ -147,8 +165,15 @@
         const liabilitiesContainer = document.getElementById('liabilities');
         if (!liabilitiesContainer) return;
         
+        // Calculate next position
+        const currentCount = liabilitiesContainer.querySelectorAll('.nested-fields').length;
+        const nextPosition = currentCount + 1;
+
         const newLiabilityHtml = `
-          <div class="card mb-3 liability-fields">
+          <div class="card mb-3 liability-fields nested-fields">
+            <div class="card-header drag-handle" style="cursor: move;">
+              <span class="text-muted">☰ Reordenar</span>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
@@ -166,6 +191,9 @@
                 <div class="col-md-5">
                   <label class="form-label">Monto</label>
                   <input type="number" step="0.01" name="balance_sheet[liabilities_attributes][${liabilityIndex}][amount]" class="form-control" placeholder="Monto" />
+                </div>
+                <div class="col-md-2">
+                  <input type="hidden" name="balance_sheet[liabilities_attributes][${liabilityIndex}][position]" value="${nextPosition}" />
                 </div>
               </div>
               <div class="row mt-2">

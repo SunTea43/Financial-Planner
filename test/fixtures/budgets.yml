@@ -4,7 +4,7 @@ one:
   user: one
   account: one
   name: MyString
-  periodicity: MyString
+  periodicity: monthly
   start_date: 2026-01-10
   end_date: 2026-01-10
   total_income: 9.99
@@ -15,7 +15,7 @@ two:
   user: two
   account: two
   name: MyString
-  periodicity: MyString
+  periodicity: monthly
   start_date: 2026-01-10
   end_date: 2026-01-10
   total_income: 9.99
