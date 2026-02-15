@@ -11,4 +11,6 @@ class BudgetItem < ApplicationRecord
 
   scope :income, -> { where(item_type: "income") }
   scope :expense, -> { where(item_type: "expense") }
+
+  default_scope { order(position: :asc, created_at: :asc) }
 end

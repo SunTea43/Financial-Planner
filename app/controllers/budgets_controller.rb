@@ -59,6 +59,6 @@ class BudgetsController < ApplicationController
 
   def budget_params
     params.require(:budget).permit(:account_id, :name, :periodicity, :start_date, :end_date,
-      budget_items_attributes: [ :id, :name, :item_type, :amount, :description, :_destroy ])
+      budget_items_attributes: [ :id, :name, :item_type, :amount, :description, :position, :_destroy ])
   end
 end
