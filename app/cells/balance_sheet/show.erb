@@ -27,7 +27,7 @@
         <ul class="list-group mb-3">
           <% liquid_assets.each do |asset| %>
             <li class="list-group-item d-flex justify-content-between">
-              <span><%= asset.name %></span>
+              <%= link_to asset.name, financial_asset_path(asset), class: "text-decoration-none text-dark", title: "Ver historial" %>
               <strong><%= number_to_currency(asset.amount) %></strong>
             </li>
           <% end %>
@@ -37,7 +37,7 @@
         <ul class="list-group mb-3">
           <% fixed_assets.each do |asset| %>
             <li class="list-group-item d-flex justify-content-between">
-              <span><%= asset.name %></span>
+              <%= link_to asset.name, financial_asset_path(asset), class: "text-decoration-none text-dark", title: "Ver historial" %>
               <strong><%= number_to_currency(asset.amount) %></strong>
             </li>
           <% end %>
