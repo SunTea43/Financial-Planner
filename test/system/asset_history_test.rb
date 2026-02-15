@@ -59,4 +59,28 @@ class AssetHistoryTest < ApplicationSystemTestCase
     assert_equal 3, data["labels"].length
     assert_equal [ 5000.0, 5500.0, 6000.0 ], data["datasets"][0]["data"]
   end
+
+  test "visiting liability history" do
+    account = accounts(:one)
+
+    bs1 = BalanceSheet.create!(user: @user, account: account, recorded_at: 1.month.ago)
+    Liability.create!(balance_sheet: bs1, name: "Credit Card", amount: 500, liability_type: "short_term")
+
+    bs2 = BalanceSheet.create!(user: @user, account: account, recorded_at: Time.current)
+    Liability.create!(balance_sheet: bs2, name: "Credit Card", amount: 300, liability_type: "short_term")
+
+    visit balance_sheet_url(bs2)
+
+    assert_link "Credit Card"
+    click_on "Credit Card"
+
+    assert_selector "h1", text: "Historial: Credit Card"
+    assert_selector "canvas[data-controller='chart']"
+
+    canvas = find("canvas")
+    data = JSON.parse(canvas["data-chart-data-value"])
+
+    assert_equal 2, data["labels"].length
+    assert_equal [ 500.0, 300.0 ], data["datasets"][0]["data"]
+  end
 end
