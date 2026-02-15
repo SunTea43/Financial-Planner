@@ -21,6 +21,7 @@ class BudgetsController < ApplicationController
 
   def create
     @budget = current_user.budgets.build(budget_params)
+    set_account_from_params
 
     if @budget.save
       redirect_to @budget, notice: "Presupuesto creado exitosamente."
@@ -35,7 +36,9 @@ class BudgetsController < ApplicationController
   end
 
   def update
-    if @budget.update(budget_params)
+    @budget.assign_attributes(budget_params)
+    set_account_from_params
+    if @budget.save
       redirect_to @budget, notice: "Presupuesto actualizado exitosamente."
     else
       render :edit, status: :unprocessable_entity
@@ -58,7 +61,13 @@ class BudgetsController < ApplicationController
   end
 
   def budget_params
-    params.require(:budget).permit(:account_id, :name, :periodicity, :start_date, :end_date,
-      budget_items_attributes: [ :id, :name, :item_type, :amount, :description, :_destroy ])
+    params.require(:budget).permit(:name, :periodicity, :start_date, :end_date,
+      budget_items_attributes: [ :id, :name, :item_type, :amount, :description, :position, :_destroy ])
+  end
+
+  def set_account_from_params
+    if params[:budget][:account_id].present?
+      @budget.account = current_user.accounts.find_by(id: params[:budget][:account_id])
+    end
   end
 end

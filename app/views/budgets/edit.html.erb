@@ -19,10 +19,13 @@
 
       <h3>Ingresos</h3>
       
-      <div id="income-items">
+      <div id="income-items" data-controller="sortable">
         <%= f.simple_fields_for :budget_items do |item_form| %>
           <% if item_form.object.item_type == 'income' %>
-            <div class="card mb-3 income-item">
+            <div class="card mb-3 income-item nested-fields">
+              <div class="card-header drag-handle" style="cursor: move;">
+                <span class="text-muted">☰ Reordenar</span>
+              </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-4">
@@ -35,6 +38,7 @@
                     <%= item_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if item_form.object.persisted? %>
                     <%= item_form.input :item_type, as: :hidden, input_html: { value: 'income' } %>
                     <%= item_form.input :id, as: :hidden if item_form.object.persisted? %>
+                    <%= item_form.input :position, as: :hidden %>
                   </div>
                 </div>
                 <%= item_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
@@ -50,10 +54,13 @@
 
       <h3>Gastos</h3>
       
-      <div id="expense-items">
+      <div id="expense-items" data-controller="sortable">
         <%= f.simple_fields_for :budget_items do |item_form| %>
           <% if item_form.object.item_type == 'expense' %>
-            <div class="card mb-3 expense-item">
+            <div class="card mb-3 expense-item nested-fields">
+              <div class="card-header drag-handle" style="cursor: move;">
+                <span class="text-muted">☰ Reordenar</span>
+              </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-4">
@@ -66,6 +73,7 @@
                     <%= item_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if item_form.object.persisted? %>
                     <%= item_form.input :item_type, as: :hidden, input_html: { value: 'expense' } %>
                     <%= item_form.input :id, as: :hidden if item_form.object.persisted? %>
+                    <%= item_form.input :position, as: :hidden %>
                   </div>
                 </div>
                 <%= item_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
@@ -93,8 +101,15 @@
 
       document.getElementById('add-income')?.addEventListener('click', function() {
         const container = document.getElementById('income-items');
+        // Calculate next position
+        const currentCount = container.querySelectorAll('.nested-fields').length;
+        const nextPosition = currentCount + 1;
+
         const html = `
-          <div class="card mb-3 income-item">
+          <div class="card mb-3 income-item nested-fields">
+            <div class="card-header drag-handle" style="cursor: move;">
+              <span class="text-muted">☰ Reordenar</span>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
@@ -105,6 +120,7 @@
                 </div>
               </div>
               <input type="hidden" name="budget[budget_items_attributes][${incomeIndex}][item_type]" value="income" />
+              <input type="hidden" name="budget[budget_items_attributes][${incomeIndex}][position]" value="${nextPosition}" />
               <textarea name="budget[budget_items_attributes][${incomeIndex}][description]" class="form-control mt-2" rows="2" placeholder="Descripción"></textarea>
             </div>
           </div>
@@ -115,8 +131,15 @@
 
       document.getElementById('add-expense')?.addEventListener('click', function() {
         const container = document.getElementById('expense-items');
+        // Calculate next position
+        const currentCount = container.querySelectorAll('.nested-fields').length;
+        const nextPosition = currentCount + 1;
+
         const html = `
-          <div class="card mb-3 expense-item">
+          <div class="card mb-3 expense-item nested-fields">
+            <div class="card-header drag-handle" style="cursor: move;">
+              <span class="text-muted">☰ Reordenar</span>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
@@ -127,6 +150,7 @@
                 </div>
               </div>
               <input type="hidden" name="budget[budget_items_attributes][${expenseIndex}][item_type]" value="expense" />
+              <input type="hidden" name="budget[budget_items_attributes][${expenseIndex}][position]" value="${nextPosition}" />
               <textarea name="budget[budget_items_attributes][${expenseIndex}][description]" class="form-control mt-2" rows="2" placeholder="Descripción"></textarea>
             </div>
           </div>

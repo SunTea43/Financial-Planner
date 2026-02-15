@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_10_185341) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_15_183345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_185341) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "name", null: false
+    t.integer "position"
     t.datetime "updated_at", null: false
     t.index ["balance_sheet_id", "asset_type"], name: "index_assets_on_balance_sheet_id_and_asset_type"
     t.index ["balance_sheet_id"], name: "index_assets_on_balance_sheet_id"
@@ -62,6 +63,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_185341) do
     t.text "description"
     t.string "item_type", null: false
     t.string "name", null: false
+    t.integer "position"
     t.datetime "updated_at", null: false
     t.index ["budget_id", "item_type"], name: "index_budget_items_on_budget_id_and_item_type"
     t.index ["budget_id"], name: "index_budget_items_on_budget_id"
@@ -92,6 +94,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_185341) do
     t.text "description"
     t.string "liability_type", null: false
     t.string "name", null: false
+    t.integer "position"
     t.datetime "updated_at", null: false
     t.index ["balance_sheet_id", "liability_type"], name: "index_liabilities_on_balance_sheet_id_and_liability_type"
     t.index ["balance_sheet_id"], name: "index_liabilities_on_balance_sheet_id"
