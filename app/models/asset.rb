@@ -12,4 +12,6 @@ class Asset < ApplicationRecord
   }.freeze
 
   validates :asset_type, inclusion: { in: ASSET_TYPES }
+
+  default_scope { order(position: :asc, created_at: :asc) }
 end

@@ -107,8 +107,8 @@ class BalanceSheetsController < ApplicationController
 
   def balance_sheet_params
     params.require(:balance_sheet).permit(:account_id, :notes,
-      assets_attributes: [ :id, :name, :asset_type, :category, :amount, :description, :_destroy ],
-      liabilities_attributes: [ :id, :name, :liability_type, :amount, :description, :_destroy ])
+      assets_attributes: [ :id, :name, :asset_type, :category, :amount, :description, :position, :_destroy ],
+      liabilities_attributes: [ :id, :name, :liability_type, :amount, :description, :position, :_destroy ])
   end
 
   def parse_recorded_at
