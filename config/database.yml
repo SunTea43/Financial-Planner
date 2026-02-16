@@ -88,7 +88,7 @@ production:
   primary: &primary_production
     <<: *default
     database: financial_planner_production
-    username: financial_planner
+    username: <%= ENV["FINANCIAL_PLANNER_DATABASE_USERNAME"] %>
     password: <%= ENV["FINANCIAL_PLANNER_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
