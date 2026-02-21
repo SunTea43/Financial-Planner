@@ -15,7 +15,7 @@ class LiabilitiesController < ApplicationController
                             account_id: @balance_sheet.account_id
                           })
                           .where(name: @liability.name)
-                          .order("balance_sheets.recorded_at ASC")
+                          .reorder("balance_sheets.recorded_at ASC")
                           .pluck("balance_sheets.recorded_at", :amount)
 
     # Prepare data for Chart.js
