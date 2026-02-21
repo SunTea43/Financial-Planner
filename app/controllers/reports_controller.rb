@@ -21,7 +21,16 @@ class ReportsController < ApplicationController
     end
 
     @accounts = current_user.accounts.order(:name)
-    @total_net_worth = @balance_sheets.sum(:net_worth)
-    @average_net_worth = @balance_sheets.count > 0 ? @total_net_worth / @balance_sheets.count : 0
+
+    # Load to array for consistent calculations and performance
+    @balance_sheets = @balance_sheets.to_a
+    @total_assets = @balance_sheets.sum(&:total_assets)
+    @total_liabilities = @balance_sheets.sum(&:total_liabilities)
+    @total_net_worth = @balance_sheets.sum(&:net_worth)
+
+    count = @balance_sheets.size
+    @average_assets = count > 0 ? @total_assets / count : 0
+    @average_liabilities = count > 0 ? @total_liabilities / count : 0
+    @average_net_worth = count > 0 ? @total_net_worth / count : 0
   end
 end
