@@ -27,29 +27,39 @@
 </div>
 
 <div class="row mb-4">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="card text-center">
       <div class="card-body">
-        <h6 class="card-title">Total de Balances</h6>
-        <h3><%= @balance_sheets.count %></h3>
+        <h6 class="card-title text-muted">Total de Balances</h6>
+        <h3 class="mb-0"><%= @balance_sheets.size %></h3>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="card text-center">
       <div class="card-body">
-        <h6 class="card-title">Patrimonio Neto Total</h6>
-        <h3 class="<%= @total_net_worth >= 0 ? 'text-success' : 'text-danger' %>">
-          <%= number_to_currency(@total_net_worth) %>
+        <h6 class="card-title text-muted">Activos Promedio</h6>
+        <h3 class="mb-0 text-success">
+          <%= number_to_currency(@average_assets) %>
         </h3>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="card text-center">
       <div class="card-body">
-        <h6 class="card-title">Patrimonio Neto Promedio</h6>
-        <h3 class="<%= @average_net_worth >= 0 ? 'text-success' : 'text-danger' %>">
+        <h6 class="card-title text-muted">Pasivos Promedio</h6>
+        <h3 class="mb-0 text-danger">
+          <%= number_to_currency(@average_liabilities) %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title text-muted">Patrimonio Neto Promedio</h6>
+        <h3 class="mb-0 <%= @average_net_worth >= 0 ? 'text-success' : 'text-danger' %>">
           <%= number_to_currency(@average_net_worth) %>
         </h3>
       </div>
