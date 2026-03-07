@@ -1,23 +1,23 @@
 <div class="row justify-content-center">
   <div class="col-md-10">
-    <h1>Nuevo Presupuesto</h1>
+    <h1><%= I18n.t('views.budgets.edit.new_title') %></h1>
     
     <%= simple_form_for @budget do |f| %>
       <div class="row mb-4">
         <div class="col-md-6">
-          <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: "Sin cuenta específica", label: "Cuenta (opcional)" %>
-          <%= f.input :name, label: "Nombre del Presupuesto", placeholder: "Ej: Presupuesto Enero 2024" %>
-          <%= f.input :periodicity, label: "Periodicidad", collection: Budget::PERIODICITIES, selected: 'monthly' %>
+          <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: I18n.t('views.common.none_specific'), label: Budget.human_attribute_name(:account_id) %>
+          <%= f.input :name, label: Budget.human_attribute_name(:name) %>
+          <%= f.input :periodicity, label: Budget.human_attribute_name(:periodicity), collection: Budget.translated_periodicities, selected: 'monthly' %>
         </div>
         <div class="col-md-6">
-          <%= f.input :start_date, label: "Fecha de Inicio", as: :date %>
-          <%= f.input :end_date, label: "Fecha de Fin", as: :date %>
+          <%= f.input :start_date, label: Budget.human_attribute_name(:start_date), as: :date %>
+          <%= f.input :end_date, label: Budget.human_attribute_name(:end_date), as: :date %>
         </div>
       </div>
 
       <hr>
 
-      <h3>Ingresos</h3>
+      <h3><%= I18n.t('views.budgets.edit.income_section') %></h3>
       
       <div id="income-items">
         <%= f.simple_fields_for :budget_items do |item_form| %>
@@ -44,11 +44,11 @@
         <% end %>
       </div>
       
-      <button type="button" class="btn btn-sm btn-outline-success mb-4" id="add-income">+ Agregar Ingreso</button>
+      <button type="button" class="btn btn-sm btn-outline-success mb-4" id="add-income">+ <%= I18n.t('views.budgets.edit.add_income') %></button>
 
       <hr>
 
-      <h3>Gastos</h3>
+      <h3><%= I18n.t('views.budgets.edit.expense_section') %></h3>
       
       <div id="expense-items">
         <%= f.simple_fields_for :budget_items do |item_form| %>
@@ -75,11 +75,11 @@
         <% end %>
       </div>
       
-      <button type="button" class="btn btn-sm btn-outline-danger mb-4" id="add-expense">+ Agregar Gasto</button>
+      <button type="button" class="btn btn-sm btn-outline-danger mb-4" id="add-expense">+ <%= I18n.t('views.budgets.edit.add_expense') %></button>
 
       <div class="d-flex justify-content-between mt-4">
-        <%= link_to "Cancelar", budgets_path, class: "btn btn-secondary" %>
-        <%= f.submit "Crear Presupuesto", class: "btn btn-primary" %>
+        <%= link_to I18n.t('views.budgets.edit.cancel'), budgets_path, class: "btn btn-secondary" %>
+        <%= f.submit I18n.t('views.budgets.edit.submit_create'), class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>

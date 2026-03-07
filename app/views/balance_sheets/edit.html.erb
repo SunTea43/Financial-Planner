@@ -1,94 +1,111 @@
 <div class="row justify-content-center">
   <div class="col-md-12">
-    <h1>Editar Balance General</h1>
+    <h1><%= I18n.t('views.balance_sheets.edit.title') %></h1>
     
     <%= simple_form_for @balance_sheet do |f| %>
       <div class="row">
         <div class="col-md-6">
-          <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: "Sin cuenta específica", label: "Cuenta (opcional)", selected: @balance_sheet.account_id %>
-          <%= f.input :recorded_at, label: "Fecha y Hora de Registro", as: :string, input_html: { type: 'datetime-local', value: @balance_sheet.recorded_at&.strftime("%Y-%m-%dT%H:%M") } %>
+          <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: I18n.t('views.common.none_specific'), selected: @balance_sheet.account_id %>
+          <%= f.input :recorded_at, as: :string, input_html: { type: 'datetime-local', value: @balance_sheet.recorded_at&.strftime("%Y-%m-%dT%H:%M") } %>
         </div>
         <div class="col-md-6">
-          <%= f.input :notes, label: "Notas", as: :text, input_html: { rows: 4 } %>
+          <%= f.input :notes, as: :text, input_html: { rows: 4 } %>
         </div>
       </div>
 
       <hr>
 
-      <h3>Activos</h3>
+      <h3><%= I18n.t('views.balance_sheets.edit.assets_section') %></h3>
       
-      <div id="assets" data-controller="sortable">
+      <div id="assets" data-controller="sortable" 
+           data-label-name="<%= Asset.human_attribute_name(:name) %>"
+           data-label-type="<%= Asset.human_attribute_name(:item_type) %>"
+           data-label-category="<%= Asset.human_attribute_name(:category) %>"
+           data-label-amount="<%= Asset.human_attribute_name(:amount) %>"
+           data-label-description="<%= Asset.human_attribute_name(:description) %>"
+           data-prompt-select="<%= I18n.t('views.common.select_prompt') %>"
+           data-type-liquid="<%= Asset.translated_item_type(:liquid) %>"
+           data-type-fixed="<%= Asset.translated_item_type(:fixed) %>"
+           data-btn-reorder="<%= I18n.t('views.balance_sheets.edit.reorder') %>">
         <%= f.simple_fields_for :assets do |asset_form| %>
           <div class="card mb-3 asset-fields nested-fields">
             <div class="card-header drag-handle" style="cursor: move;">
-              <span class="text-muted">☰ Reordenar</span>
+              <span class="text-muted">☰ <%= I18n.t('views.balance_sheets.edit.reorder') %></span>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <%= asset_form.input :name, label: "Nombre" %>
+                  <%= asset_form.input :name %>
                 </div>
                 <div class="col-md-2">
-                  <%= asset_form.input :item_type, label: "Tipo", collection: Asset::ASSET_TYPES, prompt: "Seleccionar" %>
+                  <%= asset_form.input :item_type, collection: Asset.translated_item_types, prompt: I18n.t('views.common.select_prompt') %>
                 </div>
                 <div class="col-md-2">
-                  <%= asset_form.input :category, label: "Categoría" %>
+                  <%= asset_form.input :category %>
                 </div>
                 <div class="col-md-3">
-                  <%= asset_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
+                  <%= asset_form.input :amount, as: :decimal, input_html: { step: 0.01 } %>
                 </div>
                 <div class="col-md-2">
-                  <%= asset_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if asset_form.object.persisted? %>
+                  <%= asset_form.input :_destroy, as: :boolean, label: I18n.t('views.balance_sheets.show.destroy'), wrapper_html: { class: "mt-4" } if asset_form.object.persisted? %>
                   <%= asset_form.input :id, as: :hidden if asset_form.object.persisted? %>
                   <%= asset_form.input :position, as: :hidden %>
                 </div>
               </div>
-              <%= asset_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
+              <%= asset_form.input :description, as: :text, input_html: { rows: 2 } %>
             </div>
           </div>
         <% end %>
       </div>
       
-      <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-asset">+ Agregar Activo</button>
+      <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-asset">+ <%= I18n.t('views.balance_sheets.edit.add_asset') %></button>
 
       <hr>
 
-      <h3>Pasivos</h3>
+      <h3><%= I18n.t('views.balance_sheets.edit.liabilities_section') %></h3>
       
-      <div id="liabilities" data-controller="sortable">
+      <div id="liabilities" data-controller="sortable"
+           data-label-name="<%= Liability.human_attribute_name(:name) %>"
+           data-label-type="<%= Liability.human_attribute_name(:item_type) %>"
+           data-label-amount="<%= Liability.human_attribute_name(:amount) %>"
+           data-label-description="<%= Liability.human_attribute_name(:description) %>"
+           data-prompt-select="<%= I18n.t('views.common.select_prompt') %>"
+           data-type-short-term="<%= Liability.translated_item_type(:short_term) %>"
+           data-type-long-term="<%= Liability.translated_item_type(:long_term) %>"
+           data-btn-reorder="<%= I18n.t('views.balance_sheets.edit.reorder') %>">
         <%= f.simple_fields_for :liabilities do |liability_form| %>
           <div class="card mb-3 liability-fields nested-fields">
             <div class="card-header drag-handle" style="cursor: move;">
-              <span class="text-muted">☰ Reordenar</span>
+              <span class="text-muted">☰ <%= I18n.t('views.balance_sheets.edit.reorder') %></span>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <%= liability_form.input :name, label: "Nombre" %>
+                  <%= liability_form.input :name %>
                 </div>
                 <div class="col-md-2">
-                  <%= liability_form.input :item_type, label: "Tipo", collection: Liability::LIABILITY_TYPES, prompt: "Seleccionar" %>
+                  <%= liability_form.input :item_type, collection: Liability.translated_item_types, prompt: I18n.t('views.common.select_prompt') %>
                 </div>
                 <div class="col-md-5">
-                  <%= liability_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
+                  <%= liability_form.input :amount, as: :decimal, input_html: { step: 0.01 } %>
                 </div>
                 <div class="col-md-2">
-                  <%= liability_form.input :_destroy, as: :boolean, label: "Eliminar", wrapper_html: { class: "mt-4" } if liability_form.object.persisted? %>
+                  <%= liability_form.input :_destroy, as: :boolean, label: I18n.t('views.balance_sheets.show.destroy'), wrapper_html: { class: "mt-4" } if liability_form.object.persisted? %>
                   <%= liability_form.input :id, as: :hidden if liability_form.object.persisted? %>
                   <%= liability_form.input :position, as: :hidden %>
                 </div>
               </div>
-              <%= liability_form.input :description, label: "Descripción", as: :text, input_html: { rows: 2 } %>
+              <%= liability_form.input :description, as: :text, input_html: { rows: 2 } %>
             </div>
           </div>
         <% end %>
       </div>
       
-      <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-liability">+ Agregar Pasivo</button>
+      <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-liability">+ <%= I18n.t('views.balance_sheets.edit.add_liability') %></button>
 
       <div class="d-flex justify-content-between mt-4">
-        <%= link_to "Cancelar", @balance_sheet, class: "btn btn-secondary" %>
-        <%= f.submit "Actualizar Balance General", class: "btn btn-primary" %>
+        <%= link_to I18n.t('views.balance_sheets.edit.cancel'), @balance_sheet, class: "btn btn-secondary" %>
+        <%= f.submit I18n.t('views.balance_sheets.edit.submit_update'), class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
@@ -96,6 +113,9 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    const assetsContainer = document.getElementById('assets');
+    const liabilitiesContainer = document.getElementById('liabilities');
+    
     // Calcular el índice inicial basado en los assets existentes + un buffer
     let existingAssets = document.querySelectorAll('#assets .asset-fields').length;
     let existingLiabilities = document.querySelectorAll('#liabilities .liability-fields').length;
@@ -103,13 +123,11 @@
     // Usar un índice alto para evitar conflictos (timestamp + contador)
     let assetIndex = existingAssets > 0 ? existingAssets + Date.now() : Date.now();
     let liabilityIndex = existingLiabilities > 0 ? existingLiabilities + Date.now() : Date.now();
-
+ 
     const addAssetButton = document.getElementById('add-asset');
-    if (addAssetButton) {
+    if (addAssetButton && assetsContainer) {
+      const labels = assetsContainer.dataset;
       addAssetButton.addEventListener('click', function() {
-        const assetsContainer = document.getElementById('assets');
-        if (!assetsContainer) return;
-
         // Calculate next position
         const currentCount = assetsContainer.querySelectorAll('.nested-fields').length;
         const nextPosition = currentCount + 1;
@@ -117,29 +135,29 @@
         const newAssetHtml = `
           <div class="card mb-3 asset-fields nested-fields">
             <div class="card-header drag-handle" style="cursor: move;">
-              <span class="text-muted">☰ Reordenar</span>
+              <span class="text-muted">☰ ${labels.btnReorder}</span>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" name="balance_sheet[assets_attributes][${assetIndex}][name]" class="form-control" placeholder="Nombre del activo" />
+                  <label class="form-label">${labels.labelName}</label>
+                  <input type="text" name="balance_sheet[assets_attributes][${assetIndex}][name]" class="form-control" />
                 </div>
                 <div class="col-md-2">
-                  <label class="form-label">Tipo</label>
+                  <label class="form-label">${labels.labelType}</label>
                   <select name="balance_sheet[assets_attributes][${assetIndex}][item_type]" class="form-select">
-                    <option value="">Seleccionar</option>
-                    <option value="liquid">Líquido</option>
-                    <option value="fixed">Fijo</option>
+                    <option value="">${labels.promptSelect}</option>
+                    <option value="liquid">${labels.typeLiquid}</option>
+                    <option value="fixed">${labels.typeFixed}</option>
                   </select>
                 </div>
                 <div class="col-md-2">
-                  <label class="form-label">Categoría</label>
-                  <input type="text" name="balance_sheet[assets_attributes][${assetIndex}][category]" class="form-control" placeholder="Categoría" />
+                  <label class="form-label">${labels.labelCategory}</label>
+                  <input type="text" name="balance_sheet[assets_attributes][${assetIndex}][category]" class="form-control" />
                 </div>
                 <div class="col-md-3">
-                  <label class="form-label">Monto</label>
-                  <input type="number" step="0.01" name="balance_sheet[assets_attributes][${assetIndex}][amount]" class="form-control" placeholder="Monto" />
+                  <label class="form-label">${labels.labelAmount}</label>
+                  <input type="number" step="0.01" name="balance_sheet[assets_attributes][${assetIndex}][amount]" class="form-control" />
                 </div>
                 <div class="col-md-2">
                   <input type="hidden" name="balance_sheet[assets_attributes][${assetIndex}][position]" value="${nextPosition}" />
@@ -147,8 +165,8 @@
               </div>
               <div class="row mt-2">
                 <div class="col-12">
-                  <label class="form-label">Descripción</label>
-                  <textarea name="balance_sheet[assets_attributes][${assetIndex}][description]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                  <label class="form-label">${labels.labelDescription}</label>
+                  <textarea name="balance_sheet[assets_attributes][${assetIndex}][description]" class="form-control" rows="2"></textarea>
                 </div>
               </div>
             </div>
@@ -158,39 +176,37 @@
         assetIndex++;
       });
     }
-
+ 
     const addLiabilityButton = document.getElementById('add-liability');
-    if (addLiabilityButton) {
+    if (addLiabilityButton && liabilitiesContainer) {
+      const labels = liabilitiesContainer.dataset;
       addLiabilityButton.addEventListener('click', function() {
-        const liabilitiesContainer = document.getElementById('liabilities');
-        if (!liabilitiesContainer) return;
-        
         // Calculate next position
         const currentCount = liabilitiesContainer.querySelectorAll('.nested-fields').length;
         const nextPosition = currentCount + 1;
-
+ 
         const newLiabilityHtml = `
           <div class="card mb-3 liability-fields nested-fields">
             <div class="card-header drag-handle" style="cursor: move;">
-              <span class="text-muted">☰ Reordenar</span>
+              <span class="text-muted">☰ ${labels.btnReorder}</span>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" name="balance_sheet[liabilities_attributes][${liabilityIndex}][name]" class="form-control" placeholder="Nombre del pasivo" />
+                  <label class="form-label">${labels.labelName}</label>
+                  <input type="text" name="balance_sheet[liabilities_attributes][${liabilityIndex}][name]" class="form-control" />
                 </div>
                 <div class="col-md-2">
-                  <label class="form-label">Tipo</label>
+                  <label class="form-label">${labels.labelType}</label>
                   <select name="balance_sheet[liabilities_attributes][${liabilityIndex}][item_type]" class="form-select">
-                    <option value="">Seleccionar</option>
-                    <option value="short_term">Corto Plazo</option>
-                    <option value="long_term">Largo Plazo</option>
+                    <option value="">${labels.promptSelect}</option>
+                    <option value="short_term">${labels.typeShortTerm}</option>
+                    <option value="long_term">${labels.typeLongTerm}</option>
                   </select>
                 </div>
                 <div class="col-md-5">
-                  <label class="form-label">Monto</label>
-                  <input type="number" step="0.01" name="balance_sheet[liabilities_attributes][${liabilityIndex}][amount]" class="form-control" placeholder="Monto" />
+                  <label class="form-label">${labels.labelAmount}</label>
+                  <input type="number" step="0.01" name="balance_sheet[liabilities_attributes][${liabilityIndex}][amount]" class="form-control" />
                 </div>
                 <div class="col-md-2">
                   <input type="hidden" name="balance_sheet[liabilities_attributes][${liabilityIndex}][position]" value="${nextPosition}" />
@@ -198,8 +214,8 @@
               </div>
               <div class="row mt-2">
                 <div class="col-12">
-                  <label class="form-label">Descripción</label>
-                  <textarea name="balance_sheet[liabilities_attributes][${liabilityIndex}][description]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                  <label class="form-label">${labels.labelDescription}</label>
+                  <textarea name="balance_sheet[liabilities_attributes][${liabilityIndex}][description]" class="form-control" rows="2"></textarea>
                 </div>
               </div>
             </div>
