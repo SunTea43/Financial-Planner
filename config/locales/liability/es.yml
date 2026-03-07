@@ -1,0 +1,16 @@
+es:
+  activerecord:
+    models:
+      liability: "Pasivo"
+    attributes:
+      liability:
+        name: "Nombre"
+        item_type: "Tipo de Pasivo"
+        amount: "Monto"
+        description: "Descripción"
+        item_type_list:
+          short_term: "Corto Plazo"
+          long_term: "Largo Plazo"
+  controllers:
+    liabilities:
+      not_found: "Pasivo no encontrado."

@@ -1,0 +1,40 @@
+en:
+  activerecord:
+    models:
+      balance_sheet: "Balance Sheet"
+    attributes:
+      balance_sheet:
+        account_id: "Account"
+        recorded_at: "Recorded At"
+        notes: "Notes"
+        total_assets: "Total Assets"
+        total_liabilities: "Total Liabilities"
+        net_worth: "Net Worth"
+  controllers:
+    balance_sheets:
+      created: "Balance sheet created successfully."
+      updated: "Balance sheet updated successfully."
+      deleted: "Balance sheet deleted successfully."
+      duplicated: "Balance sheet duplicated successfully. You can edit it now."
+      duplicate_error: "Error duplicating balance sheet: %{errors}"
+      pdf_pending: "PDF report in development."
+  views:
+    balance_sheets:
+      index:
+        empty: "No balance sheets registered."
+        create_first: "Create first balance"
+      edit:
+        title: "Edit Balance Sheet"
+        new_title: "New Balance"
+        assets_section: "Assets"
+        liabilities_section: "Liabilities"
+        reorder: "Reorder"
+        add_asset: "Add Asset"
+        add_liability: "Add Liability"
+        cancel: "Cancel"
+        submit_update: "Update Balance Sheet"
+        submit_create: "Create Balance Sheet"
+      show:
+        back: "View"
+        edit: "Edit"
+        destroy: "Delete"

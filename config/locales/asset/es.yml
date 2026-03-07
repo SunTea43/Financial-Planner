@@ -1,0 +1,17 @@
+es:
+  activerecord:
+    models:
+      asset: "Activo"
+    attributes:
+      asset:
+        name: "Nombre"
+        item_type: "Tipo de Activo"
+        category: "Categoría"
+        amount: "Monto"
+        description: "Descripción"
+        item_type_list:
+          liquid: "Líquido"
+          fixed: "Fijo"
+  controllers:
+    assets:
+      not_found: "Activo no encontrado."

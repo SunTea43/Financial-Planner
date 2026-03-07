@@ -1,0 +1,57 @@
+en:
+  activerecord:
+    models:
+      budget: "Budget"
+      budget_item: "Budget Item"
+    attributes:
+      budget:
+        name: "Name"
+        periodicity: "Periodicity"
+        start_date: "Start Date"
+        end_date: "End Date"
+        total_income: "Total Income"
+        total_expenses: "Total Expenses"
+        free_cash_flow: "Free Cash Flow"
+        periodicity_list:
+          daily: "Daily"
+          weekly: "Weekly"
+          monthly: "Monthly"
+          quarterly: "Quarterly"
+          yearly: "Yearly"
+      budget_item:
+        name: "Name"
+        item_type: "Type"
+        amount: "Amount"
+        description: "Description"
+        item_type_list:
+          income: "Income"
+          expense: "Expense"
+  controllers:
+    budgets:
+      created: "Budget created successfully."
+      updated: "Budget updated successfully."
+      deleted: "Budget deleted successfully."
+  views:
+    budgets:
+      index:
+        empty: "No budgets registered."
+        create_first: "Create first budget"
+        period: "Period"
+        income: "Income"
+        expenses: "Expenses"
+        free_cash_flow: "Free Cash Flow"
+        clone: "Clone"
+      edit:
+        title: "Edit Budget"
+        new_title: "New Budget"
+        income_section: "Income"
+        expense_section: "Expenses"
+        add_income: "Add Income"
+        add_expense: "Add Expense"
+        cancel: "Cancel"
+        submit_update: "Update Budget"
+        submit_create: "Create Budget"
+      show:
+        back: "View"
+        edit: "Edit"
+        destroy: "Delete"
