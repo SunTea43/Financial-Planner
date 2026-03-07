@@ -29,7 +29,7 @@ class BudgetsController < ApplicationController
     set_account_from_params
 
     if @budget.save
-      redirect_to @budget, notice: "Presupuesto creado exitosamente."
+      redirect_to @budget, notice: I18n.t("controllers.budgets.created")
     else
       render :new, status: :unprocessable_entity
     end
@@ -44,7 +44,7 @@ class BudgetsController < ApplicationController
     @budget.assign_attributes(budget_params)
     set_account_from_params
     if @budget.save
-      redirect_to @budget, notice: "Presupuesto actualizado exitosamente."
+      redirect_to @budget, notice: I18n.t("controllers.budgets.updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -52,7 +52,7 @@ class BudgetsController < ApplicationController
 
   def destroy
     @budget.destroy
-    redirect_to budgets_path, notice: "Presupuesto eliminado exitosamente."
+    redirect_to budgets_path, notice: I18n.t("controllers.budgets.deleted")
   end
 
   private
