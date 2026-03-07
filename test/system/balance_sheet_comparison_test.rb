@@ -11,7 +11,7 @@ class BalanceSheetComparisonTest < ApplicationSystemTestCase
       user: @user,
       account: @account,
       recorded_at: 1.month.ago,
-      assets_attributes: [ { name: "Savings", amount: 1000, asset_type: "liquid" } ]
+      assets_attributes: [ { name: "Savings", amount: 1000, item_type: "liquid" } ]
     )
 
     # Create current balance sheet
@@ -19,7 +19,7 @@ class BalanceSheetComparisonTest < ApplicationSystemTestCase
       user: @user,
       account: @account,
       recorded_at: Time.current,
-      assets_attributes: [ { name: "Savings", amount: 1500, asset_type: "liquid" } ]
+      assets_attributes: [ { name: "Savings", amount: 1500, item_type: "liquid" } ]
     )
   end
 
@@ -27,13 +27,13 @@ class BalanceSheetComparisonTest < ApplicationSystemTestCase
     visit balance_sheet_path(@current_bs)
 
     assert_selector "h5", text: "Comparativa con Balance Anterior"
-    assert_selector "h4", text: "+$500.00" # Variación Activos
+    assert_selector "h4", text: "+$500,00" # Variación Activos
     assert_selector "td", text: "Savings"
-    assert_selector "td.text-success", text: "+$500.00"
+    assert_selector "td.text-success", text: "+$500,00"
 
     # Also check the report page
     visit report_balance_sheet_path(@current_bs)
     assert_selector "h5", text: "Comparativa con Balance Anterior"
-    assert_selector "h4", text: "+$500.00"
+    assert_selector "h4", text: "+$500,00"
   end
 end
