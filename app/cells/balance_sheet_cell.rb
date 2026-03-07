@@ -1,6 +1,7 @@
 class BalanceSheetCell < Cell::ViewModel
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::TranslationHelper
   include Rails.application.routes.url_helpers
 
   def show
