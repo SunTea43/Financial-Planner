@@ -11,12 +11,17 @@ class BudgetsController < ApplicationController
   end
 
   def new
-    @budget = current_user.budgets.build(account: @account)
-    @budget.periodicity = "monthly"
-    @budget.start_date = Date.current.beginning_of_month
-    @budget.end_date = Date.current.end_of_month
-    @budget.budget_items.build(item_type: "income")
-    @budget.budget_items.build(item_type: "expense")
+    if params[:clone_id].present? && (original_budget = current_user.budgets.find_by(id: params[:clone_id]))
+      @budget = original_budget.build_clone_for_next_period
+      @budget.account = @account if @account.present?
+    else
+      @budget = current_user.budgets.build(account: @account)
+      @budget.periodicity = "monthly"
+      @budget.start_date = Date.current.beginning_of_month
+      @budget.end_date = Date.current.end_of_month
+      @budget.budget_items.build(item_type: "income")
+      @budget.budget_items.build(item_type: "expense")
+    end
   end
 
   def create
