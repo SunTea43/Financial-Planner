@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      account: "Account"
+    attributes:
+      account:
+        name: "Name"
+        account_type: "Account Type"
+        description: "Description"
+  controllers:
+    accounts:
+      created: "Account created successfully."
+      updated: "Account updated successfully."
+      deleted: "Account deleted successfully."

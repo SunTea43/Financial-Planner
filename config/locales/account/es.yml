@@ -1,0 +1,14 @@
+es:
+  activerecord:
+    models:
+      account: "Cuenta"
+    attributes:
+      account:
+        name: "Nombre"
+        account_type: "Tipo de Cuenta"
+        description: "Descripción"
+  controllers:
+    accounts:
+      created: "Cuenta creada exitosamente."
+      updated: "Cuenta actualizada exitosamente."
+      deleted: "Cuenta eliminada exitosamente."
