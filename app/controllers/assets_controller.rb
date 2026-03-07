@@ -2,7 +2,7 @@ class AssetsController < ApplicationController
   def show
     @asset = Asset.joins(:balance_sheet).find_by(id: params[:id], balance_sheets: { user_id: current_user.id })
     if @asset.nil?
-      redirect_to balance_sheets_path, alert: "Activo no encontrado."
+      redirect_to balance_sheets_path, alert: I18n.t("controllers.assets.not_found")
       return
     end
     @balance_sheet = @asset.balance_sheet
