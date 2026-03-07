@@ -1,4 +1,27 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: budgets
+#
+#  id             :bigint           not null, primary key
+#  user_id        :bigint           not null
+#  account_id     :bigint
+#  name           :string           not null
+#  periodicity    :string           default("monthly"), not null
+#  start_date     :date             not null
+#  end_date       :date             not null
+#  total_income   :decimal(15, 2)   default(0.0)
+#  total_expenses :decimal(15, 2)   default(0.0)
+#  free_cash_flow :decimal(15, 2)   default(0.0)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+# Indexes
+#
+#  index_budgets_on_account_id              (account_id)
+#  index_budgets_on_periodicity             (periodicity)
+#  index_budgets_on_user_id                 (user_id)
+#  index_budgets_on_user_id_and_start_date  (user_id,start_date)
+#
 
 one:
   user: one
