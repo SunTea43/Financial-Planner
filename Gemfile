@@ -65,7 +65,13 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # I18n management
+  gem "i18n-tasks", "~> 1.0"
 end
+
+gem "rails-i18n", "~> 8.0"
+gem "translate_enum"
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
