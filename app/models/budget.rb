@@ -1,41 +1,23 @@
-# == Schema Information
-#
-# Table name: budgets
-#
-#  id             :bigint           not null, primary key
-#  user_id        :bigint           not null
-#  account_id     :bigint
-#  name           :string           not null
-#  periodicity    :string           default("monthly"), not null
-#  start_date     :date             not null
-#  end_date       :date             not null
-#  total_income   :decimal(15, 2)   default(0.0)
-#  total_expenses :decimal(15, 2)   default(0.0)
-#  free_cash_flow :decimal(15, 2)   default(0.0)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#
-# Indexes
-#
-#  index_budgets_on_account_id              (account_id)
-#  index_budgets_on_periodicity             (periodicity)
-#  index_budgets_on_user_id                 (user_id)
-#  index_budgets_on_user_id_and_start_date  (user_id,start_date)
-#
+require "translate_enum/active_record"
+
 class Budget < ApplicationRecord
   belongs_to :user
   belongs_to :account, optional: true
   has_many :budget_items, dependent: :destroy
 
   validates :name, presence: true
-  validates :periodicity, presence: true
+  enum :periodicity, {
+    daily: "daily",
+    weekly: "weekly",
+    monthly: "monthly",
+    quarterly: "quarterly",
+    yearly: "yearly"
+  }, default: :monthly
+  translate_enum :periodicity
+
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :end_date_after_start_date
-
-  PERIODICITIES = %w[daily weekly monthly quarterly yearly].freeze
-
-  validates :periodicity, inclusion: { in: PERIODICITIES }
 
   accepts_nested_attributes_for :budget_items, allow_destroy: true
 

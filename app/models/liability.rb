@@ -21,7 +21,9 @@
 #  index_balance_sheet_items_on_category                        (category)
 #
 class Liability < BalanceSheetItem
-  LIABILITY_TYPES = %w[short_term long_term].freeze
-
-  validates :item_type, inclusion: { in: LIABILITY_TYPES }
+  enum :item_type, {
+    short_term: "short_term",
+    long_term: "long_term"
+  }
+  translate_enum :item_type
 end
