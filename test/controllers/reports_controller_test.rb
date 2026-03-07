@@ -13,16 +13,16 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
       account: @account,
       recorded_at: 2.days.ago
     )
-    @bs1.assets.create!(name: "A", amount: 1000, asset_type: "liquid")
-    @bs1.liabilities.create!(name: "L", amount: 200, liability_type: "short_term")
+    @bs1.assets.create!(name: "A", amount: 1000, item_type: "liquid")
+    @bs1.liabilities.create!(name: "L", amount: 200, item_type: "short_term")
     @bs1.save! # Should be 800
 
     @bs2 = @user.balance_sheets.create!(
       account: @account,
       recorded_at: 1.day.ago
     )
-    @bs2.assets.create!(name: "A", amount: 2000, asset_type: "liquid")
-    @bs2.liabilities.create!(name: "L", amount: 800, liability_type: "short_term")
+    @bs2.assets.create!(name: "A", amount: 2000, item_type: "liquid")
+    @bs2.liabilities.create!(name: "L", amount: 800, item_type: "short_term")
     @bs2.save! # Should be 1200
     # Total: 2000, Count: 2, Average: 1000
   end
@@ -52,7 +52,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
       account: other_account,
       recorded_at: Time.now
     )
-    bs_other.assets.create!(name: "O", amount: 5000, asset_type: "liquid")
+    bs_other.assets.create!(name: "O", amount: 5000, item_type: "liquid")
     bs_other.save!
 
     get balance_sheet_reports_url(account_id: @account.id)
@@ -70,8 +70,8 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
 
   test "balance sheet net worth should update correctly when items are marked for destruction" do
     bs = @user.balance_sheets.create!(recorded_at: Time.now)
-    asset1 = bs.assets.create!(name: "A1", amount: 100, asset_type: "liquid")
-    bs.assets.create!(name: "A2", amount: 200, asset_type: "liquid")
+    asset1 = bs.assets.create!(name: "A1", amount: 100, item_type: "liquid")
+    bs.assets.create!(name: "A2", amount: 200, item_type: "liquid")
     bs.save!
 
     assert_equal 300, bs.reload.net_worth

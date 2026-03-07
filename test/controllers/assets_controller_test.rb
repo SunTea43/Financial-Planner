@@ -21,7 +21,7 @@ class AssetsControllerTest < ActionDispatch::IntegrationTest
     asset_feb = bs_feb.assets.create!(
       name: "Savings Chart Test",
       amount: 1000,
-      asset_type: "liquid",
+      item_type: "liquid",
       position: 1
     )
 
@@ -37,7 +37,7 @@ class AssetsControllerTest < ActionDispatch::IntegrationTest
     bs_jan.assets.create!(
       name: "Savings Chart Test",
       amount: 900,
-      asset_type: "liquid",
+      item_type: "liquid",
       position: 2 # Different position to test if default_scope interferes
     )
 

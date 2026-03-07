@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_15_183345) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_221425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,19 +25,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_183345) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
-  create_table "assets", force: :cascade do |t|
+  create_table "balance_sheet_items", force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 2, null: false
-    t.string "asset_type", null: false
     t.bigint "balance_sheet_id", null: false
     t.string "category"
     t.datetime "created_at", null: false
     t.text "description"
+    t.string "item_type", null: false
     t.string "name", null: false
     t.integer "position"
+    t.string "type"
     t.datetime "updated_at", null: false
-    t.index ["balance_sheet_id", "asset_type"], name: "index_assets_on_balance_sheet_id_and_asset_type"
-    t.index ["balance_sheet_id"], name: "index_assets_on_balance_sheet_id"
-    t.index ["category"], name: "index_assets_on_category"
+    t.index ["balance_sheet_id", "item_type"], name: "index_balance_sheet_items_on_balance_sheet_id_and_item_type"
+    t.index ["balance_sheet_id"], name: "index_balance_sheet_items_on_balance_sheet_id"
+    t.index ["category"], name: "index_balance_sheet_items_on_category"
   end
 
   create_table "balance_sheets", force: :cascade do |t|
@@ -87,19 +88,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_183345) do
     t.index ["user_id"], name: "index_budgets_on_user_id"
   end
 
-  create_table "liabilities", force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2, null: false
-    t.bigint "balance_sheet_id", null: false
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "liability_type", null: false
-    t.string "name", null: false
-    t.integer "position"
-    t.datetime "updated_at", null: false
-    t.index ["balance_sheet_id", "liability_type"], name: "index_liabilities_on_balance_sheet_id_and_liability_type"
-    t.index ["balance_sheet_id"], name: "index_liabilities_on_balance_sheet_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -113,11 +101,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_183345) do
   end
 
   add_foreign_key "accounts", "users"
-  add_foreign_key "assets", "balance_sheets"
+  add_foreign_key "balance_sheet_items", "balance_sheets"
   add_foreign_key "balance_sheets", "accounts"
   add_foreign_key "balance_sheets", "users"
   add_foreign_key "budget_items", "budgets"
   add_foreign_key "budgets", "accounts"
   add_foreign_key "budgets", "users"
-  add_foreign_key "liabilities", "balance_sheets"
 end
