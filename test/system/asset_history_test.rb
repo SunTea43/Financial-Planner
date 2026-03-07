@@ -10,10 +10,10 @@ class AssetHistoryTest < ApplicationSystemTestCase
     account = accounts(:one)
 
     bs1 = BalanceSheet.create!(user: @user, account: account, recorded_at: 1.month.ago)
-    Asset.create!(balance_sheet: bs1, name: "Gold", amount: 1000, asset_type: "fixed")
+    Asset.create!(balance_sheet: bs1, name: "Gold", amount: 1000, item_type: "fixed")
 
     bs2 = BalanceSheet.create!(user: @user, account: account, recorded_at: Time.current)
-    Asset.create!(balance_sheet: bs2, name: "Gold", amount: 1200, asset_type: "fixed")
+    Asset.create!(balance_sheet: bs2, name: "Gold", amount: 1200, item_type: "fixed")
 
     visit balance_sheet_url(bs2)
 
@@ -37,16 +37,16 @@ class AssetHistoryTest < ApplicationSystemTestCase
 
     # Asset starts as liquid
     bs1 = BalanceSheet.create!(user: @user, account: account, recorded_at: 2.months.ago)
-    Asset.create!(balance_sheet: bs1, name: "Emergency Fund", amount: 5000, asset_type: "liquid", category: "savings")
+    Asset.create!(balance_sheet: bs1, name: "Emergency Fund", amount: 5000, item_type: "liquid", category: "savings")
 
     # Asset tracked as fixed property later (maybe logic change or user error, but history should persist)
     bs2 = BalanceSheet.create!(user: @user, account: account, recorded_at: 1.month.ago)
     # Different type and category but same name
-    Asset.create!(balance_sheet: bs2, name: "Emergency Fund", amount: 5500, asset_type: "fixed", category: "other")
+    Asset.create!(balance_sheet: bs2, name: "Emergency Fund", amount: 5500, item_type: "fixed", category: "other")
 
     # Visit the latest one
     bs3 = BalanceSheet.create!(user: @user, account: account, recorded_at: Time.current)
-    latest_asset = Asset.create!(balance_sheet: bs3, name: "Emergency Fund", amount: 6000, asset_type: "liquid", category: "savings")
+    latest_asset = Asset.create!(balance_sheet: bs3, name: "Emergency Fund", amount: 6000, item_type: "liquid", category: "savings")
 
     visit financial_asset_path(latest_asset)
 
@@ -64,10 +64,10 @@ class AssetHistoryTest < ApplicationSystemTestCase
     account = accounts(:one)
 
     bs1 = BalanceSheet.create!(user: @user, account: account, recorded_at: 1.month.ago)
-    Liability.create!(balance_sheet: bs1, name: "Credit Card", amount: 500, liability_type: "short_term")
+    Liability.create!(balance_sheet: bs1, name: "Credit Card", amount: 500, item_type: "short_term")
 
     bs2 = BalanceSheet.create!(user: @user, account: account, recorded_at: Time.current)
-    Liability.create!(balance_sheet: bs2, name: "Credit Card", amount: 300, liability_type: "short_term")
+    Liability.create!(balance_sheet: bs2, name: "Credit Card", amount: 300, item_type: "short_term")
 
     visit balance_sheet_url(bs2)
 
