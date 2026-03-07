@@ -10,8 +10,8 @@ class OrderingTest < ApplicationSystemTestCase
     balance_sheet = balance_sheets(:one)
 
     # Create assets for this balance sheet
-    asset1 = Asset.create!(balance_sheet: balance_sheet, name: "Asset I", amount: 100, asset_type: "liquid", position: 1)
-    asset2 = Asset.create!(balance_sheet: balance_sheet, name: "Asset II", amount: 200, asset_type: "liquid", position: 2)
+    asset1 = Asset.create!(balance_sheet: balance_sheet, name: "Asset I", amount: 100, item_type: "liquid", position: 1)
+    asset2 = Asset.create!(balance_sheet: balance_sheet, name: "Asset II", amount: 200, item_type: "liquid", position: 2)
 
     visit edit_balance_sheet_path(balance_sheet)
 
@@ -26,7 +26,7 @@ class OrderingTest < ApplicationSystemTestCase
 
     click_on "Actualizar Balance General"
 
-    assert_text "Balance general actualizado exitosamente"
+    assert_text "Balance general actualizado exitosamente."
 
     assert_equal 2, asset1.reload.position
     assert_equal 1, asset2.reload.position
@@ -54,7 +54,7 @@ class OrderingTest < ApplicationSystemTestCase
 
     click_on "Actualizar Presupuesto"
 
-    assert_text "Presupuesto actualizado exitosamente"
+    assert_text "Presupuesto actualizado exitosamente."
 
     assert_equal 2, item1.reload.position
     assert_equal 1, item2.reload.position
