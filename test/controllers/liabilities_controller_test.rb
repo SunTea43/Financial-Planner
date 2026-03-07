@@ -57,10 +57,10 @@ class LiabilitiesControllerTest < ActionDispatch::IntegrationTest
         assert_equal 2, rows.size
         # The table is reversed (newest first)
         assert_select rows[0], "td", "2026-02-15"
-        assert_select rows[0], "td.text-danger", text: /\$1,000\.00/
+        assert_select rows[0], "td.text-danger", text: /\$1\.000,00/
 
         assert_select rows[1], "td", "2026-01-10"
-        assert_select rows[1], "td.text-danger", text: /\$900\.00/
+        assert_select rows[1], "td.text-danger", text: /\$900,00/
       end
     end
   end
