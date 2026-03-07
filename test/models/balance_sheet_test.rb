@@ -9,8 +9,8 @@ class BalanceSheetTest < ActiveSupport::TestCase
       user: @user,
       account: @account,
       recorded_at: 1.month.ago,
-      assets_attributes: [ { name: "Cash", amount: 1000, asset_type: "liquid" } ],
-      liabilities_attributes: [ { name: "Loan", amount: 500, liability_type: "short_term" } ]
+      assets_attributes: [ { name: "Cash", amount: 1000, item_type: "liquid" } ],
+      liabilities_attributes: [ { name: "Loan", amount: 500, item_type: "short_term" } ]
     )
 
     @current_bs = BalanceSheet.create!(
@@ -18,10 +18,10 @@ class BalanceSheetTest < ActiveSupport::TestCase
       account: @account,
       recorded_at: Time.current,
       assets_attributes: [
-        { name: "Cash", amount: 1200, asset_type: "liquid" },
-        { name: "Investment", amount: 500, asset_type: "liquid" }
+        { name: "Cash", amount: 1200, item_type: "liquid" },
+        { name: "Investment", amount: 500, item_type: "liquid" }
       ],
-      liabilities_attributes: [ { name: "Loan", amount: 400, liability_type: "short_term" } ]
+      liabilities_attributes: [ { name: "Loan", amount: 400, item_type: "short_term" } ]
     )
   end
 

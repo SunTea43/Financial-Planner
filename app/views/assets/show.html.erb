@@ -4,7 +4,7 @@
       <div>
         <h1 class="h2 mb-1">Historial: <span class="text-primary"><%= @asset.name %></span></h1>
         <p class="text-muted mb-0">
-          <%= @asset.asset_type.humanize %> &bull; 
+          <%= @asset.item_type.humanize %> &bull; 
           <%= @asset.category.present? ? @asset.category.humanize : "Sin categoría" %>
         </p>
       </div>

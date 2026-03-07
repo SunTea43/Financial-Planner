@@ -73,7 +73,7 @@ class BalanceSheetsController < ApplicationController
     @balance_sheet.assets.each do |asset|
       @new_balance_sheet.assets.build(
         name: asset.name,
-        asset_type: asset.asset_type,
+        item_type: asset.item_type,
         category: asset.category,
         amount: asset.amount,
         description: asset.description
@@ -84,7 +84,7 @@ class BalanceSheetsController < ApplicationController
     @balance_sheet.liabilities.each do |liability|
       @new_balance_sheet.liabilities.build(
         name: liability.name,
-        liability_type: liability.liability_type,
+        item_type: liability.item_type,
         amount: liability.amount,
         description: liability.description
       )
@@ -109,8 +109,8 @@ class BalanceSheetsController < ApplicationController
 
   def balance_sheet_params
     params.require(:balance_sheet).permit(:notes,
-      assets_attributes: [ :id, :name, :asset_type, :category, :amount, :description, :position, :_destroy ],
-      liabilities_attributes: [ :id, :name, :liability_type, :amount, :description, :position, :_destroy ])
+      assets_attributes: [ :id, :name, :item_type, :category, :amount, :description, :position, :_destroy ],
+      liabilities_attributes: [ :id, :name, :item_type, :amount, :description, :position, :_destroy ])
   end
 
   def parse_recorded_at

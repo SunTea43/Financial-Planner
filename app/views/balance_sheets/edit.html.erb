@@ -29,7 +29,7 @@
                   <%= asset_form.input :name, label: "Nombre" %>
                 </div>
                 <div class="col-md-2">
-                  <%= asset_form.input :asset_type, label: "Tipo", collection: Asset::ASSET_TYPES, prompt: "Seleccionar" %>
+                  <%= asset_form.input :item_type, label: "Tipo", collection: Asset::ASSET_TYPES, prompt: "Seleccionar" %>
                 </div>
                 <div class="col-md-2">
                   <%= asset_form.input :category, label: "Categoría" %>
@@ -67,7 +67,7 @@
                   <%= liability_form.input :name, label: "Nombre" %>
                 </div>
                 <div class="col-md-2">
-                  <%= liability_form.input :liability_type, label: "Tipo", collection: Liability::LIABILITY_TYPES, prompt: "Seleccionar" %>
+                  <%= liability_form.input :item_type, label: "Tipo", collection: Liability::LIABILITY_TYPES, prompt: "Seleccionar" %>
                 </div>
                 <div class="col-md-5">
                   <%= liability_form.input :amount, label: "Monto", as: :decimal, input_html: { step: 0.01 } %>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-md-2">
                   <label class="form-label">Tipo</label>
-                  <select name="balance_sheet[assets_attributes][${assetIndex}][asset_type]" class="form-select">
+                  <select name="balance_sheet[assets_attributes][${assetIndex}][item_type]" class="form-select">
                     <option value="">Seleccionar</option>
                     <option value="liquid">Líquido</option>
                     <option value="fixed">Fijo</option>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="col-md-2">
                   <label class="form-label">Tipo</label>
-                  <select name="balance_sheet[liabilities_attributes][${liabilityIndex}][liability_type]" class="form-select">
+                  <select name="balance_sheet[liabilities_attributes][${liabilityIndex}][item_type]" class="form-select">
                     <option value="">Seleccionar</option>
                     <option value="short_term">Corto Plazo</option>
                     <option value="long_term">Largo Plazo</option>

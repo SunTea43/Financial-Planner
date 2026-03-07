@@ -80,7 +80,7 @@
         <h5 class="mb-0">Activos Líquidos</h5>
       </div>
       <div class="card-body">
-        <% liquid_assets = @balance_sheet.assets.select { |a| a.asset_type == 'liquid' } %>
+        <% liquid_assets = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
         <% if liquid_assets.any? %>
           <table class="table table-striped">
             <thead>
@@ -119,7 +119,7 @@
         <h5 class="mb-0">Activos Fijos</h5>
       </div>
       <div class="card-body">
-        <% fixed_assets = @balance_sheet.assets.select { |a| a.asset_type == 'fixed' } %>
+        <% fixed_assets = @balance_sheet.assets.select { |a| a.item_type == 'fixed' } %>
         <% if fixed_assets.any? %>
           <table class="table table-striped">
             <thead>
@@ -160,7 +160,7 @@
         <h5 class="mb-0">Pasivos a Corto Plazo</h5>
       </div>
       <div class="card-body">
-        <% short_term = @balance_sheet.liabilities.select { |l| l.liability_type == 'short_term' } %>
+        <% short_term = @balance_sheet.liabilities.select { |l| l.item_type == 'short_term' } %>
         <% if short_term.any? %>
           <table class="table table-striped">
             <thead>
@@ -197,7 +197,7 @@
         <h5 class="mb-0">Pasivos a Largo Plazo</h5>
       </div>
       <div class="card-body">
-        <% long_term = @balance_sheet.liabilities.select { |l| l.liability_type == 'long_term' } %>
+        <% long_term = @balance_sheet.liabilities.select { |l| l.item_type == 'long_term' } %>
         <% if long_term.any? %>
           <table class="table table-striped">
             <thead>

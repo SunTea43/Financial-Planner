@@ -21,7 +21,7 @@ class LiabilitiesControllerTest < ActionDispatch::IntegrationTest
     liability_feb = bs_feb.liabilities.create!(
       name: "Loan Chart Test",
       amount: 1000,
-      liability_type: "short_term",
+      item_type: "short_term",
       position: 1
     )
 
@@ -37,7 +37,7 @@ class LiabilitiesControllerTest < ActionDispatch::IntegrationTest
     bs_jan.liabilities.create!(
       name: "Loan Chart Test",
       amount: 900,
-      liability_type: "short_term",
+      item_type: "short_term",
       position: 2
     )
 

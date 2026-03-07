@@ -4,7 +4,7 @@
       <div>
         <h1 class="h2 mb-1">Historial: <span class="text-danger"><%= @liability.name %></span></h1>
         <p class="text-muted mb-0">
-          <%= @liability.liability_type.humanize %>
+          <%= @liability.item_type.humanize %>
         </p>
       </div>
       <%= link_to "Volver", balance_sheet_path(@balance_sheet), class: "btn btn-outline-secondary" %>
