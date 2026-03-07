@@ -30,8 +30,8 @@ class BalanceSheet < ApplicationRecord
 
   before_save :calculate_totals
 
-  accepts_nested_attributes_for :assets, allow_destroy: true
-  accepts_nested_attributes_for :liabilities, allow_destroy: true
+  accepts_nested_attributes_for :assets, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :liabilities, allow_destroy: true, reject_if: :all_blank
 
   scope :by_account, ->(account_id) { where(account_id: account_id) if account_id.present? }
   scope :latest, -> { order(recorded_at: :desc) }
