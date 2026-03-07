@@ -36,6 +36,7 @@
           <div class="card-footer">
             <div class="btn-group w-100" role="group">
               <%= link_to "Ver", budget, class: "btn btn-sm btn-primary" %>
+              <%= link_to "Clonar", new_budget_path(clone_id: budget.id), class: "btn btn-sm btn-info text-white" %>
               <%= link_to "Editar", edit_budget_path(budget), class: "btn btn-sm btn-secondary" %>
               <%= link_to "Eliminar", budget, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-sm btn-danger" %>
             </div>

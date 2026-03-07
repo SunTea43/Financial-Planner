@@ -20,6 +20,43 @@ class Budget < ApplicationRecord
   scope :by_account, ->(account_id) { where(account_id: account_id) if account_id.present? }
   scope :by_periodicity, ->(period) { where(periodicity: period) if period.present? }
 
+  def build_clone_for_next_period
+    cloned = self.dup
+
+    if start_date && end_date
+      duration = (end_date - start_date).to_i
+
+      case periodicity
+      when "daily"
+        cloned.start_date = start_date + 1.day
+        cloned.end_date = end_date + 1.day
+      when "weekly"
+        cloned.start_date = start_date + 1.week
+        cloned.end_date = end_date + 1.week
+      when "monthly"
+        cloned.start_date = start_date + 1.month
+        cloned.end_date = end_date + 1.month
+      when "quarterly"
+        cloned.start_date = start_date + 3.months
+        cloned.end_date = end_date + 3.months
+      when "yearly"
+        cloned.start_date = start_date + 1.year
+        cloned.end_date = end_date + 1.year
+      else
+        cloned.start_date = end_date + 1.day
+        cloned.end_date = cloned.start_date + duration.days
+      end
+    end
+
+    cloned.name = "#{self.name} (Copia)"
+
+    budget_items.reject(&:marked_for_destruction?).each do |item|
+      cloned.budget_items.build(item.attributes.except("id", "budget_id", "created_at", "updated_at"))
+    end
+
+    cloned
+  end
+
   private
 
   def calculate_totals

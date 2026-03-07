@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1><%= @budget.name %></h1>
   <div>
+    <%= link_to "Clonar al próximo período", new_budget_path(clone_id: @budget.id), class: "btn btn-info text-white" %>
     <%= link_to "Editar", edit_budget_path(@budget), class: "btn btn-secondary" %>
     <%= link_to "Eliminar", @budget, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-danger" %>
   </div>
