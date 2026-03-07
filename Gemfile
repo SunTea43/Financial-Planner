@@ -77,3 +77,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "annot8", "~> 1.0", group: :development
