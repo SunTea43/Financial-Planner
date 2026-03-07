@@ -21,11 +21,9 @@
 #  index_balance_sheet_items_on_category                        (category)
 #
 class Asset < BalanceSheetItem
-  ASSET_TYPES = %w[liquid fixed].freeze
-  CATEGORIES = {
-    liquid: %w[cash savings checking money_market],
-    fixed: %w[real_estate vehicles equipment investments other]
-  }.freeze
-
-  validates :item_type, inclusion: { in: ASSET_TYPES }
+  enum :item_type, {
+    liquid: "liquid",
+    fixed: "fixed"
+  }
+  translate_enum :item_type
 end
