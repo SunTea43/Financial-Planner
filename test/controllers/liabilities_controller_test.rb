@@ -47,5 +47,21 @@ class LiabilitiesControllerTest < ActionDispatch::IntegrationTest
     # Check the labels in the chart data within the HTML
     assert_match(/2026-01-10.*2026-02-15/, response.body)
     assert_match(/900\.0.*1000\.0/, response.body)
+
+    # Validate the structure of the historical table
+    assert_select "table.table" do
+      assert_select "thead tr th", "Fecha de Balance"
+      assert_select "thead tr th", "Monto"
+
+      assert_select "tbody tr" do |rows|
+        assert_equal 2, rows.size
+        # The table is reversed (newest first)
+        assert_select rows[0], "td", "2026-02-15"
+        assert_select rows[0], "td.text-danger", text: /\$1,000\.00/
+
+        assert_select rows[1], "td", "2026-01-10"
+        assert_select rows[1], "td.text-danger", text: /\$900\.00/
+      end
+    end
   end
 end
