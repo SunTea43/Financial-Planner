@@ -1,6 +1,6 @@
-require "annotate"
-
 if Rails.env.development?
+  require "annotate"
+
   task :set_annotation_options do
     # You can override any of these by setting an environment variable of the
     # same name.
