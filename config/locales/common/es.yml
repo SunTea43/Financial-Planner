@@ -1,0 +1,6 @@
+es:
+  views:
+    common:
+      confirm_destroy: "¿Estás seguro?"
+      select_prompt: "Seleccionar"
+      none_specific: "Sin cuenta específica"

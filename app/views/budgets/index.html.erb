@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-  <h1>Presupuestos</h1>
-  <%= link_to "Nuevo Presupuesto", new_budget_path, class: "btn btn-primary" %>
+  <h1><%= Budget.model_name.human.pluralize %></h1>
+  <%= link_to I18n.t('views.budgets.edit.new_title'), new_budget_path, class: "btn btn-primary" %>
 </div>
 
 <% if @budgets.any? %>
@@ -10,23 +10,23 @@
         <div class="card h-100">
           <div class="card-header">
             <h5 class="mb-0"><%= budget.name %></h5>
-            <small class="text-muted"><span class="badge bg-info"><%= budget.periodicity %></span></small>
+            <small class="text-muted"><span class="badge bg-info"><%= budget.periodicity_i18n %></span></small>
           </div>
           <div class="card-body">
             <p class="card-text">
-              <strong>Período:</strong> <%= budget.start_date.strftime("%d/%m/%Y") %> - <%= budget.end_date.strftime("%d/%m/%Y") %>
+              <strong><%= I18n.t('views.budgets.index.period') %>:</strong> <%= l(budget.start_date) %> - <%= l(budget.end_date) %>
             </p>
             <div class="row mb-3">
               <div class="col-4 text-center">
-                <small class="text-muted">Ingresos</small>
+                <small class="text-muted"><%= I18n.t('views.budgets.index.income') %></small>
                 <h6 class="text-success"><%= number_to_currency(budget.total_income) %></h6>
               </div>
               <div class="col-4 text-center">
-                <small class="text-muted">Gastos</small>
+                <small class="text-muted"><%= I18n.t('views.budgets.index.expenses') %></small>
                 <h6 class="text-danger"><%= number_to_currency(budget.total_expenses) %></h6>
               </div>
               <div class="col-4 text-center">
-                <small class="text-muted">Flujo Libre</small>
+                <small class="text-muted"><%= I18n.t('views.budgets.index.free_cash_flow') %></small>
                 <h6 class="<%= budget.free_cash_flow >= 0 ? 'text-success' : 'text-danger' %>">
                   <%= number_to_currency(budget.free_cash_flow) %>
                 </h6>
@@ -35,10 +35,10 @@
           </div>
           <div class="card-footer">
             <div class="btn-group w-100" role="group">
-              <%= link_to "Ver", budget, class: "btn btn-sm btn-primary" %>
-              <%= link_to "Clonar", new_budget_path(clone_id: budget.id), class: "btn btn-sm btn-info text-white" %>
-              <%= link_to "Editar", edit_budget_path(budget), class: "btn btn-sm btn-secondary" %>
-              <%= link_to "Eliminar", budget, data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" }, class: "btn btn-sm btn-danger" %>
+              <%= link_to I18n.t('views.budgets.show.back'), budget, class: "btn btn-sm btn-primary" %>
+              <%= link_to I18n.t('views.budgets.index.clone'), new_budget_path(clone_id: budget.id), class: "btn btn-sm btn-info text-white" %>
+              <%= link_to I18n.t('views.budgets.show.edit'), edit_budget_path(budget), class: "btn btn-sm btn-secondary" %>
+              <%= link_to I18n.t('views.budgets.show.destroy'), budget, data: { turbo_method: :delete, turbo_confirm: I18n.t('views.common.confirm_destroy') }, class: "btn btn-sm btn-danger" %>
             </div>
           </div>
         </div>
@@ -47,8 +47,8 @@
   </div>
 <% else %>
   <div class="alert alert-info">
-    <p>No hay presupuestos registrados.</p>
-    <%= link_to "Crear primer presupuesto", new_budget_path, class: "btn btn-primary" %>
+    <p><%= I18n.t('views.budgets.index.empty') %></p>
+    <%= link_to I18n.t('views.budgets.index.create_first'), new_budget_path, class: "btn btn-primary" %>
   </div>
 <% end %>
 

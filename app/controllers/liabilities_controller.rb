@@ -2,7 +2,7 @@ class LiabilitiesController < ApplicationController
   def show
     @liability = Liability.joins(:balance_sheet).find_by(id: params[:id], balance_sheets: { user_id: current_user.id })
     if @liability.nil?
-      redirect_to balance_sheets_path, alert: "Pasivo no encontrado."
+      redirect_to balance_sheets_path, alert: I18n.t("controllers.liabilities.not_found")
       return
     end
     @balance_sheet = @liability.balance_sheet

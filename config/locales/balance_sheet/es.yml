@@ -1,0 +1,40 @@
+es:
+  activerecord:
+    models:
+      balance_sheet: "Balance General"
+    attributes:
+      balance_sheet:
+        account_id: "Cuenta"
+        recorded_at: "Fecha y Hora de Registro"
+        notes: "Notas"
+        total_assets: "Activos Totales"
+        total_liabilities: "Pasivos Totales"
+        net_worth: "Patrimonio Neto"
+  controllers:
+    balance_sheets:
+      created: "Balance general creado exitosamente."
+      updated: "Balance general actualizado exitosamente."
+      deleted: "Balance general eliminado exitosamente."
+      duplicated: "Balance general duplicado exitosamente. Puedes editarlo ahora."
+      duplicate_error: "Error al duplicar el balance general: %{errors}"
+      pdf_pending: "Reporte PDF en desarrollo."
+  views:
+    balance_sheets:
+      index:
+        empty: "No hay balances generales registrados."
+        create_first: "Crear primer balance"
+      edit:
+        title: "Editar Balance General"
+        new_title: "Nuevo Balance"
+        assets_section: "Activos"
+        liabilities_section: "Pasivos"
+        reorder: "Reordenar"
+        add_asset: "Agregar Activo"
+        add_liability: "Agregar Pasivo"
+        cancel: "Cancelar"
+        submit_update: "Actualizar Balance General"
+        submit_create: "Crear Balance General"
+      show:
+        back: "Ver"
+        edit: "Editar"
+        destroy: "Eliminar"
