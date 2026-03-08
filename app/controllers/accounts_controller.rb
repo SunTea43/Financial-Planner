@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
     @account = current_user.accounts.build(account_params)
 
     if @account.save
-      redirect_to @account, notice: "Cuenta creada exitosamente."
+      redirect_to @account, notice: I18n.t("controllers.accounts.created")
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class AccountsController < ApplicationController
 
   def update
     if @account.update(account_params)
-      redirect_to @account, notice: "Cuenta actualizada exitosamente."
+      redirect_to @account, notice: I18n.t("controllers.accounts.updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class AccountsController < ApplicationController
 
   def destroy
     @account.destroy
-    redirect_to accounts_path, notice: "Cuenta eliminada exitosamente."
+    redirect_to accounts_path, notice: I18n.t("controllers.accounts.deleted")
   end
 
   private

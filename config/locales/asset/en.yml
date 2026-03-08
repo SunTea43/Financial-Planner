@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      asset: "Asset"
+    attributes:
+      asset:
+        name: "Name"
+        item_type: "Asset Type"
+        category: "Category"
+        amount: "Amount"
+        description: "Description"
+        item_type_list:
+          liquid: "Liquid"
+          fixed: "Fixed"
+  controllers:
+    assets:
+      not_found: "Asset not found."

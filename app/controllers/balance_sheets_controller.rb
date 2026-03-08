@@ -24,7 +24,7 @@ class BalanceSheetsController < ApplicationController
     @balance_sheet.recorded_at = parse_recorded_at || Time.current
 
     if @balance_sheet.save
-      redirect_to @balance_sheet, notice: "Balance general creado exitosamente."
+      redirect_to @balance_sheet, notice: I18n.t("controllers.balance_sheets.created")
     else
       render :new, status: :unprocessable_entity
     end
@@ -41,7 +41,7 @@ class BalanceSheetsController < ApplicationController
     parsed_time = parse_recorded_at
     @balance_sheet.recorded_at = parsed_time if parsed_time
     if @balance_sheet.save
-      redirect_to @balance_sheet, notice: "Balance general actualizado exitosamente."
+      redirect_to @balance_sheet, notice: I18n.t("controllers.balance_sheets.updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -49,7 +49,7 @@ class BalanceSheetsController < ApplicationController
 
   def destroy
     @balance_sheet.destroy
-    redirect_to balance_sheets_path, notice: "Balance general eliminado exitosamente."
+    redirect_to balance_sheets_path, notice: I18n.t("controllers.balance_sheets.deleted")
   end
 
   def report
@@ -57,7 +57,7 @@ class BalanceSheetsController < ApplicationController
       format.html
       format.pdf do
         # PDF generation could be added here with prawn or wicked_pdf
-        redirect_to @balance_sheet, notice: "Reporte PDF en desarrollo."
+        redirect_to @balance_sheet, notice: I18n.t("controllers.balance_sheets.pdf_pending")
       end
     end
   end
@@ -91,9 +91,9 @@ class BalanceSheetsController < ApplicationController
     end
 
     if @new_balance_sheet.save
-      redirect_to edit_balance_sheet_path(@new_balance_sheet), notice: "Balance general duplicado exitosamente. Puedes editarlo ahora."
+      redirect_to edit_balance_sheet_path(@new_balance_sheet), notice: I18n.t("controllers.balance_sheets.duplicated")
     else
-      redirect_to @balance_sheet, alert: "Error al duplicar el balance general: #{@new_balance_sheet.errors.full_messages.join(', ')}"
+      redirect_to @balance_sheet, alert: I18n.t("controllers.balance_sheets.duplicate_error", errors: @new_balance_sheet.errors.full_messages.join(", "))
     end
   end
 

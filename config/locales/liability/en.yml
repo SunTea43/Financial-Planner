@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    models:
+      liability: "Liability"
+    attributes:
+      liability:
+        name: "Name"
+        item_type: "Liability Type"
+        amount: "Amount"
+        description: "Description"
+        item_type_list:
+          short_term: "Short Term"
+          long_term: "Long Term"
+  controllers:
+    liabilities:
+      not_found: "Liability not found."

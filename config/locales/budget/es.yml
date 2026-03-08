@@ -1,0 +1,57 @@
+es:
+  activerecord:
+    models:
+      budget: "Presupuesto"
+      budget_item: "Ítem de Presupuesto"
+    attributes:
+      budget:
+        name: "Nombre"
+        periodicity: "Periodicidad"
+        start_date: "Fecha de Inicio"
+        end_date: "Fecha de Finalización"
+        total_income: "Ingresos Totales"
+        total_expenses: "Egresos Totales"
+        free_cash_flow: "Flujo de Caja Libre"
+        periodicity_list:
+          daily: "Diario"
+          weekly: "Semanal"
+          monthly: "Mensual"
+          quarterly: "Trimestral"
+          yearly: "Anual"
+      budget_item:
+        name: "Nombre"
+        item_type: "Tipo"
+        amount: "Monto"
+        description: "Descripción"
+        item_type_list:
+          income: "Ingreso"
+          expense: "Egreso"
+  controllers:
+    budgets:
+      created: "Presupuesto creado exitosamente."
+      updated: "Presupuesto actualizado exitosamente."
+      deleted: "Presupuesto eliminado exitosamente."
+  views:
+    budgets:
+      index:
+        empty: "No hay presupuestos registrados."
+        create_first: "Crear primer presupuesto"
+        period: "Período"
+        income: "Ingresos"
+        expenses: "Gastos"
+        free_cash_flow: "Flujo Libre"
+        clone: "Clonar"
+      edit:
+        title: "Editar Presupuesto"
+        new_title: "Nuevo Presupuesto"
+        income_section: "Ingresos"
+        expense_section: "Gastos"
+        add_income: "Agregar Ingreso"
+        add_expense: "Agregar Gasto"
+        cancel: "Cancelar"
+        submit_update: "Actualizar Presupuesto"
+        submit_create: "Crear Presupuesto"
+      show:
+        back: "Ver"
+        edit: "Editar"
+        destroy: "Eliminar"
