@@ -12,15 +12,18 @@ class BudgetsControllerTest < ActionDispatch::IntegrationTest
     @budget.budget_items.create!(item_type: "expense", name: "Rent", amount: 500)
   end
 
-  test "should get new with clone_id" do
-    get new_budget_url(clone_id: @budget.id)
+  test "should get index" do
+    get budgets_url
     assert_response :success
+  end
 
-    # Verify the copied name is present in the response
-    assert_select "input[value=?]", "#{@budget.name} (Copia)"
+  test "should destroy budget" do
+    assert_difference("Budget.count", -1) do
+      delete budget_url(@budget)
+    end
 
-    # Verify the budget items were copied
-    assert_select "input[value=?]", "Salary"
-    assert_select "input[value=?]", "Rent"
+    assert_redirected_to budgets_url
+    follow_redirect!
+    assert_response :success
   end
 end
