@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm mt-5">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4"><%= I18n.t('devise.registrations.edit.title', resource: resource_name.to_s.humanize, default: "Editar #{resource_name.to_s.humanize}") %></h2>
+
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+          <%= f.error_notification %>
+
+          <div class="form-inputs mb-3">
+            <%= f.input :email, required: true, autofocus: true %>
+
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div class="alert alert-info" role="alert">
+                <%= I18n.t('devise.registrations.edit.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email, default: "Actualmente esperando confirmación para: #{resource.unconfirmed_email}") %>
+              </div>
+            <% end %>
+
+            <hr class="my-4">
+
+            <h5><%= I18n.t('devise.registrations.edit.change_password', default: 'Cambiar contraseña') %></h5>
+            <%= f.input :password,
+                        hint: I18n.t('devise.registrations.edit.leave_blank_if_you_don_t_want_to_change_it', default: "déjalo en blanco si no quieres cambiarla"),
+                        required: false,
+                        input_html: { autocomplete: "new-password" } %>
+            <%= f.input :password_confirmation,
+                        required: false,
+                        input_html: { autocomplete: "new-password" } %>
+
+            <hr class="my-4">
+
+            <h5><%= I18n.t('devise.registrations.edit.confirm_changes', default: 'Confirmar cambios') %></h5>
+            <%= f.input :current_password,
+                        hint: I18n.t('devise.registrations.edit.we_need_your_current_password_to_confirm_your_changes', default: "necesitamos tu contraseña actual para confirmar los cambios"),
+                        required: true,
+                        input_html: { autocomplete: "current-password" } %>
+          </div>
+
+          <div class="form-actions d-grid gap-2 mb-3">
+            <%= f.button :submit, I18n.t('devise.registrations.edit.update', default: "Actualizar"), class: "btn btn-primary btn-lg" %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
+    <div class="card shadow-sm mt-4 mb-5 border-danger">
+      <div class="card-body p-4">
+        <h3 class="card-title text-danger"><%= I18n.t('devise.registrations.edit.cancel_my_account', default: 'Cancelar mi cuenta') %></h3>
+        <p><%= I18n.t('devise.registrations.edit.unhappy', default: '¿No estás satisfecho?') %> 
+           <%= button_to I18n.t('devise.registrations.edit.cancel_my_account', default: 'Cancelar mi cuenta'), registration_path(resource_name), data: { confirm: I18n.t('devise.registrations.edit.are_you_sure', default: '¿Estás seguro?'), turbo_confirm: I18n.t('devise.registrations.edit.are_you_sure', default: '¿Estás seguro?') }, method: :delete, class: "btn btn-outline-danger mt-2" %>
+        </p>
+      </div>
+    </div>
+
+    <div class="mb-5 text-center">
+      <%= link_to I18n.t('devise.shared.links.back', default: "Volver"), :back, class: "text-decoration-none" %>
+    </div>
+  </div>
+</div>

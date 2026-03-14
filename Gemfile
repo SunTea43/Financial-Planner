@@ -24,6 +24,7 @@ gem "bcrypt", "~> 3.1.7"
 
 # Authentication
 gem "devise", "~> 5.0"
+gem "devise-i18n"
 
 # Trailblazer Cells for view components
 gem "cells"

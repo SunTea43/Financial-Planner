@@ -1,0 +1,43 @@
+en:
+  devise:
+    sessions:
+      new:
+        sign_in: "Log in"
+    registrations:
+      new:
+        sign_up: "Sign up"
+      edit:
+        title: "Edit %{resource}"
+        currently_waiting_confirmation_for_email: "Currently waiting confirmation for: %{email}"
+        change_password: "Change password"
+        leave_blank_if_you_don_t_want_to_change_it: "leave it blank if you don't want to change it"
+        confirm_changes: "Confirm changes"
+        we_need_your_current_password_to_confirm_your_changes: "we need your current password to confirm your changes"
+        update: "Update"
+        cancel_my_account: "Cancel my account"
+        unhappy: "Unhappy?"
+        are_you_sure: "Are you sure?"
+    passwords:
+      new:
+        forgot_your_password: "Forgot your password?"
+        send_me_reset_password_instructions: "Send reset instructions"
+      edit:
+        change_your_password: "Change your password"
+        new_password: "New password"
+        confirm_new_password: "Confirm new password"
+        change_my_password: "Change my password"
+    confirmations:
+      new:
+        resend_confirmation_instructions: "Resend confirmation instructions"
+    unlocks:
+      new:
+        resend_unlock_instructions: "Resend unlock instructions"
+    shared:
+      links:
+        sign_in: "Log in"
+        sign_up: "Sign up"
+        forgot_your_password: "Forgot your password?"
+        didn_t_receive_confirmation_instructions: "Didn't receive confirmation instructions?"
+        didn_t_receive_unlock_instructions: "Didn't receive unlock instructions?"
+        sign_in_with_provider: "Sign in with %{provider}"
+        back: "Back"
