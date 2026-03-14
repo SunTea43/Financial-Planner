@@ -1,0 +1,37 @@
+<div class="row mb-4">
+  <div class="col-12">
+    <h1><%= t("data_imports.new.title") %></h1>
+    <p class="text-muted"><%= t("data_imports.new.subtitle") %></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("data_imports.new.card_title") %></h5>
+      </div>
+      <div class="card-body">
+        <p>
+          <%= raw t("data_imports.new.description_html") %>
+        </p>
+
+        <div class="alert alert-warning">
+          <i class="bi bi-exclamation-triangle"></i>
+          <%= t("data_imports.new.warning_html") %>
+        </div>
+
+        <%= form_with url: data_import_path, method: :post, multipart: true, local: true do |f| %>
+          <div class="mb-3">
+            <%= f.label :file, t("data_imports.new.file_label"), class: "form-label" %>
+            <%= f.file_field :file, class: "form-control", accept: ".json", required: true %>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <%= f.submit t("data_imports.new.submit"), class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

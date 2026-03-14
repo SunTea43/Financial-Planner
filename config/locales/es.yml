@@ -40,3 +40,25 @@ es:
       unauthenticated: "Necesitas iniciar sesión o registrarte antes de continuar."
       user:
         unauthenticated: "Necesitas iniciar sesión o registrarte antes de continuar."
+  data_imports:
+    new:
+      title: "Importar Datos"
+      subtitle: "Restaura una copia de tu información financiera"
+      card_title: "Importación de Datos"
+      description_html: "Sube tu archivo de respaldo (en formato JSON) para importar tus datos anteriores. Ten en cuenta que se <strong>crearán nuevos registros</strong> (cuentas, balances, presupuestos) asociados a tu usuario actual basándose en la información del archivo."
+      warning_html: "Asegúrate de que estás subiendo el archivo de exportación generado por esta aplicación."
+      file_label: "Seleccionar archivo .json"
+      submit: "Importar Datos"
+    create:
+      success: "Datos importados exitosamente."
+      invalid_json: "El archivo seleccionado no es un JSON válido."
+      error: "Error al importar datos: %{message}"
+      no_file: "Por favor selecciona un archivo."
+  data_exports:
+    show:
+      title: "Exportar Datos"
+      subtitle: "Descarga una copia de tu información financiera"
+      card_title: "Exportación de Datos"
+      description: "Puedes exportar todos tus datos (cuentas, presupuestos, balances) en formato JSON. Este archivo puede ser utilizado para importar tu información en otra instancia de esta aplicación o para mantener una copia de seguridad personal."
+      warning_html: "El archivo incluirá:<ul><li>Cuentas registradas</li><li>Historial de balances generales (activos y pasivos)</li><li>Presupuestos y sus partidas</li></ul>"
+      submit: "Descargar Datos (JSON)"
