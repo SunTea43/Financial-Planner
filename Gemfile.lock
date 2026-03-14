@@ -132,6 +132,9 @@ GEM
       railties (>= 7.0)
       responders
       warden (~> 1.2.3)
+    devise-i18n (1.16.0)
+      devise (>= 5.0.0)
+      rails-i18n
     dotenv (3.2.0)
     drb (2.2.3)
     ed25519 (1.4.0)
@@ -468,6 +471,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise (~> 5.0)
+  devise-i18n
   i18n-tasks (~> 1.0)
   image_processing (~> 1.2)
   importmap-rails
