@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   resource :data_export, only: [ :show, :create ]
+  resource :data_import, only: [ :new, :create ]
 
   resources :assets, path: :financial_assets, only: [ :show ], as: :financial_assets
   resources :liabilities, path: :financial_liabilities, only: [ :show ], as: :financial_liabilities
