@@ -1,0 +1,28 @@
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm mt-5">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4"><%= I18n.t('devise.passwords.new.forgot_your_password', default: '¿Olvidaste tu contraseña?') %></h2>
+
+        <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <%= f.error_notification %>
+
+          <div class="form-inputs mb-3">
+            <%= f.input :email,
+                        required: true,
+                        autofocus: true,
+                        input_html: { autocomplete: "email" } %>
+          </div>
+
+          <div class="form-actions d-grid gap-2 mb-3">
+            <%= f.button :submit, I18n.t('devise.passwords.new.send_me_reset_password_instructions', default: "Enviar instrucciones"), class: "btn btn-primary btn-lg text-wrap" %>
+          </div>
+        <% end %>
+
+        <div class="text-center mt-3">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

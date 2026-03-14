@@ -1,0 +1,43 @@
+es:
+  devise:
+    sessions:
+      new:
+        sign_in: "Iniciar Sesión"
+    registrations:
+      new:
+        sign_up: "Registrarse"
+      edit:
+        title: "Editar %{resource}"
+        currently_waiting_confirmation_for_email: "Actualmente esperando confirmación para: %{email}"
+        change_password: "Cambiar contraseña"
+        leave_blank_if_you_don_t_want_to_change_it: "déjalo en blanco si no quieres cambiarla"
+        confirm_changes: "Confirmar cambios"
+        we_need_your_current_password_to_confirm_your_changes: "necesitamos tu contraseña actual para confirmar los cambios"
+        update: "Actualizar"
+        cancel_my_account: "Cancelar mi cuenta"
+        unhappy: "¿No estás satisfecho?"
+        are_you_sure: "¿Estás seguro?"
+    passwords:
+      new:
+        forgot_your_password: "¿Olvidaste tu contraseña?"
+        send_me_reset_password_instructions: "Enviar instrucciones"
+      edit:
+        change_your_password: "Cambiar tu contraseña"
+        new_password: "Nueva contraseña"
+        confirm_new_password: "Confirmar nueva contraseña"
+        change_my_password: "Cambiar mi contraseña"
+    confirmations:
+      new:
+        resend_confirmation_instructions: "Reenviar instrucciones de confirmación"
+    unlocks:
+      new:
+        resend_unlock_instructions: "Reenviar instrucciones de desbloqueo"
+    shared:
+      links:
+        sign_in: "Iniciar sesión"
+        sign_up: "Registrarse"
+        forgot_your_password: "¿Olvidaste tu contraseña?"
+        didn_t_receive_confirmation_instructions: "¿No recibiste instrucciones de confirmación?"
+        didn_t_receive_unlock_instructions: "¿No recibiste instrucciones de desbloqueo?"
+        sign_in_with_provider: "Iniciar sesión con %{provider}"
+        back: "Volver"
