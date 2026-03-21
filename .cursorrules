@@ -1,8 +1,8 @@
 # Project Context
 
-# Financial Planner
+## Financial Planner
 
-# Aplicación web para organizar finanzas personales desarrollada con Ruby on Rails 8
+Aplicación web para organizar finanzas personales desarrollada con Ruby on Rails 8
 
 ## Características Principales
 
@@ -11,7 +11,7 @@
 - **Presupuestos**: Crea presupuestos con periodicidad (mensual por defecto), definiendo ingresos, gastos y cálculo automático del flujo de caja libre.
 - **Reportes**: Genera reportes de balance general con filtros por cuenta y fechas.
 
-# Tech Stack
+## Tech Stack
 
 - **Framework**: Ruby on Rails 8.1.1
 - **Database**: PostgreSQL
@@ -21,7 +21,7 @@
 - **Styling**: Bootstrap 5.
 - **Interactivity**: Hotwire (Turbo + Stimulus).
 
-# Domain Model
+## Domain Model
 
 - **User**: Usuarios con autenticación Devise.
 - **Account**: Cuentas asociadas a usuarios (checking, savings, investment, credit_card, loan, other).
@@ -31,7 +31,7 @@
 - **Budget**: Presupuestos con periodicidad configurable.
 - **BudgetItem**: Items de presupuesto (ingresos y gastos).
 
-# Coding Guidelines
+## Coding Guidelines
 
 - **Views**: Preferir el uso de **Cells** para lógica de vista compleja o componentes reutilizables.
 - **Forms**: Usar `simple_form_for` con estilos de Bootstrap.
