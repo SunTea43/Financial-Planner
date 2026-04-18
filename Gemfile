@@ -83,7 +83,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  
+
   # Controller testing helpers for assigns, etc.
   gem "rails-controller-testing"
 end
