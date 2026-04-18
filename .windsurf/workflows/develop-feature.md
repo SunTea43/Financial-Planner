@@ -25,6 +25,7 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Sigue las convenciones del proyecto (Ruby on Rails, Cells, SimpleForm, Bootstrap, etc.)
    - Asegúrate de que el código sea limpio y siga las mejores prácticas
    - Prueba la funcionalidad localmente
+   - Usa los lineamientos de commits (ver `COMMIT_GUIDELINES.md`) al hacer commits
 
 4. **Crear tests**
    - Escribe tests unitarios para los modelos y controladores modificados
