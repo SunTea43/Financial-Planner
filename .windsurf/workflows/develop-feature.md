@@ -26,7 +26,14 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Asegúrate de que el código sea limpio y siga las mejores prácticas
    - Prueba la funcionalidad localmente
 
-4. **Crear un Pull Request**
+4. **Crear tests**
+   - Escribe tests unitarios para los modelos y controladores modificados
+   - Escribe tests de integración para las nuevas vistas
+   - Escribe tests de sistema para flujos completos si es necesario
+   - Asegúrate de que todos los tests pasen antes de continuar
+   - Ejecuta `bin/rails test` o `bin/rails test:system` según corresponda
+
+5. **Crear un Pull Request**
    - Usa `mcp0_create_pull_request` para crear el PR
    - Owner: el owner del repositorio (detectado automáticamente desde git remote)
    - Repo: el nombre del repositorio (detectado automáticamente desde git remote)
@@ -36,7 +43,7 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Body: descripción detallada de los cambios realizados
    - Draft: `false` (para crear el PR directamente) o `true` (para crearlo como borrador)
 
-5. **Verificar el PR**
+6. **Verificar el PR**
    - Revisa que el PR se haya creado correctamente
    - Verifica que los cambios estén incluidos
    - Espera a que se apruebe y se mergee
