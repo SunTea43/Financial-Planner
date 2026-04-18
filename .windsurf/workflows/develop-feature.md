@@ -35,7 +35,14 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Si los tests fallan, corrige el código o los tests según sea necesario
    - Asegúrate de que no haya errores ni fallos en el suite de tests
 
-5. **Crear un Pull Request**
+5. **Ejecutar linters**
+   - Ejecuta `bundle exec rubocop` para verificar el estilo del código
+   - Ejecuta `bundle exec brakeman` para análisis de seguridad
+   - Ejecuta `bundle exec bundler-audit` para verificar vulnerabilidades en gems
+   - Corrige cualquier problema que encuentren los linters antes de continuar
+   - Asegúrate de que el código siga las convenciones del proyecto
+
+6. **Crear un Pull Request**
    - Usa `mcp0_create_pull_request` para crear el PR
    - Owner: el owner del repositorio (detectado automáticamente desde git remote)
    - Repo: el nombre del repositorio (detectado automáticamente desde git remote)
@@ -45,7 +52,7 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Body: descripción detallada de los cambios realizados
    - Draft: `false` (para crear el PR directamente) o `true` (para crearlo como borrador)
 
-6. **Verificar el PR**
+7. **Verificar el PR**
    - Revisa que el PR se haya creado correctamente
    - Verifica que los cambios estén incluidos
    - Espera a que se apruebe y se mergee
