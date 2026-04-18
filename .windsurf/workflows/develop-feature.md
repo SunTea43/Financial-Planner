@@ -30,8 +30,10 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Escribe tests unitarios para los modelos y controladores modificados
    - Escribe tests de integración para las nuevas vistas
    - Escribe tests de sistema para flujos completos si es necesario
-   - Asegúrate de que todos los tests pasen antes de continuar
    - Ejecuta `bin/rails test` o `bin/rails test:system` según corresponda
+   - **Itera en los tests hasta que todos pasen** antes de continuar
+   - Si los tests fallan, corrige el código o los tests según sea necesario
+   - Asegúrate de que no haya errores ni fallos en el suite de tests
 
 5. **Crear un Pull Request**
    - Usa `mcp0_create_pull_request` para crear el PR
