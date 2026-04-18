@@ -53,6 +53,9 @@ class BalanceSheetsController < ApplicationController
   end
 
   def report
+    @assets_chart_data = prepare_assets_chart_data
+    @liabilities_chart_data = prepare_liabilities_chart_data
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -124,5 +127,39 @@ class BalanceSheetsController < ApplicationController
     if params[:balance_sheet][:account_id].present?
       @balance_sheet.account = current_user.accounts.find_by(id: params[:balance_sheet][:account_id])
     end
+  end
+
+  def prepare_assets_chart_data
+    assets_by_category = @balance_sheet.assets.group_by(&:category)
+
+    labels = []
+    values = []
+
+    assets_by_category.each do |category, assets|
+      labels << (category || "Sin categoría")
+      values << assets.sum(&:amount)
+    end
+
+    {
+      labels: labels,
+      values: values
+    }
+  end
+
+  def prepare_liabilities_chart_data
+    liabilities_by_type = @balance_sheet.liabilities.group_by(&:item_type)
+
+    labels = []
+    values = []
+
+    liabilities_by_type.each do |item_type, liabilities|
+      labels << item_type.humanize
+      values << liabilities.sum(&:amount)
+    end
+
+    {
+      labels: labels,
+      values: values
+    }
   end
 end
