@@ -106,6 +106,8 @@ En desarrollo, los correos se abren automáticamente en el navegador usando `let
 
 En producción, la aplicación usa SMTP para enviar correos. Asegúrate de configurar todas las variables de entorno requeridas antes de desplegar.
 
+Para problemas con variables de entorno en Railway, consulta [RAILWAY_DEPLOYMENT.md](./RAILWAY_DEPLOYMENT.md) para solución de problemas específicos.
+
 ## Estructura de la Aplicación
 
 ### Modelos Principales
