@@ -25,7 +25,17 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Sigue las convenciones del proyecto (Ruby on Rails, Cells, SimpleForm, Bootstrap, etc.)
    - Asegúrate de que el código sea limpio y siga las mejores prácticas
    - Prueba la funcionalidad localmente
-   - Usa los lineamientos de commits (ver `COMMIT_GUIDELINES.md`) al hacer commits
+   - **Sigue estrictamente los lineamientos de commits** (ver `COMMIT_GUIDELINES.md`):
+     - Formato: `<tipo>: <descripción>` (ej: `feat: add pie charts to balance sheet`)
+     - Tipos permitidos: feat, fix, docs, style, refactor, perf, test, chore, ci
+     - Usar presente imperativo ("add" no "added" ni "adding")
+     - Primera letra minúscula
+     - No terminar con punto
+     - Limitar a 72 caracteres o menos
+     - Ejemplos correctos:
+       - `feat: configure email delivery with SMTP`
+       - `fix: fix net worth calculation error`
+       - `docs: add configuration documentation`
 
 4. **Crear tests**
    - Escribe tests unitarios para los modelos y controladores modificados
