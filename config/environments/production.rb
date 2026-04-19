@@ -12,6 +12,16 @@ Rails.application.configure do
   # Set secret key base for production from environment variable
   config.secret_key_base = ENV.fetch("SECRET_KEY_BASE") { SecureRandom.hex(64) }
 
+  # Log environment variables for debugging (remove in production after debugging)
+  Rails.logger.info "Environment variables loaded:"
+  Rails.logger.info "  SMTP_ADDRESS: #{ENV['SMTP_ADDRESS'] ? 'SET' : 'NOT SET'}"
+  Rails.logger.info "  SMTP_PORT: #{ENV['SMTP_PORT'] ? 'SET' : 'NOT SET'}"
+  Rails.logger.info "  SMTP_DOMAIN: #{ENV['SMTP_DOMAIN'] ? 'SET' : 'NOT SET'}"
+  Rails.logger.info "  SMTP_USER_NAME: #{ENV['SMTP_USER_NAME'] ? 'SET' : 'NOT SET'}"
+  Rails.logger.info "  SMTP_PASSWORD: #{ENV['SMTP_PASSWORD'] ? 'SET' : 'NOT SET'}"
+  Rails.logger.info "  SMTP_FROM_ADDRESS: #{ENV['SMTP_FROM_ADDRESS'] ? 'SET' : 'NOT SET'}"
+  Rails.logger.info "  APP_HOST: #{ENV['APP_HOST'] ? 'SET' : 'NOT SET'}"
+
   # Full error reports are disabled.
   config.consider_all_requests_local = false
 
@@ -69,8 +79,8 @@ Rails.application.configure do
     address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
     port: ENV.fetch("SMTP_PORT", 587).to_i,
     domain: ENV.fetch("SMTP_DOMAIN", "example.com"),
-    user_name: ENV.fetch("SMTP_USER_NAME"),
-    password: ENV.fetch("SMTP_PASSWORD"),
+    user_name: ENV.fetch("SMTP_USER_NAME", nil),
+    password: ENV.fetch("SMTP_PASSWORD", nil),
     authentication: :plain,
     enable_starttls_auto: true,
     open_timeout: 30,
