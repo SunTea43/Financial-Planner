@@ -37,7 +37,7 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
        - `fix: fix net worth calculation error`
        - `docs: add configuration documentation`
 
-4. **Crear tests**
+4. **Crear tests** (si aplica)
    - Escribe tests unitarios para los modelos y controladores modificados
    - Escribe tests de integración para las nuevas vistas
    - Escribe tests de sistema para flujos completos si es necesario
@@ -45,13 +45,15 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - **Itera en los tests hasta que todos pasen** antes de continuar
    - Si los tests fallan, corrige el código o los tests según sea necesario
    - Asegúrate de que no haya errores ni fallos en el suite de tests
+   - Nota: Este paso puede omitirse si el cambio es solo de documentación o configuración
 
-5. **Ejecutar linters**
+5. **Ejecutar linters** (si aplica)
    - Ejecuta `bundle exec rubocop` para verificar el estilo del código
    - Ejecuta `bundle exec brakeman` para análisis de seguridad
    - Ejecuta `bundle exec bundler-audit` para verificar vulnerabilidades en gems
    - Corrige cualquier problema que encuentren los linters antes de continuar
    - Asegúrate de que el código siga las convenciones del proyecto
+   - Nota: Este paso puede omitirse si el cambio es solo de documentación
 
 6. **Crear un Pull Request**
    - Usa `mcp0_create_pull_request` para crear el PR
@@ -62,7 +64,7 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Title: descripción breve de la funcionalidad
    - Body: usa la plantilla de PR (`.github/pull_request_template.md`) como base
    - Draft: `false` (para crear el PR directamente) o `true` (para crearlo como borrador)
-   - Asegúrate de llenar todas las secciones relevantes de la plantilla
+   - Asegúrate de llenar solo las secciones relevantes de la plantilla (omite las que no apliquen)
 
 7. **Verificar el PR**
    - Revisa que el PR se haya creado correctamente

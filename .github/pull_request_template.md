@@ -28,16 +28,6 @@
 ### Manual Testing
 <!-- Describe any manual testing performed -->
 
-## Checklist
-<!-- Mark completed items with [x] -->
-
-- [ ] Code follows project style guidelines
-- [ ] Tests added/updated and all tests pass
-- [ ] Linters pass (rubocop, brakeman, bundler-audit)
-- [ ] Documentation updated if needed
-- [ ] Commit messages follow project guidelines
-- [ ] No merge conflicts
-
 ## Breaking Changes
 <!-- Describe any breaking changes or backward compatibility issues -->
 
