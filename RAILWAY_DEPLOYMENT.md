@@ -7,6 +7,7 @@ If environment variables defined in Railway are not being detected, follow these
 ### 1. Check Variable Scope
 
 Railway has two levels for environment variables:
+
 - **Project level**: Available to all services in the project
 - **Service level**: Only available to the specific service
 
@@ -16,7 +17,7 @@ Railway has two levels for environment variables:
 
 Environment variables are case-sensitive. Ensure the names in Railway match exactly:
 
-```
+```text
 SMTP_ADDRESS
 SMTP_PORT
 SMTP_DOMAIN
@@ -28,6 +29,7 @@ SECRET_KEY_BASE
 ```
 
 **Common mistakes**:
+
 - Using lowercase instead of uppercase
 - Extra spaces in variable names
 - Using hyphens instead of underscores
@@ -35,6 +37,7 @@ SECRET_KEY_BASE
 ### 3. Redeploy After Adding Variables
 
 After adding environment variables in Railway:
+
 1. Go to your service
 2. Click "Redeploy" to restart the service with new variables
 3. Variables are only available after a redeploy
@@ -42,12 +45,14 @@ After adding environment variables in Railway:
 ### 4. Check Build vs Runtime
 
 Some variables might need to be available during build time. In Railway:
+
 - Variables are available during both build and runtime by default
 - No special configuration needed for this
 
 ### 5. Debug Logging
 
 The application now logs which environment variables are loaded. Check the logs:
+
 1. Go to your service in Railway
 2. Click "Logs" tab
 3. Look for "Environment variables loaded:" section
@@ -58,15 +63,18 @@ The application now logs which environment variables are loaded. Check the logs:
 For Railway deployment, ensure:
 
 1. **Variables are set at Service level**:
+
    - Go to your Rails service
    - Settings → Variables
    - Add all required variables
 
 2. **No trailing spaces**:
+
    - Ensure no spaces after variable values
    - Railway preserves trailing spaces
 
 3. **Use proper format**:
+
    - Key: SMTP_ADDRESS
    - Value: smtp.gmail.com
    - No quotes around values
@@ -94,12 +102,15 @@ railway variables ls
 ### Common Railway Issues
 
 **Issue**: Variables work locally but not in Railway
+
 **Solution**: Railway may require a redeploy after adding variables
 
 **Issue**: Variables disappear after redeploy
+
 **Solution**: Ensure variables are saved (click "Save" button in Railway UI)
 
 **Issue**: Variables have wrong values
+
 **Solution**: Check for trailing spaces or extra characters in Railway UI
 
 ## Testing Email Configuration
