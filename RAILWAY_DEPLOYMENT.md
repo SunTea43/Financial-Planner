@@ -7,10 +7,6 @@ If environment variables defined in Railway are not being detected, follow these
 ### 1. Check Variable Scope
 
 Railway has two levels for environment variables:
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/configure-email-delivery
 - **Project level**: Available to all services in the project
 - **Service level**: Only available to the specific service
 
@@ -32,10 +28,6 @@ SECRET_KEY_BASE
 ```
 
 **Common mistakes**:
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/configure-email-delivery
 - Using lowercase instead of uppercase
 - Extra spaces in variable names
 - Using hyphens instead of underscores
@@ -106,27 +98,15 @@ Remember to remove the temporary debug action after debugging!
 For Railway deployment, ensure:
 
 1. **Variables are set at Service level**:
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/configure-email-delivery
    - Go to your Rails service
    - Settings → Variables
    - Add all required variables
 
 2. **No trailing spaces**:
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/configure-email-delivery
    - Ensure no spaces after variable values
    - Railway preserves trailing spaces
 
 3. **Use proper format**:
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/configure-email-delivery
    - Key: SMTP_ADDRESS
    - Value: smtp.gmail.com
    - No quotes around values
