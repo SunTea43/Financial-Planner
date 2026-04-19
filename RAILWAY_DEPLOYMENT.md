@@ -49,14 +49,51 @@ Some variables might need to be available during build time. In Railway:
 - Variables are available during both build and runtime by default
 - No special configuration needed for this
 
-### 5. Debug Logging
+### 5. Debug Environment Variables
 
-The application now logs which environment variables are loaded. Check the logs:
+Since logging in production.rb can cause errors during assets:precompile, use these alternative methods to debug environment variables:
+
+#### Method 1: Create a temporary controller action
+
+Add a temporary action to any controller:
+
+```ruby
+# In app/controllers/application_controller.rb
+def debug_env
+  render json: {
+    SMTP_ADDRESS: ENV['SMTP_ADDRESS'] ? 'SET' : 'NOT SET',
+    SMTP_PORT: ENV['SMTP_PORT'] ? 'SET' : 'NOT SET',
+    SMTP_DOMAIN: ENV['SMTP_DOMAIN'] ? 'SET' : 'NOT SET',
+    SMTP_USER_NAME: ENV['SMTP_USER_NAME'] ? 'SET' : 'NOT SET',
+    SMTP_PASSWORD: ENV['SMTP_PASSWORD'] ? 'SET' : 'NOT SET',
+    SMTP_FROM_ADDRESS: ENV['SMTP_FROM_ADDRESS'] ? 'SET' : 'NOT SET',
+    APP_HOST: ENV['APP_HOST'] ? 'SET' : 'NOT SET'
+  }
+end
+```
+
+Add to routes.rb temporarily:
+
+```ruby
+get '/debug_env', to: 'application#debug_env'
+```
+
+Visit `/debug_env` in production to see which variables are loaded.
+
+#### Method 2: Use Rails console in Railway
 
 1. Go to your service in Railway
-2. Click "Logs" tab
-3. Look for "Environment variables loaded:" section
-4. Verify which variables show as "SET" vs "NOT SET"
+2. Click "Console" tab
+3. Run: `rails console`
+4. Check variables: `ENV['SMTP_ADDRESS']`
+
+#### Method 3: Check Railway UI
+
+1. Go to your service in Railway
+2. Settings → Variables
+3. Verify all variables are listed with correct values
+
+Remember to remove the temporary debug action after debugging!
 
 ### 6. Railway-Specific Configuration
 
