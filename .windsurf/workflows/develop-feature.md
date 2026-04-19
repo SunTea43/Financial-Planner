@@ -60,8 +60,9 @@ Este workflow permite desarrollar una funcionalidad completa dado una descripci�
    - Head: el nombre de la rama que creaste
    - Base: `main`
    - Title: descripción breve de la funcionalidad
-   - Body: descripción detallada de los cambios realizados
+   - Body: usa la plantilla de PR (`.github/pull_request_template.md`) como base
    - Draft: `false` (para crear el PR directamente) o `true` (para crearlo como borrador)
+   - Asegúrate de llenar todas las secciones relevantes de la plantilla
 
 7. **Verificar el PR**
    - Revisa que el PR se haya creado correctamente
