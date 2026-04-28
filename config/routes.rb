@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :savings_reports, only: [:index]
+  resources :savings_reports, only: [ :index ]
 
   resource :data_export, only: [ :show, :create ]
   resource :data_import, only: [ :new, :create ]
