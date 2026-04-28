@@ -8,6 +8,18 @@ es:
         delimiter: "."
         format: "%u%n"
   hello: "Hola mundo"
+  views:
+    common:
+      months: "meses"
+      month: "mes"
+      actions: "Acciones"
+      view: "Ver"
+      edit: "Editar"
+      delete: "Eliminar"
+      back: "Volver"
+      cancel: "Cancelar"
+      entries: "Cuotas"
+      confirm_destroy: "¿Estás seguro?"
   date:
     formats:
       default: "%d/%m/%Y"

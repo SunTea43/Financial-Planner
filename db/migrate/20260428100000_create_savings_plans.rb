@@ -11,6 +11,6 @@ class CreateSavingsPlans < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :savings_plans, [:user_id, :target_date]
+    add_index :savings_plans, [ :user_id, :target_date ]
   end
 end

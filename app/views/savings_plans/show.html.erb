@@ -5,7 +5,8 @@
       <%= l(@savings_plan.start_date) %> - <%= l(@savings_plan.target_date) %> | <%= number_to_percentage(@savings_plan.annual_interest_rate, precision: 2) %> anual
     </p>
   </div>
-  <div>
+  <div class="btn-group" role="group">
+    <%= link_to t("views.savings_plans.show.entries"), savings_plan_savings_plan_entries_path(@savings_plan), class: "btn btn-info" %>
     <%= link_to t("views.savings_plans.show.edit"), edit_savings_plan_path(@savings_plan), class: "btn btn-secondary" %>
     <%= link_to t("views.savings_plans.show.destroy"), @savings_plan,
                 data: { turbo_method: :delete, turbo_confirm: t("views.common.confirm_destroy") },
@@ -88,11 +89,49 @@
 
 <div class="card mb-4">
   <div class="card-header">
-    <h5 class="mb-0"><%= t("views.savings_plans.show.projection_chart") %></h5>
+    <h5 class="mb-0"><%= t("views.savings_plans.show.same_installment_scenario") %></h5>
   </div>
   <div class="card-body">
-    <canvas data-controller="savings-plan-chart"
-            data-savings-plan-chart-data-value="<%= @projection[:chart].to_json %>"></canvas>
+    <p class="mb-2"><small class="text-muted"><%= t("views.savings_plans.show.same_installment_explanation") %></small></p>
+    <div class="row">
+      <div class="col-md-4">
+        <strong><%= t("views.savings_plans.show.same_installment_amount") %>:</strong>
+        <h6 class="text-primary"><%= number_to_currency(@projection[:installment_without_interest]) %></h6>
+      </div>
+      <div class="col-md-4">
+        <strong><%= t("views.savings_plans.show.months_to_goal_at_this_pace") %>:</strong>
+        <h6 class="text-success"><%= @projection[:same_installment_periods] %> <%= t("views.common.months") %></h6>
+      </div>
+      <div class="col-md-4">
+        <strong><%= t("views.savings_plans.show.months_saved") %>:</strong>
+        <h6 class="text-info"><%= @projection[:same_installment_months_saved] %> <%= t("views.common.months") %></h6>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plans.show.projection_chart") %></h5>
+      </div>
+      <div class="card-body">
+        <canvas data-controller="savings-plan-chart"
+                data-savings-plan-chart-data-value="<%= @projection[:chart].to_json %>"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plans.show.comparison_chart") %></h5>
+      </div>
+      <div class="card-body">
+        <canvas data-controller="savings-plan-comparison-chart"
+                data-savings-plan-comparison-chart-data-value="<%= @projection[:chart].to_json %>"></canvas>
+      </div>
+    </div>
   </div>
 </div>
 
