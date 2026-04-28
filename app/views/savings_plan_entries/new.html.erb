@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h1><%= t("views.savings_plan_entries.form.new_title") %></h1>
+
+    <%= simple_form_for [@savings_plan, @entry] do |f| %>
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :entry_date, as: :date, label: SavingsPlanEntry.human_attribute_name(:entry_date) %>
+            </div>
+            <div class="col-md-6">
+              <%= f.input :amount, input_html: { step: 0.01 }, label: SavingsPlanEntry.human_attribute_name(:amount) %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :frequency, collection: SavingsPlanEntry.frequencies.keys, label: SavingsPlanEntry.human_attribute_name(:frequency) %>
+            </div>
+          </div>
+
+          <%= f.input :notes, as: :text, input_html: { rows: 3 }, label: SavingsPlanEntry.human_attribute_name(:notes) %>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <%= link_to t("views.common.cancel"), @savings_plan, class: "btn btn-secondary" %>
+        <%= f.submit t("views.savings_plan_entries.form.submit"), class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

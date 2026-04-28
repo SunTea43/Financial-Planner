@@ -1,5 +1,5 @@
 class SavingsPlansController < ApplicationController
-  before_action :set_savings_plan, only: [:show, :edit, :update, :destroy]
+  before_action :set_savings_plan, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @savings_plans = current_user.savings_plans.recent

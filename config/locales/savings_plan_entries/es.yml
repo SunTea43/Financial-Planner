@@ -1,0 +1,67 @@
+es:
+  activerecord:
+    models:
+      savings_plan_entry: "Cuota de Ahorro"
+    attributes:
+      savings_plan_entry:
+        entry_date: "Fecha de cuota"
+        amount: "Monto"
+        frequency: "Frecuencia"
+        notes: "Notas"
+        frequency_list:
+          manual: "Manual"
+          automatic: "Automatica"
+  controllers:
+    savings_plan_entries:
+      created: "Cuota registrada exitosamente."
+      updated: "Cuota actualizada exitosamente."
+      deleted: "Cuota eliminada exitosamente."
+    savings_reports:
+      retrieved: "Reporte generado exitosamente."
+  views:
+    savings_plan_entries:
+      index:
+        title: "Seguimiento de Cuotas"
+        new: "Registrar cuota"
+        date: "Fecha"
+        amount: "Monto"
+        frequency: "Frecuencia"
+        notes: "Notas"
+        frequency_manual: "Manual"
+        frequency_automatic: "Automatica"
+        summary: "Resumen de ahorros"
+        total_saved: "Total ahorrado"
+        average_monthly: "Promedio mensual"
+        progress: "Progreso"
+        months_to_goal: "Meses a la meta"
+        empty: "No hay cuotas registradas aun."
+        create_first: "Registrar primera cuota"
+      form:
+        new_title: "Registrar Nueva Cuota"
+        edit_title: "Editar Cuota"
+        submit: "Guardar Cuota"
+        submit_update: "Actualizar Cuota"
+    savings_reports:
+      index:
+        title: "Reporte de Planes de Ahorro"
+        subtitle: "Resumen del progreso y estado de todos tus planes"
+        plan_name: "Plan"
+        goal: "Meta"
+        saved: "Ahorrado"
+        progress: "Progreso"
+        status: "Estado"
+        monthly_average: "Promedio mensual"
+        months_to_goal: "Meses a la meta"
+        actions: "Acciones"
+        empty: "No hay planes de ahorro aun."
+        create_first: "Crear primer plan"
+        status: "Estado"
+        avg_monthly: "Promedio Mensual"
+        months_to_goal: "Meses a Meta"
+        status_at_risk: "En riesgo"
+        status_on_track_low: "Bajo control"
+        status_on_track_medium: "Buen ritmo"
+        status_on_track_high: "Excelente"
+        status_completed: "Completado"
+        completed: "✓ Completado"
+        empty: "No tienes planes de ahorro aun."

@@ -65,6 +65,18 @@ en:
       user:
         unauthenticated: Necesitas iniciar sesión o registrarte antes de continuar.
   hello: Hello world
+  views:
+    common:
+      months: "months"
+      month: "month"
+      actions: "Actions"
+      view: "View"
+      edit: "Edit"
+      delete: "Delete"
+      back: "Back"
+      cancel: "Cancel"
+      entries: "Installments"
+      confirm_destroy: "Are you sure?"
   number:
     currency:
       format:
