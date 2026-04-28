@@ -10,6 +10,7 @@ class DataImportService
       import_accounts
       import_balance_sheets
       import_budgets
+      import_savings_plans
     end
   end
 
@@ -115,6 +116,22 @@ class DataImportService
       end
 
       new_budget.save!
+    end
+  end
+
+  def import_savings_plans
+    return unless @data["savings_plans"]
+
+    @data["savings_plans"].each do |plan_attrs|
+      @user.savings_plans.create!(
+        name: plan_attrs["name"],
+        goal_amount: plan_attrs["goal_amount"],
+        start_date: plan_attrs["start_date"],
+        target_date: plan_attrs["target_date"],
+        annual_interest_rate: plan_attrs["annual_interest_rate"],
+        created_at: plan_attrs["created_at"],
+        updated_at: plan_attrs["updated_at"]
+      )
     end
   end
 end

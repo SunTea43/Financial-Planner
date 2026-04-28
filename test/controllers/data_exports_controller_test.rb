@@ -23,5 +23,10 @@ class DataExportsControllerTest < ActionDispatch::IntegrationTest
     assert data.key?("accounts")
     assert data.key?("balance_sheets")
     assert data.key?("budgets")
+    assert data.key?("savings_plans")
+
+    exported_plan = data["savings_plans"].find { |plan| plan["name"] == savings_plans(:one).name }
+    assert_not_nil exported_plan
+    assert_equal savings_plans(:one).goal_amount.to_s, exported_plan["goal_amount"].to_s
   end
 end

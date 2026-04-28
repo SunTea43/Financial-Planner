@@ -1,0 +1,15 @@
+one:
+  user: one
+  name: Fondo de emergencia
+  goal_amount: 120000
+  start_date: 2026-01-01
+  target_date: 2026-12-31
+  annual_interest_rate: 8.50
+
+two:
+  user: two
+  name: Viaje anual
+  goal_amount: 48000
+  start_date: 2026-01-01
+  target_date: 2026-08-31
+  annual_interest_rate: 6.00

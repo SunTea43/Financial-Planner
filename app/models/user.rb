@@ -25,4 +25,5 @@ class User < ApplicationRecord
   has_many :accounts, dependent: :destroy
   has_many :balance_sheets, dependent: :destroy
   has_many :budgets, dependent: :destroy
+  has_many :savings_plans, dependent: :destroy
 end

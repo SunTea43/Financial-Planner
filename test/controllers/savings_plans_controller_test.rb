@@ -1,0 +1,54 @@
+require "test_helper"
+
+class SavingsPlansControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:one)
+    sign_in @user
+    @savings_plan = savings_plans(:one)
+  end
+
+  test "should get index" do
+    get savings_plans_url
+    assert_response :success
+  end
+
+  test "should create savings plan" do
+    assert_difference("SavingsPlan.count", 1) do
+      post savings_plans_url, params: {
+        savings_plan: {
+          name: "Meta de vivienda",
+          goal_amount: 250000,
+          start_date: Date.current,
+          target_date: Date.current.advance(years: 2),
+          annual_interest_rate: 10
+        }
+      }
+    end
+
+    assert_redirected_to savings_plan_url(SavingsPlan.last)
+  end
+
+  test "should show savings plan" do
+    get savings_plan_url(@savings_plan)
+    assert_response :success
+  end
+
+  test "should update savings plan" do
+    patch savings_plan_url(@savings_plan), params: {
+      savings_plan: {
+        name: "Fondo actualizado"
+      }
+    }
+
+    assert_redirected_to savings_plan_url(@savings_plan)
+    assert_equal "Fondo actualizado", @savings_plan.reload.name
+  end
+
+  test "should destroy savings plan" do
+    assert_difference("SavingsPlan.count", -1) do
+      delete savings_plan_url(@savings_plan)
+    end
+
+    assert_redirected_to savings_plans_url
+  end
+end
