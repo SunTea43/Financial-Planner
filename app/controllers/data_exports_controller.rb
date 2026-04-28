@@ -23,7 +23,8 @@ class DataExportsController < ApplicationController
       end,
       budgets: current_user.budgets.includes(:budget_items).map do |budget|
         budget.as_json(include: :budget_items)
-      end
+      end,
+      savings_plans: current_user.savings_plans.as_json
     }
   end
 end

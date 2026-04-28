@@ -1,0 +1,67 @@
+en:
+  activerecord:
+    errors:
+      models:
+        savings_plan:
+          attributes:
+            target_date:
+              after_start_date: "must be on or after the start date"
+    models:
+      savings_plan: "Savings Plan"
+    attributes:
+      savings_plan:
+        name: "Plan name"
+        goal_amount: "Goal amount"
+        start_date: "Start date"
+        target_date: "Target date"
+        annual_interest_rate: "Annual interest rate (%)"
+  controllers:
+    savings_plans:
+      created: "Savings plan created successfully."
+      updated: "Savings plan updated successfully."
+      deleted: "Savings plan deleted successfully."
+  views:
+    savings_plans:
+      index:
+        new: "New Savings Plan"
+        empty: "No savings plans found."
+        create_first: "Create first plan"
+        goal: "Goal"
+        term: "Term"
+        rate: "Annual rate"
+        without_interest_installment: "Installment without interest"
+        with_interest_installment: "Installment with interest"
+        view: "View"
+        edit: "Edit"
+        destroy: "Delete"
+      form:
+        annual_interest_hint: "Expected annual return percentage for your investment strategy."
+        cancel: "Cancel"
+        submit_create: "Create Plan"
+        submit_update: "Update Plan"
+      new:
+        title: "New Savings Plan"
+        subtitle: "Define your goal, term and expected rate to calculate your savings strategy."
+      edit:
+        title: "Edit Savings Plan"
+        subtitle: "Adjust your goal or expected return and review the updated projection."
+      show:
+        back: "Back to Plans"
+        edit: "Edit"
+        destroy: "Delete"
+        goal: "Goal"
+        installments: "Installments"
+        without_interest_installment: "Monthly installment without interest"
+        with_interest_installment: "Monthly installment with interest"
+        without_interest_scenario: "Scenario: savings without interest"
+        with_interest_scenario: "Scenario: savings with interest"
+        total_contributed: "Total contributed"
+        interest_earned: "Estimated interest earned"
+        annual_outlay: "Annual outlay"
+        annual_advantage_title: "Annual cash advantage"
+        annual_advantage_description: "This value shows how much annual cash outlay you reduce by using investment returns instead of pure savings."
+        projection_chart: "Projection chart"
+        projection_detail: "Monthly detail"
+        month: "Month"
+        without_interest_accumulated: "Accumulated without interest"
+        with_interest_accumulated: "Accumulated with interest"

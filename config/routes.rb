@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   end
 
   resources :budgets, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
+  resources :savings_plans
 
   resources :reports, only: [ :index ] do
     collection do
