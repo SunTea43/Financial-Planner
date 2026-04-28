@@ -3,10 +3,12 @@ class DashboardController < ApplicationController
     @accounts = current_user.accounts.limit(5)
     @latest_balance_sheet = current_user.balance_sheets.latest.first
     @latest_budgets = current_user.budgets.order(start_date: :desc).limit(3)
+    @latest_savings_plans = current_user.savings_plans.order(created_at: :desc).limit(3)
 
     @total_accounts = current_user.accounts.count
     @total_balance_sheets = current_user.balance_sheets.count
     @total_budgets = current_user.budgets.count
+    @total_savings_plans = current_user.savings_plans.count
 
     if @latest_balance_sheet
       @current_net_worth = @latest_balance_sheet.net_worth

@@ -6,7 +6,7 @@
 </div>
 
 <div class="row mb-4">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Cuentas</h5>
@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Balances Generales</h5>
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Presupuestos</h5>
@@ -30,7 +30,15 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Planes de Ahorro</h5>
+        <h2 class="text-warning"><%= @total_savings_plans %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
     <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Patrimonio Neto</h5>
@@ -52,7 +60,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Últimas Cuentas</h5>
@@ -76,7 +84,7 @@
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Presupuestos Recientes</h5>
@@ -105,6 +113,36 @@
         <% else %>
           <p class="text-muted">No tienes presupuestos aún.</p>
           <%= link_to "Crear presupuesto", new_budget_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Planes de Ahorro</h5>
+        <%= link_to "Ver todos", savings_plans_path, class: "btn btn-sm btn-outline-primary" %>
+      </div>
+      <div class="card-body">
+        <% if @latest_savings_plans.any? %>
+          <ul class="list-group list-group-flush">
+            <% @latest_savings_plans.each do |plan| %>
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                  <%= link_to plan.name, plan, class: "text-decoration-none" %>
+                  <span class="badge bg-warning text-dark"><%= plan.total_installments %> cuotas</span>
+                </div>
+                <small class="text-muted">Meta: <%= number_to_currency(plan.goal_amount) %></small>
+                <div class="mt-2">
+                  <span class="badge bg-secondary">Interés anual: <%= number_to_percentage(plan.annual_interest_rate, precision: 2) %></span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No tienes planes de ahorro aún.</p>
+          <%= link_to "Crear plan de ahorro", new_savings_plan_path, class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>

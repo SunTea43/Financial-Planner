@@ -1,0 +1,20 @@
+one:
+  savings_plan: one
+  entry_date: 2026-02-01
+  amount: 10000.00
+  frequency: manual
+  notes: Primera cuota
+
+two:
+  savings_plan: one
+  entry_date: 2026-03-01
+  amount: 10000.00
+  frequency: manual
+  notes: Segunda cuota
+
+three:
+  savings_plan: two
+  entry_date: 2026-02-15
+  amount: 4000.00
+  frequency: automatic
+  notes: Depósito automático

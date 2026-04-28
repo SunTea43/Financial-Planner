@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1><%= SavingsPlan.model_name.human.pluralize %></h1>
+  <%= link_to t("views.savings_plans.index.new"), new_savings_plan_path, class: "btn btn-primary" %>
+</div>
+
+<% if @savings_plans.any? %>
+  <div class="row">
+    <% @savings_plans.each do |plan| %>
+      <% projection = plan.projection %>
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><%= plan.name %></h5>
+            <span class="badge bg-warning text-dark"><%= projection[:installments] %> cuotas</span>
+          </div>
+          <div class="card-body">
+            <p class="mb-2"><strong><%= t("views.savings_plans.index.goal") %>:</strong> <%= number_to_currency(plan.goal_amount) %></p>
+            <p class="mb-2"><strong><%= t("views.savings_plans.index.term") %>:</strong> <%= l(plan.start_date) %> - <%= l(plan.target_date) %></p>
+            <p class="mb-3"><strong><%= t("views.savings_plans.index.rate") %>:</strong> <%= number_to_percentage(plan.annual_interest_rate, precision: 2) %></p>
+
+            <div class="row text-center">
+              <div class="col-6">
+                <small class="text-muted"><%= t("views.savings_plans.index.without_interest_installment") %></small>
+                <h6 class="text-danger"><%= number_to_currency(projection[:installment_without_interest]) %></h6>
+              </div>
+              <div class="col-6">
+                <small class="text-muted"><%= t("views.savings_plans.index.with_interest_installment") %></small>
+                <h6 class="text-success"><%= number_to_currency(projection[:installment_with_interest]) %></h6>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group w-100" role="group">
+              <%= link_to t("views.savings_plans.index.view"), plan, class: "btn btn-sm btn-primary" %>
+              <%= link_to t("views.savings_plans.index.edit"), edit_savings_plan_path(plan), class: "btn btn-sm btn-secondary" %>
+              <%= link_to t("views.savings_plans.index.destroy"), plan,
+                          data: { turbo_method: :delete, turbo_confirm: t("views.common.confirm_destroy") },
+                          class: "btn btn-sm btn-danger" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    <p><%= t("views.savings_plans.index.empty") %></p>
+    <%= link_to t("views.savings_plans.index.create_first"), new_savings_plan_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

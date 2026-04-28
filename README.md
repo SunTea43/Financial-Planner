@@ -7,6 +7,7 @@ Aplicación web para organizar finanzas personales desarrollada con Ruby on Rail
 - **Gestión de Cuentas**: Crea y gestiona múltiples cuentas de diferentes tipos (corriente, ahorros, inversión, tarjeta de crédito, préstamos, etc.)
 - **Balance General**: Registra activos líquidos, activos fijos, pasivos y calcula automáticamente el patrimonio neto. Almacena fecha y hora exacta del registro.
 - **Presupuestos**: Crea presupuestos con periodicidad configurable (mensual por defecto) definiendo ingresos, gastos y cálculo automático del flujo de caja libre.
+- **Planes de Ahorro**: Simula metas de ahorro con plazo e interés anual esperado, proyectando cuotas, ahorro mensual requerido y ventaja en efectivo anual con y sin rendimiento.
 - **Reportes**: Genera reportes de balance general con filtros por cuenta y fechas, mostrando totales y promedios de patrimonio neto.
 
 ## Tecnologías
@@ -119,6 +120,7 @@ Para problemas con variables de entorno en Railway, consulta [RAILWAY_DEPLOYMENT
 - **Liability**: Pasivos (corto y largo plazo) asociados a un balance
 - **Budget**: Presupuestos con periodicidad configurable
 - **BudgetItem**: Items de presupuesto (ingresos y gastos)
+- **SavingsPlan**: Simulaciones persistentes de metas de ahorro con proyección mensual y comparativa entre ahorro puro vs ahorro con interés
 
 ### Características Técnicas
 
@@ -135,7 +137,44 @@ Para problemas con variables de entorno en Railway, consulta [RAILWAY_DEPLOYMENT
 2. **Crear Cuentas**: Desde el menú, crea tus cuentas financieras
 3. **Registrar Balance General**: Crea un balance general con tus activos y pasivos actuales
 4. **Crear Presupuestos**: Define presupuestos mensuales (u otra periodicidad) con ingresos y gastos
-5. **Ver Reportes**: Genera reportes filtrados de tus balances generales
+5. **Simular Planes de Ahorro**: Define meta, plazo e interés anual esperado para ver cuotas, proyección y ahorro anual comparativo
+6. **Ver Reportes**: Genera reportes filtrados de tus balances generales
+
+## Planes de Ahorro: cómo funciona
+
+La funcionalidad de planes de ahorro permite guardar simulaciones para objetivos financieros (por ejemplo, fondo de emergencia, inicial de vivienda o viaje) y comparar dos escenarios:
+
+- **Ahorro sin interés**: cuánto debes apartar cada mes para llegar a la meta sin rendimiento.
+- **Ahorro con interés**: cuánto debes aportar cada mes si el ahorro genera un rendimiento anual esperado.
+
+### Datos de entrada
+
+- Nombre del plan
+- Monto objetivo (meta)
+- Fecha de inicio
+- Fecha objetivo (plazo)
+- Tasa de interés anual esperada (en %)
+
+### Resultados que entrega
+
+- Cantidad total de cuotas (mensuales)
+- Monto por cuota sin interés
+- Monto por cuota con interés
+- Total aportado en cada escenario
+- Interés ganado estimado
+- Ventaja en efectivo anual (diferencia de desembolso anual entre ambos escenarios)
+- Gráfica comparativa de proyección mensual (sin interés, con interés y línea de meta)
+
+### Fórmulas aplicadas
+
+Para un plazo de $n$ meses y tasa mensual $r = \frac{\text{tasa anual}}{12}$:
+
+- Sin interés: $\text{cuota} = \frac{\text{meta}}{n}$
+- Con interés (anualidad ordinaria):
+
+   $$\text{cuota} = \frac{\text{meta}}{\frac{(1+r)^n - 1}{r}}$$
+
+Si la tasa es 0%, ambos escenarios usan la misma cuota.
 
 ## Desarrollo
 

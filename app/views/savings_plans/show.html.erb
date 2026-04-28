@@ -1,0 +1,166 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1><%= @savings_plan.name %></h1>
+    <p class="text-muted mb-0">
+      <%= l(@savings_plan.start_date) %> - <%= l(@savings_plan.target_date) %> | <%= number_to_percentage(@savings_plan.annual_interest_rate, precision: 2) %> anual
+    </p>
+  </div>
+  <div class="btn-group" role="group">
+    <%= link_to t("views.savings_plans.show.entries"), savings_plan_savings_plan_entries_path(@savings_plan), class: "btn btn-info" %>
+    <%= link_to t("views.savings_plans.show.edit"), edit_savings_plan_path(@savings_plan), class: "btn btn-secondary" %>
+    <%= link_to t("views.savings_plans.show.destroy"), @savings_plan,
+                data: { turbo_method: :delete, turbo_confirm: t("views.common.confirm_destroy") },
+                class: "btn btn-danger" %>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= t("views.savings_plans.show.goal") %></h6>
+        <h4><%= number_to_currency(@savings_plan.goal_amount) %></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= t("views.savings_plans.show.installments") %></h6>
+        <h4><%= @projection[:installments] %></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= t("views.savings_plans.show.without_interest_installment") %></h6>
+        <h4 class="text-danger"><%= number_to_currency(@projection[:installment_without_interest]) %></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= t("views.savings_plans.show.with_interest_installment") %></h6>
+        <h4 class="text-success"><%= number_to_currency(@projection[:installment_with_interest]) %></h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plans.show.without_interest_scenario") %></h5>
+      </div>
+      <div class="card-body">
+        <p><strong><%= t("views.savings_plans.show.total_contributed") %>:</strong> <%= number_to_currency(@projection[:total_contributed_without_interest]) %></p>
+        <p><strong><%= t("views.savings_plans.show.annual_outlay") %>:</strong> <%= number_to_currency(@projection[:annual_outlay_without_interest]) %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plans.show.with_interest_scenario") %></h5>
+      </div>
+      <div class="card-body">
+        <p><strong><%= t("views.savings_plans.show.total_contributed") %>:</strong> <%= number_to_currency(@projection[:total_contributed_with_interest]) %></p>
+        <p><strong><%= t("views.savings_plans.show.interest_earned") %>:</strong> <%= number_to_currency(@projection[:estimated_interest_earned]) %></p>
+        <p><strong><%= t("views.savings_plans.show.annual_outlay") %>:</strong> <%= number_to_currency(@projection[:annual_outlay_with_interest]) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="mb-0"><%= t("views.savings_plans.show.annual_advantage_title") %></h5>
+    <span class="badge <%= @projection[:annual_cash_advantage] >= 0 ? 'bg-success' : 'bg-danger' %>">
+      <%= number_to_currency(@projection[:annual_cash_advantage]) %>
+    </span>
+  </div>
+  <div class="card-body">
+    <p class="mb-0"><%= t("views.savings_plans.show.annual_advantage_description") %></p>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0"><%= t("views.savings_plans.show.same_installment_scenario") %></h5>
+  </div>
+  <div class="card-body">
+    <p class="mb-2"><small class="text-muted"><%= t("views.savings_plans.show.same_installment_explanation") %></small></p>
+    <div class="row">
+      <div class="col-md-4">
+        <strong><%= t("views.savings_plans.show.same_installment_amount") %>:</strong>
+        <h6 class="text-primary"><%= number_to_currency(@projection[:installment_without_interest]) %></h6>
+      </div>
+      <div class="col-md-4">
+        <strong><%= t("views.savings_plans.show.months_to_goal_at_this_pace") %>:</strong>
+        <h6 class="text-success"><%= @projection[:same_installment_periods] %> <%= t("views.common.months") %></h6>
+      </div>
+      <div class="col-md-4">
+        <strong><%= t("views.savings_plans.show.months_saved") %>:</strong>
+        <h6 class="text-info"><%= @projection[:same_installment_months_saved] %> <%= t("views.common.months") %></h6>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plans.show.projection_chart") %></h5>
+      </div>
+      <div class="card-body">
+        <canvas data-controller="savings-plan-chart"
+                data-savings-plan-chart-data-value="<%= @projection[:chart].to_json %>"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plans.show.comparison_chart") %></h5>
+      </div>
+      <div class="card-body">
+        <canvas data-controller="savings-plan-comparison-chart"
+                data-savings-plan-comparison-chart-data-value="<%= @projection[:chart].to_json %>"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0"><%= t("views.savings_plans.show.projection_detail") %></h5>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table mb-0">
+        <thead>
+          <tr>
+            <th><%= t("views.savings_plans.show.month") %></th>
+            <th class="text-end"><%= t("views.savings_plans.show.without_interest_accumulated") %></th>
+            <th class="text-end"><%= t("views.savings_plans.show.with_interest_accumulated") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @projection[:chart][:labels].each_with_index do |label, idx| %>
+            <tr>
+              <td><%= label %></td>
+              <td class="text-end"><%= number_to_currency(@projection[:chart][:without_interest][idx]) %></td>
+              <td class="text-end"><%= number_to_currency(@projection[:chart][:with_interest][idx]) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%= link_to t("views.savings_plans.show.back"), savings_plans_path, class: "btn btn-outline-secondary" %>

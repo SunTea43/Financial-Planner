@@ -8,6 +8,18 @@ es:
         delimiter: "."
         format: "%u%n"
   hello: "Hola mundo"
+  views:
+    common:
+      months: "meses"
+      month: "mes"
+      actions: "Acciones"
+      view: "Ver"
+      edit: "Editar"
+      delete: "Eliminar"
+      back: "Volver"
+      cancel: "Cancelar"
+      entries: "Cuotas"
+      confirm_destroy: "¿Estás seguro?"
   date:
     formats:
       default: "%d/%m/%Y"
@@ -45,7 +57,7 @@ es:
       title: "Importar Datos"
       subtitle: "Restaura una copia de tu información financiera"
       card_title: "Importación de Datos"
-      description_html: "Sube tu archivo de respaldo (en formato JSON) para importar tus datos anteriores. Ten en cuenta que se <strong>crearán nuevos registros</strong> (cuentas, balances, presupuestos) asociados a tu usuario actual basándose en la información del archivo."
+      description_html: "Sube tu archivo de respaldo (en formato JSON) para importar tus datos anteriores. Ten en cuenta que se <strong>crearán nuevos registros</strong> (cuentas, balances, presupuestos y planes de ahorro) asociados a tu usuario actual basándose en la información del archivo."
       warning_html: "Asegúrate de que estás subiendo el archivo de exportación generado por esta aplicación."
       file_label: "Seleccionar archivo .json"
       submit: "Importar Datos"
@@ -59,6 +71,6 @@ es:
       title: "Exportar Datos"
       subtitle: "Descarga una copia de tu información financiera"
       card_title: "Exportación de Datos"
-      description: "Puedes exportar todos tus datos (cuentas, presupuestos, balances) en formato JSON. Este archivo puede ser utilizado para importar tu información en otra instancia de esta aplicación o para mantener una copia de seguridad personal."
-      warning_html: "El archivo incluirá:<ul><li>Cuentas registradas</li><li>Historial de balances generales (activos y pasivos)</li><li>Presupuestos y sus partidas</li></ul>"
+      description: "Puedes exportar todos tus datos (cuentas, presupuestos, balances y planes de ahorro) en formato JSON. Este archivo puede ser utilizado para importar tu información en otra instancia de esta aplicación o para mantener una copia de seguridad personal."
+      warning_html: "El archivo incluirá:<ul><li>Cuentas registradas</li><li>Historial de balances generales (activos y pasivos)</li><li>Presupuestos y sus partidas</li><li>Planes de ahorro y su configuración</li></ul>"
       submit: "Descargar Datos (JSON)"

@@ -1,0 +1,35 @@
+<%= simple_form_for @savings_plan do |f| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :name, label: SavingsPlan.human_attribute_name(:name), placeholder: "Ej: Fondo de emergencia" %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :goal_amount, label: SavingsPlan.human_attribute_name(:goal_amount), input_html: { step: 0.01 }, placeholder: "Ej: 120000" %>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <%= f.input :start_date, as: :date, label: SavingsPlan.human_attribute_name(:start_date) %>
+        </div>
+        <div class="col-md-4">
+          <%= f.input :target_date, as: :date, label: SavingsPlan.human_attribute_name(:target_date) %>
+        </div>
+        <div class="col-md-4">
+          <%= f.input :annual_interest_rate,
+                      label: SavingsPlan.human_attribute_name(:annual_interest_rate),
+                      hint: t("views.savings_plans.form.annual_interest_hint"),
+                      input_html: { step: 0.01, min: 0, max: 100 },
+                      placeholder: "Ej: 8.5" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <%= link_to t("views.savings_plans.form.cancel"), savings_plans_path, class: "btn btn-secondary" %>
+    <%= f.submit submit_label, class: "btn btn-primary" %>
+  </div>
+<% end %>

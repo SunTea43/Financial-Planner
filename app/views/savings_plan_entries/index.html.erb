@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><%= t("views.savings_plan_entries.index.title") %></h2>
+  <%= link_to t("views.savings_plan_entries.index.new"), new_savings_plan_savings_plan_entry_path(@savings_plan), class: "btn btn-primary" %>
+</div>
+
+<div class="table-responsive">
+  <% if @entries.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= t("views.savings_plan_entries.index.date") %></th>
+          <th><%= t("views.savings_plan_entries.index.amount") %></th>
+          <th><%= t("views.savings_plan_entries.index.frequency") %></th>
+          <th><%= t("views.savings_plan_entries.index.notes") %></th>
+          <th><%= t("views.common.actions") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @entries.each do |entry| %>
+          <tr>
+            <td><%= l(entry.entry_date) %></td>
+            <td><strong><%= number_to_currency(entry.amount) %></strong></td>
+            <td><span class="badge bg-info"><%= t("views.savings_plan_entries.index.frequency_#{entry.frequency}") %></span></td>
+            <td><%= entry.notes&.truncate(50) %></td>
+            <td>
+              <div class="btn-group btn-group-sm" role="group">
+                <%= link_to t("views.common.edit"), edit_savings_plan_savings_plan_entry_path(@savings_plan, entry), class: "btn btn-secondary" %>
+                <%= link_to t("views.common.delete"), savings_plan_savings_plan_entry_path(@savings_plan, entry),
+                            data: { turbo_method: :delete, turbo_confirm: t("views.common.confirm_destroy") },
+                            class: "btn btn-danger" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="mb-0"><%= t("views.savings_plan_entries.index.summary") %></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <strong><%= t("views.savings_plan_entries.index.total_saved") %></strong>
+            <h4><%= number_to_currency(@savings_plan.total_saved) %></h4>
+          </div>
+          <div class="col-md-3">
+            <strong><%= t("views.savings_plan_entries.index.average_monthly") %></strong>
+            <h4><%= number_to_currency(@savings_plan.average_monthly_savings) %></h4>
+          </div>
+          <div class="col-md-3">
+            <strong><%= t("views.savings_plan_entries.index.progress") %></strong>
+            <h4><%= number_to_percentage(@savings_plan.progress_percentage, precision: 1) %></h4>
+          </div>
+          <div class="col-md-3">
+            <strong><%= t("views.savings_plan_entries.index.months_to_goal") %></strong>
+            <h4><%= @savings_plan.months_until_goal_at_current_pace %> <%= t("views.common.months") %></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      <p><%= t("views.savings_plan_entries.index.empty") %></p>
+      <%= link_to t("views.savings_plan_entries.index.create_first"), new_savings_plan_savings_plan_entry_path(@savings_plan), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to t("views.common.back"), @savings_plan, class: "btn btn-outline-secondary mt-3" %>

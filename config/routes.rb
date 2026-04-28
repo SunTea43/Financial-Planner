@@ -26,12 +26,17 @@ Rails.application.routes.draw do
   end
 
   resources :budgets, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
+  resources :savings_plans do
+    resources :savings_plan_entries, only: [ :index, :new, :create, :edit, :update, :destroy ]
+  end
 
   resources :reports, only: [ :index ] do
     collection do
       get :balance_sheet, path: "balance_sheet"
     end
   end
+
+  resources :savings_reports, only: [:index]
 
   resource :data_export, only: [ :show, :create ]
   resource :data_import, only: [ :new, :create ]
