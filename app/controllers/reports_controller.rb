@@ -2,6 +2,19 @@ class ReportsController < ApplicationController
   def index
   end
 
+  def savings
+    @plans_summary = current_user.savings_plans.map do |plan|
+      {
+        plan: plan,
+        total_saved: plan.total_saved,
+        progress_percentage: plan.progress_percentage,
+        status: calculate_status(plan),
+        average_monthly: plan.average_monthly_savings,
+        months_to_goal: plan.months_until_goal_at_current_pace
+      }
+    end
+  end
+
   def balance_sheet
     @account_id = params[:account_id]
     @start_date = params[:start_date].presence
@@ -32,5 +45,23 @@ class ReportsController < ApplicationController
     @average_assets = count > 0 ? @total_assets / count : 0
     @average_liabilities = count > 0 ? @total_liabilities / count : 0
     @average_net_worth = count > 0 ? @total_net_worth / count : 0
+  end
+
+  private
+
+  def calculate_status(plan)
+    progress = plan.progress_percentage
+    case progress
+    when 0..20
+      :at_risk
+    when 20..50
+      :on_track_low
+    when 50..80
+      :on_track_medium
+    when 80..99.99
+      :on_track_high
+    else
+      :completed
+    end
   end
 end

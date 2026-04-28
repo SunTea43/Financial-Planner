@@ -1,0 +1,69 @@
+<div class="row mb-4">
+  <div class="col-12">
+    <h1><%= t("views.savings_reports.index.title") %></h1>
+    <p class="text-muted"><%= t("views.savings_reports.index.subtitle") %></p>
+  </div>
+</div>
+
+<% if @plans_summary.any? %>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= t("views.savings_reports.index.plan_name") %></th>
+          <th class="text-end"><%= t("views.savings_reports.index.goal") %></th>
+          <th class="text-end"><%= t("views.savings_reports.index.saved") %></th>
+          <th class="text-end"><%= t("views.savings_reports.index.progress") %></th>
+          <th class="text-center"><%= t("views.savings_reports.index.status") %></th>
+          <th class="text-end"><%= t("views.savings_reports.index.monthly_average") %></th>
+          <th class="text-end"><%= t("views.savings_reports.index.months_to_goal") %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @plans_summary.each do |summary| %>
+          <tr>
+            <td>
+              <strong><%= link_to summary[:plan].name, summary[:plan], class: "text-decoration-none" %></strong>
+            </td>
+            <td class="text-end"><%= number_to_currency(summary[:plan].goal_amount) %></td>
+            <td class="text-end"><strong class="text-success"><%= number_to_currency(summary[:total_saved]) %></strong></td>
+            <td class="text-end">
+              <div class="progress" style="min-width: 100px;">
+                <div class="progress-bar <%= progress_bar_class(summary[:progress_percentage]) %>" 
+                     role="progressbar" 
+                     style="width: <%= summary[:progress_percentage] %>%"
+                     aria-valuenow="<%= summary[:progress_percentage] %>" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                  <%= number_to_percentage(summary[:progress_percentage], precision: 0) %>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="badge <%= status_badge_class(summary[:status]) %>">
+                <%= t("views.savings_reports.index.status_#{summary[:status]}") %>
+              </span>
+            </td>
+            <td class="text-end"><%= number_to_currency(summary[:average_monthly]) %></td>
+            <td class="text-end">
+              <% if summary[:months_to_goal] > 0 %>
+                <small class="text-muted"><%= summary[:months_to_goal] %> <%= t("views.common.months") %></small>
+              <% else %>
+                <small class="text-success"><%= t("views.savings_reports.index.completed") %></small>
+              <% end %>
+            </td>
+            <td class="text-end">
+              <%= link_to t("views.common.view"), summary[:plan], class: "btn btn-sm btn-primary" %>
+              <%= link_to t("views.common.entries"), savings_plan_savings_plan_entries_path(summary[:plan]), class: "btn btn-sm btn-info" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    <p><%= t("views.savings_reports.index.empty") %></p>
+  </div>
+<% end %>
