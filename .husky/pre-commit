@@ -1,0 +1,7 @@
+RUBY_FILES=$(git diff --cached --name-only | grep -E '\.(rb|erb)$' || true)
+
+if [ -z "$RUBY_FILES" ]; then
+  exit 0
+fi
+
+bundle exec rubocop $RUBY_FILES
