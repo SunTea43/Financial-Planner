@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   resources :reports, only: [ :index ] do
     collection do
       get :balance_sheet, path: "balance_sheet"
+      get :savings, path: "savings"
     end
   end
 

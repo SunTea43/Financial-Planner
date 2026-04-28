@@ -1,18 +1,18 @@
 require "test_helper"
 
-class SavingsReportsControllerTest < ActionDispatch::IntegrationTest
+class ReportsSavingsTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
     sign_in @user
   end
 
-  test "should get savings reports index" do
-    get savings_reports_url
+  test "should get savings reports from reports savings path" do
+    get savings_reports_path
     assert_response :success
   end
 
   test "should show all user plans in summary" do
-    get savings_reports_url
+    get savings_reports_path
     assert_response :success
 
     assert_select "table" do
