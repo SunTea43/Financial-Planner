@@ -1,0 +1,61 @@
+en:
+  activerecord:
+    models:
+      savings_plan_entry: "Savings Installment"
+    attributes:
+      savings_plan_entry:
+        entry_date: "Installment date"
+        amount: "Amount"
+        frequency: "Frequency"
+        notes: "Notes"
+        frequency_list:
+          manual: "Manual"
+          automatic: "Automatic"
+  controllers:
+    savings_plan_entries:
+      created: "Installment recorded successfully."
+      updated: "Installment updated successfully."
+      deleted: "Installment deleted successfully."
+    savings_reports:
+      retrieved: "Report generated successfully."
+  views:
+    savings_plan_entries:
+      index:
+        title: "Installments Tracking"
+        new: "Record installment"
+        date: "Date"
+        amount: "Amount"
+        frequency: "Frequency"
+        notes: "Notes"
+        frequency_manual: "Manual"
+        frequency_automatic: "Automatic"
+        summary: "Savings summary"
+        total_saved: "Total saved"
+        average_monthly: "Monthly average"
+        progress: "Progress"
+        months_to_goal: "Months to goal"
+        empty: "No installments recorded yet."
+        create_first: "Record first installment"
+      form:
+        new_title: "Record New Installment"
+        edit_title: "Edit Installment"
+        submit: "Save Installment"
+        submit_update: "Update Installment"
+    savings_reports:
+      index:
+        title: "Savings Plans Report"
+        subtitle: "Summary of progress and status of all your plans"
+        plan_name: "Plan"
+        goal: "Goal"
+        saved: "Saved"
+        progress: "Progress"
+        status: "Status"
+        monthly_average: "Monthly Average"
+        months_to_goal: "Months to Goal"
+        status_at_risk: "At Risk"
+        status_on_track_low: "On Track (Low)"
+        status_on_track_medium: "On Track (Medium)"
+        status_on_track_high: "Excellent"
+        status_completed: "Completed"
+        completed: "✓ Completed"
+        empty: "You don't have any savings plans yet."

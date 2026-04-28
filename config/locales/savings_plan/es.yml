@@ -1,0 +1,74 @@
+es:
+  activerecord:
+    errors:
+      models:
+        savings_plan:
+          attributes:
+            target_date:
+              after_start_date: "debe ser igual o posterior a la fecha de inicio"
+    models:
+      savings_plan: "Plan de Ahorro"
+    attributes:
+      savings_plan:
+        name: "Nombre del plan"
+        goal_amount: "Monto objetivo"
+        start_date: "Fecha de inicio"
+        target_date: "Fecha objetivo"
+        annual_interest_rate: "Tasa de interes anual (%)"
+  controllers:
+    savings_plans:
+      created: "Plan de ahorro creado exitosamente."
+      updated: "Plan de ahorro actualizado exitosamente."
+      deleted: "Plan de ahorro eliminado exitosamente."
+  views:
+    savings_plans:
+      index:
+        new: "Nuevo Plan de Ahorro"
+        empty: "No hay planes de ahorro registrados."
+        create_first: "Crear primer plan"
+        goal: "Meta"
+        term: "Plazo"
+        rate: "Tasa anual"
+        without_interest_installment: "Cuota sin interes"
+        with_interest_installment: "Cuota con interes"
+        view: "Ver"
+        edit: "Editar"
+        destroy: "Eliminar"
+      form:
+        annual_interest_hint: "Porcentaje anual estimado del rendimiento de tu inversion."
+        cancel: "Cancelar"
+        submit_create: "Crear Plan"
+        submit_update: "Actualizar Plan"
+      new:
+        title: "Nuevo Plan de Ahorro"
+        subtitle: "Define tu meta, plazo y tasa esperada para calcular tu estrategia de ahorro."
+      edit:
+        title: "Editar Plan de Ahorro"
+        subtitle: "Ajusta la meta o el rendimiento esperado y revisa la nueva proyeccion."
+      show:
+        back: "Volver a Planes"
+        edit: "Editar"
+        destroy: "Eliminar"
+        entries: "Ver Cuotas"
+        goal: "Meta"
+        installments: "Cuotas"
+        without_interest_installment: "Cuota mensual sin interes"
+        with_interest_installment: "Cuota mensual con interes"
+        without_interest_scenario: "Escenario: ahorro sin interes"
+        with_interest_scenario: "Escenario: ahorro con interes"
+        total_contributed: "Total aportado"
+        interest_earned: "Interes ganado estimado"
+        annual_outlay: "Desembolso anual"
+        annual_advantage_title: "Ventaja en efectivo anual"
+        annual_advantage_description: "Esta cifra muestra cuanto efectivo anual dejas de desembolsar al aprovechar rendimiento sobre el ahorro frente a ahorrar sin interes."
+        same_installment_scenario: "Escenario: mismo ahorro fijo con interes"
+        same_installment_explanation: "Si ahorras el mismo monto mensual que en el escenario sin interes, pero lo inviertes con la tasa de interes:"
+        same_installment_amount: "Monto mensual"
+        months_to_goal_at_this_pace: "Alcanzarias la meta en"
+        months_saved: "Meses ahorrados"
+        projection_chart: "Grafica de proyeccion"
+        comparison_chart: "Grafica comparativa"
+        projection_detail: "Detalle mensual"
+        month: "Mes"
+        without_interest_accumulated: "Acumulado sin interes"
+        with_interest_accumulated: "Acumulado con interes"
