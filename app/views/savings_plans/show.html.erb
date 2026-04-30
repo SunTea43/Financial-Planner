@@ -68,6 +68,7 @@
       <div class="card-body">
         <p><strong><%= t("views.savings_plans.show.total_contributed") %>:</strong> <%= number_to_currency(@projection[:total_contributed_without_interest]) %></p>
         <p><strong><%= t("views.savings_plans.show.annual_outlay") %>:</strong> <%= number_to_currency(@projection[:annual_outlay_without_interest]) %></p>
+        <p class="mb-0"><small class="text-muted"><%= t("views.savings_plans.show.annual_outlay_detail") %></small></p>
       </div>
     </div>
   </div>
@@ -80,6 +81,7 @@
         <p><strong><%= t("views.savings_plans.show.total_contributed") %>:</strong> <%= number_to_currency(@projection[:total_contributed_with_interest]) %></p>
         <p><strong><%= t("views.savings_plans.show.interest_earned") %>:</strong> <%= number_to_currency(@projection[:estimated_interest_earned]) %></p>
         <p><strong><%= t("views.savings_plans.show.annual_outlay") %>:</strong> <%= number_to_currency(@projection[:annual_outlay_with_interest]) %></p>
+        <p class="mb-0"><small class="text-muted"><%= t("views.savings_plans.show.annual_outlay_detail") %></small></p>
       </div>
     </div>
   </div>

@@ -35,6 +35,7 @@ class SavingsPlansControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, I18n.t("views.savings_plans.show.initial_capital")
     assert_includes response.body, ActionController::Base.helpers.number_to_currency(20000)
+    assert_includes response.body, I18n.t("views.savings_plans.show.annual_outlay_detail")
   end
 
   test "should hide initial capital in show when value is zero" do

@@ -64,6 +64,7 @@ en:
         total_contributed: "Total contributed"
         interest_earned: "Estimated interest earned"
         annual_outlay: "Annual outlay"
+        annual_outlay_detail: "This is the money you would need to contribute out of pocket over 12 months based on this scenario's monthly installment (excluding returns)."
         annual_advantage_title: "Annual cash advantage"
         annual_advantage_description: "This value shows how much annual cash outlay you reduce by using investment returns instead of pure savings."
         same_installment_scenario: "Scenario: same fixed savings with interest"

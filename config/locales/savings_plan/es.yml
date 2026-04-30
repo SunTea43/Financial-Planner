@@ -64,6 +64,7 @@ es:
         total_contributed: "Total aportado"
         interest_earned: "Interes ganado estimado"
         annual_outlay: "Desembolso anual"
+        annual_outlay_detail: "Es el dinero que tendrias que aportar de tu bolsillo en 12 meses segun la cuota mensual de este escenario (sin contar rendimientos)."
         annual_advantage_title: "Ventaja en efectivo anual"
         annual_advantage_description: "Esta cifra muestra cuanto efectivo anual dejas de desembolsar al aprovechar rendimiento sobre el ahorro frente a ahorrar sin interes."
         same_installment_scenario: "Escenario: mismo ahorro fijo con interes"
