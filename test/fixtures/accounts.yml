@@ -19,11 +19,13 @@
 one:
   user: one
   name: MyString
-  account_type: MyString
+  account_type: checking
+  preferred_currency: COP
   description: MyText
 
 two:
   user: two
   name: MyString
-  account_type: MyString
+  account_type: savings
+  preferred_currency: USD
   description: MyText

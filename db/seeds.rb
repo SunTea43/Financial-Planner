@@ -5,11 +5,11 @@ last_month_recorded_at = last_month_end.to_time.change(hour: 12)
 user = User.find_or_create_by!(email: "seed.user@example.com") do |u|
   u.password = "password123"
   u.password_confirmation = "password123"
-  u.preferred_currency = User::DEFAULT_CURRENCY
 end
 
 account = user.accounts.find_or_create_by!(name: "Cuenta Principal", account_type: "checking") do |a|
   a.description = "Cuenta semilla para desarrollo"
+  a.preferred_currency = Account::DEFAULT_CURRENCY
 end
 
 balance_sheet = user.balance_sheets.find_or_initialize_by(account: account, recorded_at: last_month_recorded_at)

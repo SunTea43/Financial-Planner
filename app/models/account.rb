@@ -16,14 +16,38 @@
 #  index_accounts_on_user_id_and_account_type  (user_id,account_type)
 #
 class Account < ApplicationRecord
+  DEFAULT_CURRENCY = "COP".freeze
+  SUPPORTED_CURRENCIES = YAML.load_file(Rails.root.join("config/currencies.yml")).transform_values do |opts|
+    opts.transform_keys(&:to_sym)
+  end.freeze
+
   belongs_to :user
   has_many :balance_sheets, dependent: :nullify
   has_many :budgets, dependent: :nullify
 
+  before_validation :set_default_preferred_currency
+
   validates :name, presence: true
   validates :account_type, presence: true
+  validates :preferred_currency, inclusion: { in: SUPPORTED_CURRENCIES.keys }
 
   ACCOUNT_TYPES = %w[checking savings investment credit_card loan investment_retirement other].freeze
 
   validates :account_type, inclusion: { in: ACCOUNT_TYPES }
+
+  def self.currency_options
+    SUPPORTED_CURRENCIES.keys.map do |code|
+      [ I18n.t("currencies.#{code}", default: code), code ]
+    end
+  end
+
+  def currency_format_options
+    SUPPORTED_CURRENCIES.fetch(preferred_currency, SUPPORTED_CURRENCIES[DEFAULT_CURRENCY])
+  end
+
+  private
+
+  def set_default_preferred_currency
+    self.preferred_currency = DEFAULT_CURRENCY if preferred_currency.blank?
+  end
 end

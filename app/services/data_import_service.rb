@@ -7,8 +7,7 @@ class DataImportService
 
   def call
     ActiveRecord::Base.transaction do
-      import_user_settings
-      import_accounts
+      import_accounts(imported_default_currency)
       import_balance_sheets
       import_budgets
       import_savings_plans
@@ -17,23 +16,23 @@ class DataImportService
 
   private
 
-  def import_user_settings
+  def imported_default_currency
     settings = @data["user_settings"] || {}
-    preferred_currency = settings["preferred_currency"]
-    return if preferred_currency.blank?
-
-    @user.update!(preferred_currency: preferred_currency)
+    settings["preferred_currency"].presence
   end
 
-  def import_accounts
+  def import_accounts(default_currency = nil)
     return unless @data["accounts"]
 
     @data["accounts"].each do |account_attrs|
       old_id = account_attrs["id"]
+      preferred_currency = account_attrs["preferred_currency"].presence || default_currency || Account::DEFAULT_CURRENCY
+
       new_account = @user.accounts.create!(
         name: account_attrs["name"],
         account_type: account_attrs["account_type"],
         description: account_attrs["description"],
+        preferred_currency: preferred_currency,
         created_at: account_attrs["created_at"],
         updated_at: account_attrs["updated_at"]
       )

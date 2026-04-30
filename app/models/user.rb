@@ -17,10 +17,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  # Backward-compatible alias for code paths still referencing user-level currency.
   DEFAULT_CURRENCY = "COP".freeze
-  SUPPORTED_CURRENCIES = YAML.load_file(Rails.root.join("config/currencies.yml")).transform_values do |opts|
-    opts.transform_keys(&:to_sym)
-  end.freeze
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -31,24 +29,4 @@ class User < ApplicationRecord
   has_many :balance_sheets, dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :savings_plans, dependent: :destroy
-
-  before_validation :set_default_preferred_currency
-
-  validates :preferred_currency, inclusion: { in: SUPPORTED_CURRENCIES.keys }
-
-  def self.currency_options
-    SUPPORTED_CURRENCIES.keys.map do |code|
-      [ I18n.t("currencies.#{code}", default: code), code ]
-    end
-  end
-
-  def currency_format_options
-    SUPPORTED_CURRENCIES.fetch(preferred_currency, SUPPORTED_CURRENCIES[DEFAULT_CURRENCY])
-  end
-
-  private
-
-  def set_default_preferred_currency
-    self.preferred_currency = DEFAULT_CURRENCY if preferred_currency.blank?
-  end
 end

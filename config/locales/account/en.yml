@@ -6,6 +6,7 @@ en:
       account:
         name: "Name"
         account_type: "Account Type"
+        preferred_currency: "Currency"
         description: "Description"
   controllers:
     accounts:
