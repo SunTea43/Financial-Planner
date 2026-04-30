@@ -2,10 +2,23 @@ name: CI
 
 on:
   pull_request:
+    types: [opened, ready_for_review]
   push:
     branches: [ main ]
 
 jobs:
+  request_copilot_review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Request Copilot review
+        run: gh pr edit "${{ github.event.pull_request.number }}" --add-reviewer copilot --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
   scan_ruby:
     runs-on: ubuntu-latest
 
