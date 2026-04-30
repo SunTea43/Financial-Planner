@@ -15,7 +15,7 @@
 </div>
 
 <div class="row mb-4">
-  <div class="col-md-3">
+  <div class="col-md">
     <div class="card text-center h-100">
       <div class="card-body">
         <h6 class="card-title"><%= t("views.savings_plans.show.goal") %></h6>
@@ -23,7 +23,15 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= t("views.savings_plans.show.initial_capital") %></h6>
+        <h4><%= number_to_currency(@savings_plan.initial_capital) %></h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md">
     <div class="card text-center h-100">
       <div class="card-body">
         <h6 class="card-title"><%= t("views.savings_plans.show.installments") %></h6>
@@ -31,7 +39,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md">
     <div class="card text-center h-100">
       <div class="card-body">
         <h6 class="card-title"><%= t("views.savings_plans.show.without_interest_installment") %></h6>
@@ -39,7 +47,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md">
     <div class="card text-center h-100">
       <div class="card-body">
         <h6 class="card-title"><%= t("views.savings_plans.show.with_interest_installment") %></h6>

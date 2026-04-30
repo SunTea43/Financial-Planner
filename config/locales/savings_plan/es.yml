@@ -55,6 +55,7 @@ es:
         destroy: "Eliminar"
         entries: "Ver Cuotas"
         goal: "Meta"
+        initial_capital: "Capital inicial"
         installments: "Cuotas"
         without_interest_installment: "Cuota mensual sin interes"
         with_interest_installment: "Cuota mensual con interes"
