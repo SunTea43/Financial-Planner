@@ -17,6 +17,9 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  # Backward-compatible alias for code paths still referencing user-level currency.
+  DEFAULT_CURRENCY = "COP".freeze
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
