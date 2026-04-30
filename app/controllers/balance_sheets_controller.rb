@@ -55,6 +55,7 @@ class BalanceSheetsController < ApplicationController
   def report
     @assets_chart_data = prepare_assets_chart_data
     @liabilities_chart_data = prepare_liabilities_chart_data
+    @historical_chart_data = prepare_historical_chart_data
 
     respond_to do |format|
       format.html
@@ -160,6 +161,26 @@ class BalanceSheetsController < ApplicationController
     {
       labels: labels,
       values: values
+    }
+  end
+
+  def prepare_historical_chart_data
+    # Obtener todos los balance sheets históricos del usuario para la cuenta actual, ordenados por fecha
+    historical_sheets = current_user.balance_sheets
+                                     .by_account(@balance_sheet.account_id)
+                                     .order(recorded_at: :asc)
+                                     .last(12) # Últimos 12 registros para mantener gráficos legibles
+
+    labels = historical_sheets.map { |bs| bs.recorded_at.strftime("%d/%m/%Y") }
+    assets_data = historical_sheets.map(&:total_assets)
+    liabilities_data = historical_sheets.map(&:total_liabilities)
+    net_worth_data = historical_sheets.map(&:net_worth)
+
+    {
+      labels: labels,
+      assetsData: assets_data,
+      liabilitiesData: liabilities_data,
+      netWorthData: net_worth_data
     }
   end
 end
