@@ -4,3 +4,5 @@ es:
       confirm_destroy: "¿Estás seguro?"
       select_prompt: "Seleccionar"
       none_specific: "Sin cuenta específica"
+      current_currency: "Moneda actual: %{currency}"
+      profile: "Mi perfil"

@@ -1,7 +1,9 @@
 es:
   activerecord:
     models:
-      balance_sheet: "Balance General"
+      balance_sheet: 
+        one: "Balance General"
+        other: "Balances Generales"
     attributes:
       balance_sheet:
         account_id: "Cuenta"

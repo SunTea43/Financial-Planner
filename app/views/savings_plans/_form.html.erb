@@ -1,6 +1,7 @@
 <%= simple_form_for @savings_plan do |f| %>
   <div class="card mb-4">
     <div class="card-body">
+      <p class="text-muted mb-3"><%= I18n.t("views.common.current_currency", currency: current_currency_code) %></p>
       <div class="row">
         <div class="col-md-6">
           <%= f.input :name, label: SavingsPlan.human_attribute_name(:name), placeholder: "Ej: Fondo de emergencia" %>

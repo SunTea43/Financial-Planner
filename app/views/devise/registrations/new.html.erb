@@ -12,6 +12,11 @@
                         required: true,
                         autofocus: true,
                         input_html: { autocomplete: "email" }%>
+            <%= f.input :preferred_currency,
+                        collection: User.currency_options,
+                        include_blank: false,
+                        label: I18n.t("devise.registrations.new.preferred_currency"),
+                        hint: I18n.t("devise.registrations.new.preferred_currency_hint") %>
             <%= f.input :password,
                         required: true,
                         hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),

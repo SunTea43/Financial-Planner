@@ -4,3 +4,5 @@ en:
       confirm_destroy: "Are you sure?"
       select_prompt: "Select"
       none_specific: "No specific account"
+      current_currency: "Current currency: %{currency}"
+      profile: "My profile"

@@ -14,6 +14,8 @@ class DataExportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should download export file" do
+    @user.update!(preferred_currency: "USD")
+
     post data_export_url
     assert_response :success
     assert_equal "application/json", response.media_type
@@ -24,6 +26,8 @@ class DataExportsControllerTest < ActionDispatch::IntegrationTest
     assert data.key?("balance_sheets")
     assert data.key?("budgets")
     assert data.key?("savings_plans")
+    assert data.key?("user_settings")
+    assert_equal "USD", data.dig("user_settings", "preferred_currency")
 
     exported_plan = data["savings_plans"].find { |plan| plan["name"] == savings_plans(:one).name }
     assert_not_nil exported_plan

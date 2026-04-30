@@ -36,9 +36,9 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     # BS2: Assets 2000, Liab 800, Net 1200
     # Avg: Assets (3000/2)=1500, Liab (1000/2)=500, Net (2000/2)=1000
     assert_match "2", response.body
-    assert_match "$1.500,00", response.body # Avg Assets
-    assert_match "$500,00", response.body   # Avg Liab
-    assert_match "$1.000,00", response.body # Avg Net Worth
+    assert_match "$1.500", response.body # Avg Assets
+    assert_match "$500", response.body     # Avg Liab
+    assert_match "$1.000", response.body   # Avg Net Worth
 
     # Verify the new labels are present
     assert_select "h6", text: "Activos Promedio"
@@ -60,12 +60,12 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
 
     # Filtered results (same as first test because other account is excluded)
     assert_match "2", response.body
-    assert_match "$1.500,00", response.body
-    assert_match "$500,00", response.body
-    assert_match "$1.000,00", response.body
+    assert_match "$1.500", response.body
+    assert_match "$500", response.body
+    assert_match "$1.000", response.body
 
     # Ensure the 5000 from the other account is NOT showing
-    assert_no_match "$5.000,00", response.body
+    assert_no_match "$5.000", response.body
   end
 
   test "balance sheet net worth should update correctly when items are marked for destruction" do

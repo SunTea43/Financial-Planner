@@ -58,6 +58,8 @@
                   <%= current_user.email %>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li><%= link_to I18n.t("views.common.profile"), edit_user_registration_path, class: "dropdown-item" %></li>
+                  <li><hr class="dropdown-divider"></li>
                   <li><%= link_to t("data_exports.show.title"), data_export_path, class: "dropdown-item" %></li>
                   <li><%= link_to t("data_imports.new.title"), new_data_import_path, class: "dropdown-item" %></li>
                   <li><hr class="dropdown-divider"></li>
