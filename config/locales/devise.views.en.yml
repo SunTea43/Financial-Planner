@@ -6,9 +6,13 @@ en:
     registrations:
       new:
         sign_up: "Sign up"
+        preferred_currency: "Preferred currency"
+        preferred_currency_hint: "This currency will be used to format all your amounts."
       edit:
         title: "Edit %{resource}"
         currently_waiting_confirmation_for_email: "Currently waiting confirmation for: %{email}"
+        preferred_currency: "Preferred currency"
+        preferred_currency_hint: "This currency will be used to format all your amounts."
         change_password: "Change password"
         leave_blank_if_you_don_t_want_to_change_it: "leave it blank if you don't want to change it"
         confirm_changes: "Confirm changes"

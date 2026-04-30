@@ -29,6 +29,20 @@ class DataImportServiceTest < ActiveSupport::TestCase
     assert_equal "A checking account", imported_account.description
   end
 
+  test "imports user settings preferred currency" do
+    @user.update!(preferred_currency: "COP")
+
+    data = {
+      "user_settings" => {
+        "preferred_currency" => "EUR"
+      }
+    }
+
+    DataImportService.new(@user, data).call
+
+    assert_equal "EUR", @user.reload.preferred_currency
+  end
+
   test "imports balance sheets and items successfully" do
     data = {
       "accounts" => [

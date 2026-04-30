@@ -7,6 +7,7 @@ class DataImportService
 
   def call
     ActiveRecord::Base.transaction do
+      import_user_settings
       import_accounts
       import_balance_sheets
       import_budgets
@@ -15,6 +16,14 @@ class DataImportService
   end
 
   private
+
+  def import_user_settings
+    settings = @data["user_settings"] || {}
+    preferred_currency = settings["preferred_currency"]
+    return if preferred_currency.blank?
+
+    @user.update!(preferred_currency: preferred_currency)
+  end
 
   def import_accounts
     return unless @data["accounts"]
