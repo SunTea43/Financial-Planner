@@ -30,7 +30,6 @@ class SavingsPlansControllerTest < ActionDispatch::IntegrationTest
 
   test "should show savings plan" do
     @savings_plan.update!(initial_capital: 20000)
-    @user.update!(preferred_currency: "COP")
 
     get savings_plan_url(@savings_plan)
     assert_response :success

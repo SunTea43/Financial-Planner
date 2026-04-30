@@ -29,18 +29,40 @@ class DataImportServiceTest < ActiveSupport::TestCase
     assert_equal "A checking account", imported_account.description
   end
 
-  test "imports user settings preferred currency" do
-    @user.update!(preferred_currency: "COP")
-
+  test "imports account preferred currency from legacy user settings" do
     data = {
       "user_settings" => {
         "preferred_currency" => "EUR"
-      }
+      },
+      "accounts" => [
+        {
+          "id" => 1001,
+          "name" => "Legacy Currency Account",
+          "account_type" => "checking"
+        }
+      ]
     }
 
     DataImportService.new(@user, data).call
 
-    assert_equal "EUR", @user.reload.preferred_currency
+    assert_equal "EUR", @user.accounts.find_by(name: "Legacy Currency Account")&.preferred_currency
+  end
+
+  test "imports account preferred currency from account payload" do
+    data = {
+      "accounts" => [
+        {
+          "id" => 1002,
+          "name" => "Explicit Currency Account",
+          "account_type" => "checking",
+          "preferred_currency" => "USD"
+        }
+      ]
+    }
+
+    DataImportService.new(@user, data).call
+
+    assert_equal "USD", @user.accounts.find_by(name: "Explicit Currency Account")&.preferred_currency
   end
 
   test "imports balance sheets and items successfully" do

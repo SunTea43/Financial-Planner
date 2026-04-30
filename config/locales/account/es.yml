@@ -6,6 +6,7 @@ es:
       account:
         name: "Nombre"
         account_type: "Tipo de Cuenta"
+        preferred_currency: "Moneda"
         description: "Descripción"
   controllers:
     accounts:

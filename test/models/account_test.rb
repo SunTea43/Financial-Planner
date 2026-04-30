@@ -18,7 +18,25 @@
 require "test_helper"
 
 class AccountTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "sets default preferred currency" do
+    account = Account.new(user: users(:one), name: "Cuenta COP", account_type: "checking")
+
+    assert account.valid?
+    assert_equal "COP", account.preferred_currency
+  end
+
+  test "rejects unsupported preferred currency" do
+    account = Account.new(user: users(:one), name: "Cuenta invalida", account_type: "checking", preferred_currency: "XXX")
+
+    assert_not account.valid?
+    assert account.errors[:preferred_currency].present?
+  end
+
+  test "returns format options for preferred currency" do
+    account = accounts(:one)
+    account.preferred_currency = "JPY"
+
+    assert_equal "JPY", account.currency_format_options[:unit]
+    assert_equal 0, account.currency_format_options[:precision]
+  end
 end

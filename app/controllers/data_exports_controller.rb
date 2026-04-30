@@ -15,11 +15,8 @@ class DataExportsController < ApplicationController
 
   def gather_export_data
     {
-      version: 1,
+      version: 2,
       exported_at: Time.current,
-      user_settings: {
-        preferred_currency: current_user.preferred_currency
-      },
       accounts: current_user.accounts.as_json,
       balance_sheets: current_user.balance_sheets.includes(:assets, :liabilities).map do |bs|
         bs.as_json(include: [ :assets, :liabilities ])
