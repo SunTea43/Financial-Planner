@@ -23,14 +23,16 @@
       </div>
     </div>
   </div>
-  <div class="col-md">
-    <div class="card text-center h-100">
-      <div class="card-body">
-        <h6 class="card-title"><%= t("views.savings_plans.show.initial_capital") %></h6>
-        <h4><%= number_to_currency(@savings_plan.initial_capital) %></h4>
+  <% if @savings_plan.initial_capital.to_d.positive? %>
+    <div class="col-md">
+      <div class="card text-center h-100">
+        <div class="card-body">
+          <h6 class="card-title"><%= t("views.savings_plans.show.initial_capital") %></h6>
+          <h4><%= number_to_currency(@savings_plan.initial_capital) %></h4>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
   <div class="col-md">
     <div class="card text-center h-100">
       <div class="card-body">
