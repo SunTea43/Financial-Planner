@@ -29,8 +29,20 @@ class SavingsPlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show savings plan" do
+    @savings_plan.update!(initial_capital: 20000)
+
     get savings_plan_url(@savings_plan)
     assert_response :success
+    assert_includes response.body, I18n.t("views.savings_plans.show.initial_capital")
+    assert_includes response.body, ActionController::Base.helpers.number_to_currency(20000)
+  end
+
+  test "should hide initial capital in show when value is zero" do
+    @savings_plan.update!(initial_capital: 0)
+
+    get savings_plan_url(@savings_plan)
+    assert_response :success
+    assert_not_includes response.body, I18n.t("views.savings_plans.show.initial_capital")
   end
 
   test "should update savings plan" do

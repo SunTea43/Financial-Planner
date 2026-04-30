@@ -55,6 +55,7 @@ en:
         destroy: "Delete"
         entries: "View Installments"
         goal: "Goal"
+        initial_capital: "Initial capital"
         installments: "Installments"
         without_interest_installment: "Monthly installment without interest"
         with_interest_installment: "Monthly installment with interest"
