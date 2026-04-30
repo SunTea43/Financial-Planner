@@ -138,6 +138,7 @@ class DataImportServiceTest < ActiveSupport::TestCase
           "id" => 666,
           "name" => "Emergency Fund",
           "goal_amount" => "150000.0",
+          "initial_capital" => "10000.0",
           "start_date" => "2026-01-01",
           "target_date" => "2026-12-31",
           "annual_interest_rate" => "7.5"
@@ -152,6 +153,7 @@ class DataImportServiceTest < ActiveSupport::TestCase
     plan = @user.savings_plans.last
     assert_equal "Emergency Fund", plan.name
     assert_equal 150000.0, plan.goal_amount
+    assert_equal 10000.0, plan.initial_capital
     assert_equal Date.new(2026, 1, 1), plan.start_date
     assert_equal Date.new(2026, 12, 31), plan.target_date
     assert_equal 7.5, plan.annual_interest_rate

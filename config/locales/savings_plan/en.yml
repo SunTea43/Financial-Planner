@@ -4,6 +4,8 @@ en:
       models:
         savings_plan:
           attributes:
+            initial_capital:
+              less_than_or_equal_to_goal: "must be less than or equal to the goal amount"
             target_date:
               after_start_date: "must be on or after the start date"
     models:
@@ -12,6 +14,7 @@ en:
       savings_plan:
         name: "Plan name"
         goal_amount: "Goal amount"
+        initial_capital: "Initial capital"
         start_date: "Start date"
         target_date: "Target date"
         annual_interest_rate: "Annual interest rate (%)"
@@ -36,6 +39,7 @@ en:
         destroy: "Delete"
       form:
         annual_interest_hint: "Expected annual return percentage for your investment strategy."
+        initial_capital_hint: "If you already have savings, you can enter that amount here."
         cancel: "Cancel"
         submit_create: "Create Plan"
         submit_update: "Update Plan"

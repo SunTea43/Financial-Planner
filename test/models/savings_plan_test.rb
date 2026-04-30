@@ -30,6 +30,54 @@ class SavingsPlanTest < ActiveSupport::TestCase
     assert projection[:same_installment_periods] <= projection[:installments]
   end
 
+  test "projection with initial capital requires lower installments" do
+    base_plan = SavingsPlan.new(
+      user: users(:one),
+      name: "Base",
+      goal_amount: 120000,
+      initial_capital: 0,
+      start_date: Date.new(2026, 1, 1),
+      target_date: Date.new(2026, 12, 31),
+      annual_interest_rate: 8.5
+    )
+
+    plan_with_initial = SavingsPlan.new(
+      user: users(:one),
+      name: "Con capital",
+      goal_amount: 120000,
+      initial_capital: 20000,
+      start_date: Date.new(2026, 1, 1),
+      target_date: Date.new(2026, 12, 31),
+      annual_interest_rate: 8.5
+    )
+
+    base_projection = base_plan.projection
+    projection_with_initial = plan_with_initial.projection
+
+    assert projection_with_initial[:installment_without_interest] < base_projection[:installment_without_interest]
+    assert projection_with_initial[:installment_with_interest] < base_projection[:installment_with_interest]
+    assert_equal 28333.33, projection_with_initial[:chart][:without_interest].first.to_f
+  end
+
+  test "projection returns zero installments when initial capital already meets goal" do
+    plan = SavingsPlan.new(
+      user: users(:one),
+      name: "Meta cumplida",
+      goal_amount: 50000,
+      initial_capital: 50000,
+      start_date: Date.new(2026, 1, 1),
+      target_date: Date.new(2026, 12, 31),
+      annual_interest_rate: 8.5
+    )
+
+    projection = plan.projection
+
+    assert_equal 0.0, projection[:installment_without_interest].to_f
+    assert_equal 0.0, projection[:installment_with_interest].to_f
+    assert_equal 0, projection[:same_installment_periods]
+    assert_equal 50000.0, projection[:chart][:with_interest].last.to_f
+  end
+
   test "target date must be after or equal to start date" do
     plan = SavingsPlan.new(
       user: users(:one),
@@ -42,6 +90,21 @@ class SavingsPlanTest < ActiveSupport::TestCase
 
     assert_not plan.valid?
     assert plan.errors.added?(:target_date, :after_start_date)
+  end
+
+  test "initial capital must be less than or equal to goal amount" do
+    plan = SavingsPlan.new(
+      user: users(:one),
+      name: "Capital invalido",
+      goal_amount: 10000,
+      initial_capital: 12000,
+      start_date: Date.current,
+      target_date: Date.current.advance(months: 6),
+      annual_interest_rate: 5
+    )
+
+    assert_not plan.valid?
+    assert plan.errors.added?(:initial_capital, :less_than_or_equal_to_goal)
   end
 
   test "total_saved aggregates savings plan entries" do

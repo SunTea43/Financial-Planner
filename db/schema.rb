@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_28_110000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_30_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -104,6 +104,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_28_110000) do
     t.decimal "annual_interest_rate", precision: 8, scale: 4, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.decimal "goal_amount", precision: 15, scale: 2, null: false
+    t.decimal "initial_capital", precision: 15, scale: 2, default: "0.0", null: false
     t.string "name", null: false
     t.date "start_date", null: false
     t.date "target_date", null: false

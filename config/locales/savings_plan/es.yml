@@ -4,6 +4,8 @@ es:
       models:
         savings_plan:
           attributes:
+            initial_capital:
+              less_than_or_equal_to_goal: "debe ser menor o igual al monto objetivo"
             target_date:
               after_start_date: "debe ser igual o posterior a la fecha de inicio"
     models:
@@ -12,6 +14,7 @@ es:
       savings_plan:
         name: "Nombre del plan"
         goal_amount: "Monto objetivo"
+        initial_capital: "Capital inicial"
         start_date: "Fecha de inicio"
         target_date: "Fecha objetivo"
         annual_interest_rate: "Tasa de interes anual (%)"
@@ -36,6 +39,7 @@ es:
         destroy: "Eliminar"
       form:
         annual_interest_hint: "Porcentaje anual estimado del rendimiento de tu inversion."
+        initial_capital_hint: "en caso de que ya tengas ahorrado dinero, lo puedes poner aquí"
         cancel: "Cancelar"
         submit_create: "Crear Plan"
         submit_update: "Actualizar Plan"

@@ -126,6 +126,7 @@ class DataImportService
       @user.savings_plans.create!(
         name: plan_attrs["name"],
         goal_amount: plan_attrs["goal_amount"],
+        initial_capital: plan_attrs["initial_capital"] || 0,
         start_date: plan_attrs["start_date"],
         target_date: plan_attrs["target_date"],
         annual_interest_rate: plan_attrs["annual_interest_rate"],

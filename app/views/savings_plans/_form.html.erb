@@ -5,8 +5,15 @@
         <div class="col-md-6">
           <%= f.input :name, label: SavingsPlan.human_attribute_name(:name), placeholder: "Ej: Fondo de emergencia" %>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <%= f.input :goal_amount, label: SavingsPlan.human_attribute_name(:goal_amount), input_html: { step: 0.01 }, placeholder: "Ej: 120000" %>
+        </div>
+        <div class="col-md-3">
+          <%= f.input :initial_capital,
+                      label: SavingsPlan.human_attribute_name(:initial_capital),
+                      hint: t("views.savings_plans.form.initial_capital_hint"),
+                      input_html: { step: 0.01, min: 0 },
+                      placeholder: "Ej: 20000" %>
         </div>
       </div>
 

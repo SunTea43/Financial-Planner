@@ -13,6 +13,7 @@ class SavingsPlansController < ApplicationController
     @savings_plan = current_user.savings_plans.build(
       start_date: Date.current,
       target_date: Date.current.advance(years: 1),
+      initial_capital: 0,
       annual_interest_rate: 8.0
     )
   end
@@ -50,6 +51,6 @@ class SavingsPlansController < ApplicationController
   end
 
   def savings_plan_params
-    params.require(:savings_plan).permit(:name, :goal_amount, :start_date, :target_date, :annual_interest_rate)
+    params.require(:savings_plan).permit(:name, :goal_amount, :initial_capital, :start_date, :target_date, :annual_interest_rate)
   end
 end
