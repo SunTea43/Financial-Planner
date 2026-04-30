@@ -2,6 +2,8 @@
 
 Aplicación web para organizar finanzas personales desarrollada con Ruby on Rails 8.
 
+<!-- last updated: 2026-04-30 -->
+
 ## Documentacion
 
 - Indice general: [docs/README.md](docs/README.md)
