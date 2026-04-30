@@ -30,11 +30,12 @@ class SavingsPlansControllerTest < ActionDispatch::IntegrationTest
 
   test "should show savings plan" do
     @savings_plan.update!(initial_capital: 20000)
+    @user.update!(preferred_currency: "COP")
 
     get savings_plan_url(@savings_plan)
     assert_response :success
     assert_includes response.body, I18n.t("views.savings_plans.show.initial_capital")
-    assert_includes response.body, ActionController::Base.helpers.number_to_currency(20000)
+    assert_match(/\$\s?20[\.,]000/, response.body)
     assert_includes response.body, I18n.t("views.savings_plans.show.annual_outlay_detail")
   end
 

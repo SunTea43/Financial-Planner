@@ -5,6 +5,11 @@
 
   <div class="form-inputs">
     <%= f.input :email, required: true, autofocus: true %>
+    <%= f.input :preferred_currency,
+                collection: User.currency_options,
+                include_blank: false,
+                label: I18n.t("devise.registrations.edit.preferred_currency"),
+                hint: I18n.t("devise.registrations.edit.preferred_currency_hint") %>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>

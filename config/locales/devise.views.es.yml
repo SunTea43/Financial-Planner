@@ -1,3 +1,4 @@
+---
 es:
   devise:
     sessions:
@@ -6,9 +7,13 @@ es:
     registrations:
       new:
         sign_up: "Registrarse"
+        preferred_currency: "Moneda preferida"
+        preferred_currency_hint: "Esta moneda se usará para formatear todos tus montos."
       edit:
         title: "Editar %{resource}"
         currently_waiting_confirmation_for_email: "Actualmente esperando confirmación para: %{email}"
+        preferred_currency: "Moneda preferida"
+        preferred_currency_hint: "Esta moneda se usará para formatear todos tus montos."
         change_password: "Cambiar contraseña"
         leave_blank_if_you_don_t_want_to_change_it: "déjalo en blanco si no quieres cambiarla"
         confirm_changes: "Confirmar cambios"

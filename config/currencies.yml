@@ -1,0 +1,69 @@
+COP:
+  unit: "$"
+  precision: 0
+  format: "%u%n"
+
+USD:
+  unit: "US$"
+  precision: 2
+  format: "%u%n"
+
+EUR:
+  unit: "EUR"
+  precision: 2
+  format: "%u%n"
+
+GBP:
+  unit: "GBP"
+  precision: 2
+  format: "%u%n"
+
+MXN:
+  unit: "MX$"
+  precision: 2
+  format: "%u%n"
+
+ARS:
+  unit: "AR$"
+  precision: 2
+  format: "%u%n"
+
+CLP:
+  unit: "CLP$"
+  precision: 0
+  format: "%u%n"
+
+PEN:
+  unit: "S/"
+  precision: 2
+  format: "%u%n"
+
+BRL:
+  unit: "R$"
+  precision: 2
+  format: "%u%n"
+
+CAD:
+  unit: "CA$"
+  precision: 2
+  format: "%u%n"
+
+AUD:
+  unit: "A$"
+  precision: 2
+  format: "%u%n"
+
+CHF:
+  unit: "CHF"
+  precision: 2
+  format: "%u%n"
+
+JPY:
+  unit: "JPY"
+  precision: 0
+  format: "%u%n"
+
+CNY:
+  unit: "CNY"
+  precision: 2
+  format: "%u%n"
