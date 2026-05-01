@@ -44,6 +44,18 @@ class NavigationLayoutTest < ActionDispatch::IntegrationTest
     assert_select "#mainSidebarDesktop .list-group a[href='#{accounts_path}'].active", count: 0
   end
 
+  test "sidebar marks dashboard as active when visiting dashboard routes" do
+    sign_in @user
+
+    get authenticated_root_path
+    assert_response :success
+    assert_select "#mainSidebarDesktop .list-group a[href='#{authenticated_root_path}'].active", count: 1
+
+    get dashboard_index_url
+    assert_response :success
+    assert_select "#mainSidebarDesktop .list-group a[href='#{authenticated_root_path}'].active", count: 1
+  end
+
   test "guests do not see sidebar or authenticated navbar" do
     get root_path
     assert_response :success
