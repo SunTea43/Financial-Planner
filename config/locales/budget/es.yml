@@ -22,6 +22,7 @@ es:
         name: "Nombre"
         item_type: "Tipo"
         amount: "Monto"
+        category: "Categoria"
         description: "Descripción"
         item_type_list:
           income: "Ingreso"
@@ -46,6 +47,8 @@ es:
         new_title: "Nuevo Presupuesto"
         income_section: "Ingresos"
         expense_section: "Gastos"
+        category_help: "Puedes crear una categoria escribiendo en el campo o reutilizar una existente desde sugerencias. Para eliminarla, borra el texto o elimina el item."
+        reorder: "Reordenar"
         add_income: "Agregar Ingreso"
         add_expense: "Agregar Gasto"
         cancel: "Cancelar"
@@ -55,3 +58,11 @@ es:
         back: "Ver"
         edit: "Editar"
         destroy: "Eliminar"
+        uncategorized: "Sin categoria"
+        indicators:
+          savings_ratio: "Ahorro / Ingreso"
+          investment_ratio: "Capacidad de inversion / Ingreso"
+          expense_ratio: "Gasto / Ingreso"
+          essential_ratio: "Categoria principal / Ingreso"
+          debt_ratio: "Sin categoria / Ingreso"
+          discretionary_ratio: "Resto de gastos / Ingreso"

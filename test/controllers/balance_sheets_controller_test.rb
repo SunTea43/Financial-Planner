@@ -167,4 +167,48 @@ class BalanceSheetsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil chart_data
     # Los datos deben corresponder a la cuenta del balance_sheet actual
   end
+
+  test "should update balance sheet removing and reordering items" do
+    removable_asset = @balance_sheet.assets.create!(name: "Old Asset", item_type: "liquid", amount: 1200, position: 2)
+    remaining_asset = @balance_sheet.assets.create!(name: "Cash", item_type: "liquid", amount: 800, position: 3)
+    removable_liability = @balance_sheet.liabilities.create!(name: "Old Debt", item_type: "short_term", amount: 200, position: 2)
+    remaining_liability = @balance_sheet.liabilities.create!(name: "Loan", item_type: "long_term", amount: 500, position: 3)
+
+    patch balance_sheet_path(@balance_sheet), params: {
+      balance_sheet: {
+        account_id: @balance_sheet.account_id,
+        recorded_at: @balance_sheet.recorded_at.strftime("%Y-%m-%dT%H:%M"),
+        notes: @balance_sheet.notes,
+        assets_attributes: {
+          "0" => { id: removable_asset.id, _destroy: "1" },
+          "1" => {
+            id: remaining_asset.id,
+            name: remaining_asset.name,
+            item_type: remaining_asset.item_type,
+            category: "Liquidez",
+            amount: remaining_asset.amount,
+            description: remaining_asset.description,
+            position: 1
+          }
+        },
+        liabilities_attributes: {
+          "0" => { id: removable_liability.id, _destroy: "1" },
+          "1" => {
+            id: remaining_liability.id,
+            name: remaining_liability.name,
+            item_type: remaining_liability.item_type,
+            amount: remaining_liability.amount,
+            description: remaining_liability.description,
+            position: 1
+          }
+        }
+      }
+    }
+
+    assert_redirected_to balance_sheet_path(@balance_sheet)
+    assert_not Asset.exists?(removable_asset.id)
+    assert_not Liability.exists?(removable_liability.id)
+    assert_equal 1, remaining_asset.reload.position
+    assert_equal 1, remaining_liability.reload.position
+  end
 end

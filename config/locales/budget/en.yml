@@ -22,6 +22,7 @@ en:
         name: "Name"
         item_type: "Type"
         amount: "Amount"
+        category: "Category"
         description: "Description"
         item_type_list:
           income: "Income"
@@ -46,6 +47,8 @@ en:
         new_title: "New Budget"
         income_section: "Income"
         expense_section: "Expenses"
+        category_help: "Create a category by typing in the field or reuse one from suggestions. To remove it, clear the text or delete the item."
+        reorder: "Reorder"
         add_income: "Add Income"
         add_expense: "Add Expense"
         cancel: "Cancel"
@@ -55,3 +58,11 @@ en:
         back: "View"
         edit: "Edit"
         destroy: "Delete"
+        uncategorized: "Uncategorized"
+        indicators:
+          savings_ratio: "Savings / Income"
+          investment_ratio: "Investment Capacity / Income"
+          expense_ratio: "Expenses / Income"
+          essential_ratio: "Main Category / Income"
+          debt_ratio: "Uncategorized / Income"
+          discretionary_ratio: "Remaining Expenses / Income"

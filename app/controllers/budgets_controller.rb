@@ -1,6 +1,7 @@
 class BudgetsController < ApplicationController
   before_action :set_budget, only: [ :show, :edit, :update, :destroy ]
   before_action :set_account, only: [ :new, :create ]
+  before_action :load_budget_categories, only: [ :new, :edit, :create, :update ]
 
   def index
     @budgets = current_user.budgets.includes(:account, :budget_items)
@@ -8,6 +9,16 @@ class BudgetsController < ApplicationController
   end
 
   def show
+    @expense_category_chart_data = prepare_category_chart_data(item_type: "expense")
+    @income_category_chart_data = prepare_category_chart_data(item_type: "income")
+    @budget_indicators = {
+      savings_ratio: @budget.savings_ratio,
+      investment_ratio: @budget.investment_ratio,
+      expense_ratio: @budget.expense_ratio,
+      essential_expense_ratio: @budget.essential_expense_ratio,
+      debt_service_ratio: @budget.debt_service_ratio,
+      discretionary_expense_ratio: @budget.discretionary_expense_ratio
+    }
   end
 
   def new
@@ -67,12 +78,33 @@ class BudgetsController < ApplicationController
 
   def budget_params
     params.require(:budget).permit(:name, :periodicity, :start_date, :end_date,
-      budget_items_attributes: [ :id, :name, :item_type, :amount, :description, :position, :_destroy ])
+      budget_items_attributes: [ :id, :name, :item_type, :amount, :category, :description, :position, :_destroy ])
   end
 
   def set_account_from_params
     if params[:budget][:account_id].present?
       @budget.account = current_user.accounts.find_by(id: params[:budget][:account_id])
     end
+  end
+
+  def load_budget_categories
+    @budget_categories = BudgetItem.unscoped
+                                   .joins(:budget)
+                                   .where(budgets: { user_id: current_user.id })
+                                   .where.not(category: [ nil, "" ])
+                                   .distinct
+                                   .pluck(:category)
+                                   .sort_by(&:downcase)
+  end
+
+  def prepare_category_chart_data(item_type:)
+    grouped_items = @budget.budget_items
+                         .select { |item| item.item_type == item_type }
+                         .group_by { |item| item.category.presence || I18n.t("views.budgets.show.uncategorized") }
+
+    {
+      labels: grouped_items.keys,
+      values: grouped_items.values.map { |items| items.sum { |item| item.amount.to_f } }
+    }
   end
 end

@@ -49,4 +49,21 @@ class BudgetTest < ActiveSupport::TestCase
     assert_equal 1000, cloned_item.amount
     assert_nil cloned_item.id # Should be a new unpersisted record
   end
+
+  test "financial indicator ratios keep categories customizable" do
+    budget = budgets(:one)
+    budget.budget_items.destroy_all
+    budget.budget_items.create!(item_type: "income", name: "Salary", amount: 5000, category: "Trabajo")
+    budget.budget_items.create!(item_type: "expense", name: "Rent", amount: 1500, category: "Hogar")
+    budget.budget_items.create!(item_type: "expense", name: "ETF", amount: 800, category: "Objetivos personales")
+    budget.budget_items.create!(item_type: "expense", name: "Card", amount: 300, category: nil)
+    budget.save!
+
+    assert_in_delta 0.48, budget.savings_ratio, 0.001
+    assert_in_delta 0.48, budget.investment_ratio, 0.001
+    assert_in_delta 0.52, budget.expense_ratio, 0.001
+    assert_in_delta 0.30, budget.essential_expense_ratio, 0.001
+    assert_in_delta 0.06, budget.debt_service_ratio, 0.001
+    assert_in_delta 0.22, budget.discretionary_expense_ratio, 0.001
+  end
 end

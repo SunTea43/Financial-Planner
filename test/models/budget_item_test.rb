@@ -20,7 +20,16 @@
 require "test_helper"
 
 class BudgetItemTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "category remains free text" do
+    item = BudgetItem.new(
+      budget: budgets(:one),
+      name: "Aporte",
+      item_type: "expense",
+      amount: 100,
+      category: "Mi categoria personalizada"
+    )
+
+    assert item.valid?
+    assert_equal "Mi categoria personalizada", item.category
+  end
 end
