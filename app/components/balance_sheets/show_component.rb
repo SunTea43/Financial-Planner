@@ -10,18 +10,18 @@ class BalanceSheets::ShowComponent < ApplicationComponent
   end
 
   def liquid_assets
-    balance_sheet.assets.liquid
+    balance_sheet.assets.select(&:liquid?)
   end
 
   def fixed_assets
-    balance_sheet.assets.fixed
+    balance_sheet.assets.select(&:fixed?)
   end
 
   def short_term_liabilities
-    balance_sheet.liabilities.short_term
+    balance_sheet.liabilities.select(&:short_term?)
   end
 
   def long_term_liabilities
-    balance_sheet.liabilities.long_term
+    balance_sheet.liabilities.select(&:long_term?)
   end
 end

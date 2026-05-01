@@ -18,13 +18,14 @@ class BalanceSheetsViewsTest < ActionDispatch::IntegrationTest
     assert_select ".card"
   end
 
-  test "index shows net worth value inside summary component" do
-    @balance_sheet.update!(net_worth: 12_345.00)
+  test "index shows formatted net_worth value inside summary component" do
+    @balance_sheet.assets.create!(name: "Cuenta", item_type: "liquid", amount: 12_345.00)
+    @balance_sheet.save! # triggers calculate_totals callback
 
     get balance_sheets_path
 
     assert_response :success
-    assert_select ".card-body"
+    assert_select ".card-body", text: /12\.345/
   end
 
   # --- show ---
