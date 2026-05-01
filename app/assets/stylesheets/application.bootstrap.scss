@@ -1,6 +1,11 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
+.sidebar-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
 .sidebar-nav-card {
   border: 1px solid var(--bs-border-color);
 }
