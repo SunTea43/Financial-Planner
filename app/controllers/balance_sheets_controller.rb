@@ -31,8 +31,6 @@ class BalanceSheetsController < ApplicationController
   end
 
   def edit
-    @balance_sheet.assets.build if @balance_sheet.assets.empty?
-    @balance_sheet.liabilities.build if @balance_sheet.liabilities.empty?
   end
 
   def update

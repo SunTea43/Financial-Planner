@@ -26,6 +26,39 @@ class Budget < ApplicationRecord
   scope :by_account, ->(account_id) { where(account_id: account_id) if account_id.present? }
   scope :by_periodicity, ->(period) { where(periodicity: period) if period.present? }
 
+  def income_items
+    budget_items.reject(&:marked_for_destruction?).select(&:income?)
+  end
+
+  def expense_items
+    budget_items.reject(&:marked_for_destruction?).select(&:expense?)
+  end
+
+  def savings_ratio
+    ratio(positive_free_cash_flow)
+  end
+
+  def investment_ratio
+    # Treat positive free cash flow as available investment capacity.
+    ratio(positive_free_cash_flow)
+  end
+
+  def expense_ratio
+    ratio(total_expenses.to_f)
+  end
+
+  def essential_expense_ratio
+    ratio(top_expense_category_total)
+  end
+
+  def debt_service_ratio
+    ratio(uncategorized_expenses_total)
+  end
+
+  def discretionary_expense_ratio
+    ratio([ total_expenses.to_f - top_expense_category_total, 0 ].max)
+  end
+
   def build_clone_for_next_period
     cloned = self.dup
 
@@ -64,6 +97,31 @@ class Budget < ApplicationRecord
   end
 
   private
+
+  def ratio(numerator)
+    income = total_income.to_f
+    return 0.0 if income <= 0
+
+    numerator.to_f / income
+  end
+
+  def positive_free_cash_flow
+    [ free_cash_flow.to_f, 0.0 ].max
+  end
+
+  def top_expense_category_total
+    categorized = expense_items.select { |item| item.category.present? }
+    return 0.0 if categorized.empty?
+
+    categorized.group_by(&:category)
+               .values
+               .map { |items| items.sum { |item| item.amount.to_f } }
+               .max.to_f
+  end
+
+  def uncategorized_expenses_total
+    expense_items.select { |item| item.category.blank? }.sum { |item| item.amount.to_f }
+  end
 
   def calculate_totals
     # Handle both persisted and new records

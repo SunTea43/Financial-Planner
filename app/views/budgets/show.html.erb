@@ -44,6 +44,84 @@
   </div>
 </div>
 
+<div class="row mb-4" id="budget-indicators">
+  <div class="col-md-2 col-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= I18n.t("views.budgets.show.indicators.savings_ratio") %></h6>
+        <h5 class="text-success mb-0"><%= number_to_percentage(@budget_indicators[:savings_ratio] * 100, precision: 1) %></h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= I18n.t("views.budgets.show.indicators.investment_ratio") %></h6>
+        <h5 class="text-primary mb-0"><%= number_to_percentage(@budget_indicators[:investment_ratio] * 100, precision: 1) %></h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= I18n.t("views.budgets.show.indicators.expense_ratio") %></h6>
+        <h5 class="text-danger mb-0"><%= number_to_percentage(@budget_indicators[:expense_ratio] * 100, precision: 1) %></h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= I18n.t("views.budgets.show.indicators.essential_ratio") %></h6>
+        <h5 class="text-warning mb-0"><%= number_to_percentage(@budget_indicators[:essential_expense_ratio] * 100, precision: 1) %></h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= I18n.t("views.budgets.show.indicators.debt_ratio") %></h6>
+        <h5 class="text-secondary mb-0"><%= number_to_percentage(@budget_indicators[:debt_service_ratio] * 100, precision: 1) %></h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <h6 class="card-title"><%= I18n.t("views.budgets.show.indicators.discretionary_ratio") %></h6>
+        <h5 class="text-info mb-0"><%= number_to_percentage(@budget_indicators[:discretionary_expense_ratio] * 100, precision: 1) %></h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @expense_category_chart_data[:labels].any? || @income_category_chart_data[:labels].any? %>
+  <div
+    class="row mb-4"
+    data-controller="budget-category-chart"
+    data-budget-category-chart-expense-data-value="<%= @expense_category_chart_data.to_json %>"
+    data-budget-category-chart-income-data-value="<%= @income_category_chart_data.to_json %>"
+    data-budget-category-chart-expense-title-value="<%= I18n.t('views.budgets.show.charts.expense_by_category') %>"
+    data-budget-category-chart-income-title-value="<%= I18n.t('views.budgets.show.charts.income_by_category') %>"
+    data-budget-category-chart-currency-value="<%= current_currency_code %>"
+    data-budget-category-chart-locale-value="<%= I18n.locale %>">
+    <div class="col-md-6 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <canvas id="budgetExpenseCategoryChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <canvas id="budgetIncomeCategoryChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col-md-6">
     <div class="card">
@@ -56,6 +134,9 @@
             <li class="list-group-item d-flex justify-content-between">
               <div>
                 <strong><%= item.name %></strong>
+                <% if item.category.present? %>
+                  <br><small class="badge bg-success-subtle text-success-emphasis"><%= item.category %></small>
+                <% end %>
                 <% if item.description.present? %>
                   <br><small class="text-muted"><%= item.description %></small>
                 <% end %>
@@ -79,6 +160,9 @@
             <li class="list-group-item d-flex justify-content-between">
               <div>
                 <strong><%= item.name %></strong>
+                <% if item.category.present? %>
+                  <br><small class="badge bg-danger-subtle text-danger-emphasis"><%= item.category %></small>
+                <% end %>
                 <% if item.description.present? %>
                   <br><small class="text-muted"><%= item.description %></small>
                 <% end %>

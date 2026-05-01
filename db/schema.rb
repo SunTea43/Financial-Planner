@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_01_223559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,9 +22,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.string "preferred_currency", default: "COP", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.index ["preferred_currency"], name: "index_accounts_on_preferred_currency"
-    t.index ["user_id", "account_type"], name: "index_accounts_on_user_id_and_account_type"
-    t.index ["user_id"], name: "index_accounts_on_user_id"
+    t.index [ "preferred_currency" ], name: "index_accounts_on_preferred_currency"
+    t.index [ "user_id", "account_type" ], name: "index_accounts_on_user_id_and_account_type"
+    t.index [ "user_id" ], name: "index_accounts_on_user_id"
   end
 
   create_table "balance_sheet_items", force: :cascade do |t|
@@ -35,12 +35,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.text "description"
     t.string "item_type", null: false
     t.string "name", null: false
-    t.integer "position"
+    t.integer "position", default: 0, null: false
     t.string "type"
     t.datetime "updated_at", null: false
-    t.index ["balance_sheet_id", "item_type"], name: "index_balance_sheet_items_on_balance_sheet_id_and_item_type"
-    t.index ["balance_sheet_id"], name: "index_balance_sheet_items_on_balance_sheet_id"
-    t.index ["category"], name: "index_balance_sheet_items_on_category"
+    t.index [ "balance_sheet_id", "item_type" ], name: "index_balance_sheet_items_on_balance_sheet_id_and_item_type"
+    t.index [ "balance_sheet_id" ], name: "index_balance_sheet_items_on_balance_sheet_id"
+    t.index [ "category" ], name: "index_balance_sheet_items_on_category"
   end
 
   create_table "balance_sheets", force: :cascade do |t|
@@ -53,23 +53,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.decimal "total_liabilities", precision: 15, scale: 2, default: "0.0"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.index ["account_id"], name: "index_balance_sheets_on_account_id"
-    t.index ["recorded_at"], name: "index_balance_sheets_on_recorded_at"
-    t.index ["user_id", "recorded_at"], name: "index_balance_sheets_on_user_id_and_recorded_at"
-    t.index ["user_id"], name: "index_balance_sheets_on_user_id"
+    t.index [ "account_id" ], name: "index_balance_sheets_on_account_id"
+    t.index [ "recorded_at" ], name: "index_balance_sheets_on_recorded_at"
+    t.index [ "user_id", "recorded_at" ], name: "index_balance_sheets_on_user_id_and_recorded_at"
+    t.index [ "user_id" ], name: "index_balance_sheets_on_user_id"
   end
 
   create_table "budget_items", force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 2, null: false
     t.bigint "budget_id", null: false
+    t.string "category"
     t.datetime "created_at", null: false
     t.text "description"
     t.string "item_type", null: false
     t.string "name", null: false
-    t.integer "position"
+    t.integer "position", default: 0, null: false
     t.datetime "updated_at", null: false
-    t.index ["budget_id", "item_type"], name: "index_budget_items_on_budget_id_and_item_type"
-    t.index ["budget_id"], name: "index_budget_items_on_budget_id"
+    t.index [ "budget_id", "category" ], name: "index_budget_items_on_budget_id_and_category"
+    t.index [ "budget_id", "item_type" ], name: "index_budget_items_on_budget_id_and_item_type"
+    t.index [ "budget_id" ], name: "index_budget_items_on_budget_id"
   end
 
   create_table "budgets", force: :cascade do |t|
@@ -84,10 +86,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.decimal "total_income", precision: 15, scale: 2, default: "0.0"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.index ["account_id"], name: "index_budgets_on_account_id"
-    t.index ["periodicity"], name: "index_budgets_on_periodicity"
-    t.index ["user_id", "start_date"], name: "index_budgets_on_user_id_and_start_date"
-    t.index ["user_id"], name: "index_budgets_on_user_id"
+    t.index [ "account_id" ], name: "index_budgets_on_account_id"
+    t.index [ "periodicity" ], name: "index_budgets_on_periodicity"
+    t.index [ "user_id", "start_date" ], name: "index_budgets_on_user_id_and_start_date"
+    t.index [ "user_id" ], name: "index_budgets_on_user_id"
   end
 
   create_table "savings_plan_entries", force: :cascade do |t|
@@ -98,8 +100,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.text "notes"
     t.bigint "savings_plan_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["savings_plan_id", "entry_date"], name: "index_savings_plan_entries_on_savings_plan_id_and_entry_date"
-    t.index ["savings_plan_id"], name: "index_savings_plan_entries_on_savings_plan_id"
+    t.index [ "savings_plan_id", "entry_date" ], name: "index_savings_plan_entries_on_savings_plan_id_and_entry_date"
+    t.index [ "savings_plan_id" ], name: "index_savings_plan_entries_on_savings_plan_id"
   end
 
   create_table "savings_plans", force: :cascade do |t|
@@ -112,8 +114,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.date "target_date", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.index ["user_id", "target_date"], name: "index_savings_plans_on_user_id_and_target_date"
-    t.index ["user_id"], name: "index_savings_plans_on_user_id"
+    t.index [ "user_id", "target_date" ], name: "index_savings_plans_on_user_id_and_target_date"
+    t.index [ "user_id" ], name: "index_savings_plans_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,8 +126,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_153000) do
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index [ "email" ], name: "index_users_on_email", unique: true
+    t.index [ "reset_password_token" ], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "accounts", "users"

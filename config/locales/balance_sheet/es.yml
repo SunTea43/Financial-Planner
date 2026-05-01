@@ -36,11 +36,33 @@ es:
         cancel: "Cancelar"
         submit_update: "Actualizar Balance General"
         submit_create: "Crear Balance General"
+      new:
+        title: "Nuevo Balance General"
+        submit_create: "Crear Balance General"
       show:
         back: "Ver"
         edit: "Editar"
         destroy: "Eliminar"
       report:
+        historical_behavior: "Comportamiento Histórico"
+        liquid_assets_section: "Activos Líquidos"
+        fixed_assets_section: "Activos Fijos"
+        short_term_liabilities_section: "Pasivos a Corto Plazo"
+        long_term_liabilities_section: "Pasivos a Largo Plazo"
+        table:
+          name: "Nombre"
+          category: "Categoría"
+          amount: "Monto"
+          no_category: "Sin categoría"
+          subtotal_liquid: "Subtotal Activos Líquidos"
+          subtotal_fixed: "Subtotal Activos Fijos"
+          subtotal_short_term: "Subtotal Pasivos Corto Plazo"
+          subtotal_long_term: "Subtotal Pasivos Largo Plazo"
+        empty:
+          liquid_assets: "No hay activos líquidos registrados."
+          fixed_assets: "No hay activos fijos registrados."
+          short_term: "No hay pasivos a corto plazo registrados."
+          long_term: "No hay pasivos a largo plazo registrados."
         executive_summary:
           title: "Resumen Ejecutivo"
           debt_to_assets_ratio: "Ratio Deuda/Activos"
