@@ -43,7 +43,7 @@
 <% debt_to_assets = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) : nil %>
 <% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_liabilities) : nil %>
 <% debt_to_equity = @balance_sheet.net_worth > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.net_worth) : nil %>
-<% liquid_asset_pct = @balance_sheet.total_assets > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_assets * 100) : 0 %>
+<% liquid_asset_pct = @balance_sheet.total_assets > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_assets * 100) : nil %>
 
 <div class="row mb-4">
   <div class="col-12">
@@ -112,7 +112,11 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <small class="text-muted">Activos Líquidos:</small>
               <strong><%= number_to_currency(liquid_assets_total) %></strong>
-              <span class="badge bg-secondary"><%= number_to_percentage(liquid_asset_pct, precision: 1) %> del total</span>
+              <% if liquid_asset_pct %>
+                <span class="badge bg-secondary"><%= number_to_percentage(liquid_asset_pct, precision: 1) %> del total</span>
+              <% else %>
+                <span class="badge bg-secondary">— Sin activos</span>
+              <% end %>
             </div>
           </div>
         </div>
@@ -167,7 +171,6 @@
       </div>
       <div class="card-body">
         <% if liquid_assets_list.any? %>
-          <% liquid_assets = liquid_assets_list %>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -177,7 +180,7 @@
               </tr>
             </thead>
             <tbody>
-              <% liquid_assets.each do |asset| %>
+              <% liquid_assets_list.each do |asset| %>
                 <tr>
                   <td><%= asset.name %></td>
                   <td><%= asset.category || "N/A" %></td>
@@ -188,7 +191,7 @@
             <tfoot>
               <tr class="table-primary">
                 <th colspan="2">Subtotal Activos Líquidos</th>
-                <th class="text-end"><%= number_to_currency(liquid_assets.sum(&:amount)) %></th>
+                <th class="text-end"><%= number_to_currency(liquid_assets_total) %></th>
               </tr>
             </tfoot>
           </table>
