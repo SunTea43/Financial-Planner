@@ -81,5 +81,3 @@ entry = savings_plan.entries.find_or_initialize_by(entry_date: last_month_end, f
 entry.amount = 2_000_000
 entry.notes = "Aporte semilla del mes"
 entry.save!
-
-puts "Seed data ready for #{user.email}"
