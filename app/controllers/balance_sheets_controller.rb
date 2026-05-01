@@ -1,6 +1,5 @@
 class BalanceSheetsController < ApplicationController
   before_action :set_balance_sheet, only: [ :show, :edit, :update, :destroy, :report, :duplicate ]
-  before_action :eager_load_balance_sheet_items, only: [ :show, :report, :duplicate ]
   before_action :set_account, only: [ :new, :create ]
 
   def index
@@ -104,12 +103,12 @@ class BalanceSheetsController < ApplicationController
 
   private
 
-  def set_balance_sheet
-    @balance_sheet = current_user.balance_sheets.find(params[:id])
-  end
+  ACTIONS_WITH_ITEMS = %w[show report duplicate].freeze
 
-  def eager_load_balance_sheet_items
-    @balance_sheet = current_user.balance_sheets.includes(:assets, :liabilities).find(@balance_sheet.id)
+  def set_balance_sheet
+    scope = current_user.balance_sheets
+    scope = scope.includes(:assets, :liabilities) if action_name.in?(ACTIONS_WITH_ITEMS)
+    @balance_sheet = scope.find(params[:id])
   end
 
   def set_account
