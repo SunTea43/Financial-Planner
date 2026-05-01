@@ -34,12 +34,11 @@
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <button
-            class="btn btn-outline-light me-2 sidebar-toggle-btn"
+            class="btn btn-outline-light me-2"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#sidebarNav"
-            aria-controls="sidebarNav"
-            aria-expanded="true"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mainSidebar"
+            aria-controls="mainSidebar"
             aria-label="Mostrar u ocultar menu lateral"
           >
             <i class="bi bi-layout-sidebar-inset"></i>
@@ -84,18 +83,21 @@
         <% end %>
 
         <div class="row g-4 align-items-start">
-          <aside id="sidebarNav" class="sidebar-nav collapse show col-12 col-lg-3 col-xl-2">
-            <div class="card sidebar-nav-card shadow-sm">
-              <div class="card-header sidebar-nav-header">
-                Navegacion
+          <aside class="col-12 col-lg-3 col-xl-2">
+            <div class="offcanvas-lg offcanvas-start border rounded" tabindex="-1" id="mainSidebar" aria-labelledby="mainSidebarLabel">
+              <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="mainSidebarLabel">Navegacion</h5>
+                <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#mainSidebar" aria-label="Close"></button>
               </div>
-              <div class="list-group list-group-flush">
-                <%= link_to "Dashboard", authenticated_root_path, class: sidebar_link_class.call(authenticated_root_path) %>
-                <%= link_to "Cuentas", accounts_path, class: sidebar_link_class.call(accounts_path) %>
-                <%= link_to "Balance General", balance_sheets_path, class: sidebar_link_class.call(balance_sheets_path) %>
-                <%= link_to "Presupuestos", budgets_path, class: sidebar_link_class.call(budgets_path) %>
-                <%= link_to "Planes de Ahorro", savings_plans_path, class: sidebar_link_class.call(savings_plans_path) %>
-                <%= link_to "Reportes", reports_path, class: sidebar_link_class.call(reports_path) %>
+              <div class="offcanvas-body p-0">
+                <div class="list-group list-group-flush">
+                  <%= link_to "Dashboard", authenticated_root_path, class: sidebar_link_class.call(authenticated_root_path) %>
+                  <%= link_to "Cuentas", accounts_path, class: sidebar_link_class.call(accounts_path) %>
+                  <%= link_to "Balance General", balance_sheets_path, class: sidebar_link_class.call(balance_sheets_path) %>
+                  <%= link_to "Presupuestos", budgets_path, class: sidebar_link_class.call(budgets_path) %>
+                  <%= link_to "Planes de Ahorro", savings_plans_path, class: sidebar_link_class.call(savings_plans_path) %>
+                  <%= link_to "Reportes", reports_path, class: sidebar_link_class.call(reports_path) %>
+                </div>
               </div>
             </div>
           </aside>
