@@ -123,6 +123,29 @@ class BalanceSheetsControllerTest < ActionDispatch::IntegrationTest
     assert chart_data[:netWorthData].length >= 2
   end
 
+  test "report renders executive summary ratio placeholder when total_assets is zero" do
+    @balance_sheet.update_columns(total_assets: 0, total_liabilities: 100, net_worth: -100)
+
+    get report_balance_sheet_path(@balance_sheet)
+
+    assert_response :success
+    assert_select "h5", text: I18n.t("views.balance_sheets.report.executive_summary.title")
+    assert_select "small", text: I18n.t("views.balance_sheets.report.executive_summary.debt_to_assets_ratio")
+    assert_select "h4.text-muted", text: /—/
+    assert_select "small", text: I18n.t("views.balance_sheets.report.executive_summary.no_assets")
+  end
+
+  test "report renders executive summary labels in english locale" do
+    I18n.with_locale(:en) do
+      get report_balance_sheet_path(@balance_sheet)
+
+      assert_response :success
+      assert_select "h5", text: I18n.t("views.balance_sheets.report.executive_summary.title")
+      assert_select "small", text: I18n.t("views.balance_sheets.report.executive_summary.debt_to_assets_ratio")
+      assert_select "small", text: BalanceSheet.human_attribute_name(:total_assets)
+    end
+  end
+
   test "historical chart data filters by account" do
     # Crear otra cuenta del mismo usuario
     other_account = @user.accounts.create!(
