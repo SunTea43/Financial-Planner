@@ -38,8 +38,9 @@
   </div>
 </div>
 
-<% liquid_assets_total = @balance_sheet.assets.select { |a| a.item_type == 'liquid' }.sum(&:amount) %>
-<% debt_to_assets = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) : 0 %>
+<% liquid_assets_list = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
+<% liquid_assets_total = liquid_assets_list.sum(&:amount) %>
+<% debt_to_assets = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) : nil %>
 <% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_liabilities) : nil %>
 <% debt_to_equity = @balance_sheet.net_worth > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.net_worth) : nil %>
 <% liquid_asset_pct = @balance_sheet.total_assets > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_assets * 100) : 0 %>
@@ -68,10 +69,15 @@
           </div>
           <div class="col-md-4 col-lg-2 text-center border-end">
             <small class="text-muted d-block mb-1">Ratio Deuda/Activos</small>
-            <h4 class="<%= debt_to_assets < 50 ? 'text-success' : 'text-warning' %> mb-0">
-              <%= number_to_percentage(debt_to_assets, precision: 1) %>
-            </h4>
-            <small class="text-muted"><%= debt_to_assets < 50 ? 'Saludable' : 'Elevado' %></small>
+            <% if debt_to_assets %>
+              <h4 class="<%= debt_to_assets < 50 ? 'text-success' : 'text-warning' %> mb-0">
+                <%= number_to_percentage(debt_to_assets, precision: 1) %>
+              </h4>
+              <small class="text-muted"><%= debt_to_assets < 50 ? 'Saludable' : 'Elevado' %></small>
+            <% else %>
+              <h4 class="text-muted mb-0">—</h4>
+              <small class="text-muted">Sin activos</small>
+            <% end %>
           </div>
           <div class="col-md-4 col-lg-2 text-center border-end">
             <small class="text-muted d-block mb-1">Ratio de Liquidez</small>
@@ -87,17 +93,17 @@
           </div>
           <div class="col-md-4 col-lg-2 text-center">
             <small class="text-muted d-block mb-1">Deuda/Patrimonio</small>
-            <% if debt_to_equity %>
-              <h4 class="<%= debt_to_equity <= 1 ? 'text-success' : 'text-warning' %> mb-0">
-                <%= number_with_precision(debt_to_equity, precision: 2) %>x
-              </h4>
-              <small class="text-muted"><%= debt_to_equity <= 1 ? 'Bajo apalancamiento' : 'Alto apalancamiento' %></small>
+            <% if @balance_sheet.total_liabilities.zero? %>
+              <h4 class="text-success mb-0">0x</h4>
+              <small class="text-muted">Sin deuda</small>
             <% elsif @balance_sheet.net_worth <= 0 %>
               <h4 class="text-danger mb-0">N/A</h4>
               <small class="text-muted">Patrimonio negativo</small>
             <% else %>
-              <h4 class="text-success mb-0">0x</h4>
-              <small class="text-muted">Sin deuda</small>
+              <h4 class="<%= debt_to_equity <= 1 ? 'text-success' : 'text-warning' %> mb-0">
+                <%= number_with_precision(debt_to_equity, precision: 2) %>x
+              </h4>
+              <small class="text-muted"><%= debt_to_equity <= 1 ? 'Bajo apalancamiento' : 'Alto apalancamiento' %></small>
             <% end %>
           </div>
         </div>
@@ -160,8 +166,8 @@
         <h5 class="mb-0">Activos Líquidos</h5>
       </div>
       <div class="card-body">
-        <% liquid_assets = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
-        <% if liquid_assets.any? %>
+        <% if liquid_assets_list.any? %>
+          <% liquid_assets = liquid_assets_list %>
           <table class="table table-striped">
             <thead>
               <tr>
