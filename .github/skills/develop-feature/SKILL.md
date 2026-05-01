@@ -62,8 +62,6 @@ git worktree list
 - Follow project conventions (Rails, Cells, SimpleForm, Bootstrap).
 - Keep changes minimal and focused.
 - Avoid unrelated refactors.
-- Prefer native Bootstrap components for UI behavior before custom CSS/JS.
-- Do not modify existing framework classes or add custom overrides in framework style files unless explicitly requested.
 
 4. Add or update tests
 - Add unit tests for models/services and controller/integration/system tests as needed.
