@@ -55,4 +55,28 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_select "h5.card-title", text: "Planes de Ahorro"
     assert_select "h2.text-warning", text: "2"
   end
+
+  test "authenticated layout uses sidebar for main navigation" do
+    sign_in @user
+
+    get dashboard_index_url
+    assert_response :success
+
+    assert_select "aside .list-group a[href='#{authenticated_root_path}']", count: 1
+    assert_select "aside .list-group a[href='#{accounts_path}']", count: 1
+    assert_select "aside .list-group a[href='#{balance_sheets_path}']", count: 1
+    assert_select "aside .list-group a[href='#{budgets_path}']", count: 1
+    assert_select "aside .list-group a[href='#{savings_plans_path}']", count: 1
+    assert_select "aside .list-group a[href='#{reports_path}']", count: 1
+
+    assert_select "nav .dropdown-menu a[href='#{edit_user_registration_path}']", count: 1
+    assert_select "nav .dropdown-menu a[href='#{data_export_path}']", count: 1
+    assert_select "nav .dropdown-menu a[href='#{new_data_import_path}']", count: 1
+
+    assert_select "nav a[href='#{accounts_path}']", count: 0
+    assert_select "nav a[href='#{balance_sheets_path}']", count: 0
+    assert_select "nav a[href='#{budgets_path}']", count: 0
+    assert_select "nav a[href='#{savings_plans_path}']", count: 0
+    assert_select "nav a[href='#{reports_path}']", count: 0
+  end
 end
