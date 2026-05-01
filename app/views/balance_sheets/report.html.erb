@@ -40,10 +40,10 @@
 
 <% liquid_assets_list = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
 <% liquid_assets_total = liquid_assets_list.sum(&:amount) %>
-<% debt_to_assets = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) : nil %>
-<% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_liabilities) : nil %>
-<% debt_to_equity = @balance_sheet.net_worth > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.net_worth) : nil %>
-<% liquid_asset_pct = @balance_sheet.total_assets > 0 ? (liquid_assets_total.to_f / @balance_sheet.total_assets * 100) : nil %>
+<% debt_to_assets = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.total_assets * 100) : nil %>
+<% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total / @balance_sheet.total_liabilities) : nil %>
+<% debt_to_equity = @balance_sheet.net_worth > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.net_worth) : nil %>
+<% liquid_asset_pct = @balance_sheet.total_assets > 0 ? (liquid_assets_total / @balance_sheet.total_assets * 100) : nil %>
 
 <div class="row mb-4">
   <div class="col-12">
