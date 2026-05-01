@@ -43,10 +43,10 @@ git worktree add -b <branch-name> ../<repo-name>_<worktree-dir> origin/main
 git worktree add ../<repo-name>_<worktree-dir> <branch-name>
 ```
 
-- If the branch exists **only on the remote** (e.g., when resuming work on another machine), create a local tracking branch first:
+- If the branch exists **only on the remote** (e.g., when resuming work on another machine), use `origin/<branch-name>` as the start-point with `-b` to create a local branch that tracks it:
 
 ```bash
-git worktree add -b <branch-name> --track origin/<branch-name> ../<repo-name>_<worktree-dir>
+git worktree add -b <branch-name> ../<repo-name>_<worktree-dir> origin/<branch-name>
 ```
 
 - Check current worktrees before creating a new one:
