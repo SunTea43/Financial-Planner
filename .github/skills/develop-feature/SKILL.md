@@ -24,19 +24,17 @@ A feature description in natural language with:
 
 2. Create an isolated worktree and branch
 - Always implement features in a dedicated git worktree, never in the main workspace.
-- Start from a clean and up-to-date `main` branch before creating the feature worktree:
+- Fetch the latest remote state first (no need to switch branches in the main workspace):
 
 ```bash
 git fetch origin
-git checkout main
-git pull --ff-only origin main
 ```
 
 - Use `<worktree-dir>` for filesystem-safe directory naming (for example, replace `/` in branch names with `-`).
-- For a new branch from `main`, create branch and worktree in one step:
+- For a new branch, base it off `origin/main` to avoid touching the main workspace branch:
 
 ```bash
-git worktree add -b <branch-name> ../<repo-name>_<worktree-dir> main
+git worktree add -b <branch-name> ../<repo-name>_<worktree-dir> origin/main
 ```
 
 - If the branch already exists, do not use `-b`:
