@@ -22,12 +22,15 @@ A feature description in natural language with:
 - Clarify missing requirements before coding when needed.
 - Identify affected models, controllers, views, services, and tests.
 
-2. Create a branch
-- Use a descriptive branch name such as `feature/add-user-dashboard`.
-- If git tooling is available, create from `main`.
-- If not, use a terminal command: `git checkout -b <branch-name> main`.
+2. Create an isolated worktree and branch
+- Always implement features in a dedicated git worktree, never in the main workspace.
+- Start from `main` and create both branch and worktree in one step.
+- Recommended command:
+	`git worktree add -b <branch-name> ../<repo-name>_<branch-name> main`
+- Enter the new worktree directory before any code change, test, commit, or PR action.
 
 3. Implement the feature
+- Use a descriptive branch name such as `feature/add-user-dashboard`.
 - Follow project conventions (Rails, Cells, SimpleForm, Bootstrap).
 - Keep changes minimal and focused.
 - Avoid unrelated refactors.
@@ -57,7 +60,13 @@ A feature description in natural language with:
 - Confirm branch contains intended commits.
 - Confirm PR includes all relevant changes and checks.
 
+9. Clean up the worktree when finished
+- After work is merged or no longer needed, remove the temporary worktree:
+	`git worktree remove ../<repo-name>_<branch-name>`
+- Keep only active feature worktrees to avoid stale directories.
+
 ## Notes
 
 - If the request is documentation-only or config-only, skip tests/linters that do not apply.
 - If existing workspace has unrelated dirty changes, do not revert them.
+- If a matching feature worktree already exists, reuse it instead of creating duplicates.
