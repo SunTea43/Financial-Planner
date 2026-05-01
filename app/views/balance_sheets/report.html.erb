@@ -8,6 +8,9 @@
       <div>
         <%= link_to "Volver", @balance_sheet, class: "btn btn-secondary" %>
         <%= link_to "Editar", edit_balance_sheet_path(@balance_sheet), class: "btn btn-primary" %>
+        <button onclick="window.print()" class="btn btn-outline-primary">
+          <i class="bi bi-printer"></i> Imprimir
+        </button>
       </div>
     </div>
   </div>
@@ -320,12 +323,4 @@
 </div>
 
 <%= render(BalanceSheets::ComparisonComponent.new(balance_sheet: @balance_sheet)) %>
-
-<div class="row mt-4 mb-4">
-  <div class="col-12 text-center">
-    <button onclick="window.print()" class="btn btn-primary btn-lg">
-      <i class="bi bi-printer"></i> Imprimir Reporte
-    </button>
-  </div>
-</div>
 
