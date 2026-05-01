@@ -39,6 +39,7 @@ A feature description in natural language with:
 
 5. Run quality checks
 - Run rubocop, brakeman, and bundler-audit when applicable.
+- Always run brakeman with `--no-pager` to avoid opening an interactive pager session: `bin/brakeman --no-pager`
 - Fix relevant issues introduced by the change.
 
 6. Commit using project guidelines
