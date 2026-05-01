@@ -38,36 +38,88 @@
   </div>
 </div>
 
+<% liquid_assets_list = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
+<% liquid_assets_total = liquid_assets_list.sum(&:amount) %>
+<% debt_to_assets_ratio = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.total_assets * 100) : nil %>
+<% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total / @balance_sheet.total_liabilities) : nil %>
+<% debt_to_equity = @balance_sheet.net_worth > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.net_worth) : nil %>
+<% liquid_asset_pct = @balance_sheet.total_assets > 0 ? (liquid_assets_total / @balance_sheet.total_assets * 100) : nil %>
+
 <div class="row mb-4">
-  <div class="col-md-4">
-    <div class="card text-center">
-      <div class="card-header bg-success text-white">
-        <h5 class="mb-0">Total Activos</h5>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.executive_summary.title") %></h5>
       </div>
       <div class="card-body">
-        <h2 class="text-success"><%= number_to_currency(@balance_sheet.total_assets) %></h2>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card text-center">
-      <div class="card-header bg-danger text-white">
-        <h5 class="mb-0">Total Pasivos</h5>
-      </div>
-      <div class="card-body">
-        <h2 class="text-danger"><%= number_to_currency(@balance_sheet.total_liabilities) %></h2>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card text-center">
-      <div class="card-header <%= @balance_sheet.net_worth >= 0 ? 'bg-primary' : 'bg-warning' %> text-white">
-        <h5 class="mb-0">Patrimonio Neto</h5>
-      </div>
-      <div class="card-body">
-        <h2 class="<%= @balance_sheet.net_worth >= 0 ? 'text-primary' : 'text-warning' %>">
-          <%= number_to_currency(@balance_sheet.net_worth) %>
-        </h2>
+        <div class="row g-3">
+          <div class="col-md-4 col-lg-2 text-center border-end">
+            <small class="text-muted d-block mb-1"><%= BalanceSheet.human_attribute_name(:total_assets) %></small>
+            <h4 class="text-success mb-0"><%= number_to_currency(@balance_sheet.total_assets) %></h4>
+          </div>
+          <div class="col-md-4 col-lg-2 text-center border-end">
+            <small class="text-muted d-block mb-1"><%= BalanceSheet.human_attribute_name(:total_liabilities) %></small>
+            <h4 class="text-danger mb-0"><%= number_to_currency(@balance_sheet.total_liabilities) %></h4>
+          </div>
+          <div class="col-md-4 col-lg-2 text-center border-end">
+            <small class="text-muted d-block mb-1"><%= BalanceSheet.human_attribute_name(:net_worth) %></small>
+            <h4 class="<%= @balance_sheet.net_worth >= 0 ? 'text-success' : 'text-danger' %> mb-0">
+              <%= number_to_currency(@balance_sheet.net_worth) %>
+            </h4>
+          </div>
+          <div class="col-md-4 col-lg-2 text-center border-end">
+            <small class="text-muted d-block mb-1"><%= I18n.t("views.balance_sheets.report.executive_summary.debt_to_assets_ratio") %></small>
+            <% if debt_to_assets_ratio %>
+              <h4 class="<%= debt_to_assets_ratio < 50 ? 'text-success' : 'text-warning' %> mb-0">
+                <%= number_to_percentage(debt_to_assets_ratio, precision: 1) %>
+              </h4>
+              <small class="text-muted"><%= debt_to_assets_ratio < 50 ? I18n.t("views.balance_sheets.report.executive_summary.healthy") : I18n.t("views.balance_sheets.report.executive_summary.elevated") %></small>
+            <% else %>
+              <h4 class="text-muted mb-0">—</h4>
+              <small class="text-muted"><%= I18n.t("views.balance_sheets.report.executive_summary.no_assets") %></small>
+            <% end %>
+          </div>
+          <div class="col-md-4 col-lg-2 text-center border-end">
+            <small class="text-muted d-block mb-1"><%= I18n.t("views.balance_sheets.report.executive_summary.liquidity_ratio") %></small>
+            <% if liquidity_ratio %>
+              <h4 class="<%= liquidity_ratio >= 1 ? 'text-success' : 'text-danger' %> mb-0">
+                <%= number_with_precision(liquidity_ratio, precision: 2) %>x
+              </h4>
+              <small class="text-muted"><%= liquidity_ratio >= 1 ? I18n.t("views.balance_sheets.report.executive_summary.covers_liabilities") : I18n.t("views.balance_sheets.report.executive_summary.insufficient") %></small>
+            <% else %>
+              <h4 class="text-success mb-0">—</h4>
+              <small class="text-muted"><%= I18n.t("views.balance_sheets.report.executive_summary.no_liabilities") %></small>
+            <% end %>
+          </div>
+          <div class="col-md-4 col-lg-2 text-center">
+            <small class="text-muted d-block mb-1"><%= I18n.t("views.balance_sheets.report.executive_summary.debt_to_equity") %></small>
+            <% if @balance_sheet.total_liabilities.zero? %>
+              <h4 class="text-success mb-0">0x</h4>
+              <small class="text-muted"><%= I18n.t("views.balance_sheets.report.executive_summary.no_debt") %></small>
+            <% elsif @balance_sheet.net_worth <= 0 %>
+              <h4 class="text-danger mb-0">N/A</h4>
+              <small class="text-muted"><%= I18n.t("views.balance_sheets.report.executive_summary.negative_equity") %></small>
+            <% else %>
+              <h4 class="<%= debt_to_equity <= 1 ? 'text-success' : 'text-warning' %> mb-0">
+                <%= number_with_precision(debt_to_equity, precision: 2) %>x
+              </h4>
+              <small class="text-muted"><%= debt_to_equity <= 1 ? I18n.t("views.balance_sheets.report.executive_summary.low_leverage") : I18n.t("views.balance_sheets.report.executive_summary.high_leverage") %></small>
+            <% end %>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <small class="text-muted"><%= I18n.t("views.balance_sheets.report.executive_summary.liquid_assets") %>:</small>
+              <strong><%= number_to_currency(liquid_assets_total) %></strong>
+              <% if liquid_asset_pct %>
+                <span class="badge bg-secondary"><%= number_to_percentage(liquid_asset_pct, precision: 1) %> <%= I18n.t("views.balance_sheets.report.executive_summary.of_total") %></span>
+              <% else %>
+                <span class="badge bg-secondary">— <%= I18n.t("views.balance_sheets.report.executive_summary.no_assets") %></span>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -262,45 +314,6 @@
         <% else %>
           <p class="text-muted"><%= I18n.t("views.balance_sheets.report.empty.long_term") %></p>
         <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row mt-4">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header bg-info text-white">
-        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.executive_summary.title") %></h5>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-3">
-            <small><%= BalanceSheet.human_attribute_name(:total_assets) %></small>
-            <h4 class="text-success"><%= number_to_currency(@balance_sheet.total_assets) %></h4>
-          </div>
-          <div class="col-md-3">
-            <small><%= BalanceSheet.human_attribute_name(:total_liabilities) %></small>
-            <h4 class="text-danger"><%= number_to_currency(@balance_sheet.total_liabilities) %></h4>
-          </div>
-          <div class="col-md-3">
-            <small><%= BalanceSheet.human_attribute_name(:net_worth) %></small>
-            <h4 class="<%= @balance_sheet.net_worth >= 0 ? 'text-success' : 'text-danger' %>">
-              <%= number_to_currency(@balance_sheet.net_worth) %>
-            </h4>
-          </div>
-          <div class="col-md-3">
-            <small><%= I18n.t("views.balance_sheets.report.executive_summary.debt_to_assets_ratio") %></small>
-            <% if @balance_sheet.total_assets > 0 %>
-              <h4 class="<%= (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) < 50 ? 'text-success' : 'text-warning' %>">
-                <%= number_to_percentage(@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100, precision: 1) %>
-              </h4>
-            <% else %>
-              <h4 class="text-muted">—</h4>
-              <small><%= I18n.t("views.balance_sheets.report.executive_summary.no_assets") %></small>
-            <% end %>
-          </div>
-        </div>
       </div>
     </div>
   </div>
