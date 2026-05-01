@@ -67,7 +67,7 @@ class DataImportService
           category: asset_attrs["category"],
           amount: asset_attrs["amount"],
           description: asset_attrs["description"],
-          position: asset_attrs["position"],
+          position: asset_attrs["position"] || 0,
           created_at: asset_attrs["created_at"],
           updated_at: asset_attrs["updated_at"]
         )
@@ -80,7 +80,7 @@ class DataImportService
           category: liability_attrs["category"],
           amount: liability_attrs["amount"],
           description: liability_attrs["description"],
-          position: liability_attrs["position"],
+          position: liability_attrs["position"] || 0,
           created_at: liability_attrs["created_at"],
           updated_at: liability_attrs["updated_at"]
         )
@@ -117,7 +117,7 @@ class DataImportService
           item_type: item_attrs["item_type"],
           amount: item_attrs["amount"],
           description: item_attrs["description"],
-          position: item_attrs["position"],
+          position: item_attrs["position"] || 0,
           created_at: item_attrs["created_at"],
           updated_at: item_attrs["updated_at"]
         )

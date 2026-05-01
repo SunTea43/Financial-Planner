@@ -271,29 +271,34 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header bg-info text-white">
-        <h5 class="mb-0">Resumen Ejecutivo</h5>
+        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.executive_summary.title") %></h5>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-3">
-            <p><strong>Total Activos:</strong></p>
+            <small><%= BalanceSheet.human_attribute_name(:total_assets) %></small>
             <h4 class="text-success"><%= number_to_currency(@balance_sheet.total_assets) %></h4>
           </div>
           <div class="col-md-3">
-            <p><strong>Total Pasivos:</strong></p>
+            <small><%= BalanceSheet.human_attribute_name(:total_liabilities) %></small>
             <h4 class="text-danger"><%= number_to_currency(@balance_sheet.total_liabilities) %></h4>
           </div>
           <div class="col-md-3">
-            <p><strong>Patrimonio Neto:</strong></p>
+            <small><%= BalanceSheet.human_attribute_name(:net_worth) %></small>
             <h4 class="<%= @balance_sheet.net_worth >= 0 ? 'text-success' : 'text-danger' %>">
               <%= number_to_currency(@balance_sheet.net_worth) %>
             </h4>
           </div>
           <div class="col-md-3">
-            <p><strong>Ratio Deuda/Activos:</strong></p>
-            <h4 class="<%= (@balance_sheet.total_liabilities.to_f / [@balance_sheet.total_assets, 1].max * 100) < 50 ? 'text-success' : 'text-warning' %>">
-              <%= number_to_percentage(@balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) : 0, precision: 1) %>
-            </h4>
+            <small><%= I18n.t("views.balance_sheets.report.executive_summary.debt_to_assets_ratio") %></small>
+            <% if @balance_sheet.total_assets > 0 %>
+              <h4 class="<%= (@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100) < 50 ? 'text-success' : 'text-warning' %>">
+                <%= number_to_percentage(@balance_sheet.total_liabilities.to_f / @balance_sheet.total_assets * 100, precision: 1) %>
+              </h4>
+            <% else %>
+              <h4 class="text-muted">—</h4>
+              <small><%= I18n.t("views.balance_sheets.report.executive_summary.no_assets") %></small>
+            <% end %>
           </div>
         </div>
       </div>
