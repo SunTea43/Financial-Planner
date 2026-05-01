@@ -104,7 +104,7 @@ class BalanceSheetsController < ApplicationController
   private
 
   def set_balance_sheet
-    @balance_sheet = current_user.balance_sheets.find(params[:id])
+    @balance_sheet = current_user.balance_sheets.includes(:assets, :liabilities).find(params[:id])
   end
 
   def set_account
