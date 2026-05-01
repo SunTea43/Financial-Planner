@@ -37,10 +37,16 @@ git fetch origin
 git worktree add -b <branch-name> ../<repo-name>_<worktree-dir> origin/main
 ```
 
-- If the branch already exists, do not use `-b`:
+- If the branch already exists **locally**, do not use `-b`:
 
 ```bash
 git worktree add ../<repo-name>_<worktree-dir> <branch-name>
+```
+
+- If the branch exists **only on the remote** (e.g., when resuming work on another machine), create a local tracking branch first:
+
+```bash
+git worktree add -b <branch-name> --track origin/<branch-name> ../<repo-name>_<worktree-dir>
 ```
 
 - Check current worktrees before creating a new one:
