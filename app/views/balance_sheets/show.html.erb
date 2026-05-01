@@ -8,6 +8,6 @@
   </div>
 </div>
 
-<%= cell(BalanceSheetCell, @balance_sheet).call(:show) %>
-<%= cell(BalanceSheetCell, @balance_sheet).call(:comparison) %>
+<%= render(BalanceSheets::ShowComponent.new(balance_sheet: @balance_sheet)) %>
+<%= render(BalanceSheets::ComparisonComponent.new(balance_sheet: @balance_sheet)) %>
 

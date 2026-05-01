@@ -26,10 +26,8 @@ gem "bcrypt", "~> 3.1.7"
 gem "devise", "~> 5.0"
 gem "devise-i18n"
 
-# Trailblazer Cells for view components
-gem "cells"
-gem "cells-rails"
-gem "cells-erb"
+# ViewComponent for encapsulated view components
+gem "view_component"
 
 # Simple form for forms
 gem "simple_form"

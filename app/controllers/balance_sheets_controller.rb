@@ -103,8 +103,12 @@ class BalanceSheetsController < ApplicationController
 
   private
 
+  ACTIONS_WITH_ITEMS = %w[show report duplicate].freeze
+
   def set_balance_sheet
-    @balance_sheet = current_user.balance_sheets.find(params[:id])
+    scope = current_user.balance_sheets
+    scope = scope.includes(:assets, :liabilities) if action_name.in?(ACTIONS_WITH_ITEMS)
+    @balance_sheet = scope.find(params[:id])
   end
 
   def set_account
