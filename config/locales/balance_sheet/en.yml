@@ -34,11 +34,33 @@ en:
         cancel: "Cancel"
         submit_update: "Update Balance Sheet"
         submit_create: "Create Balance Sheet"
+      new:
+        title: "New Balance Sheet"
+        submit_create: "Create Balance Sheet"
       show:
         back: "View"
         edit: "Edit"
         destroy: "Delete"
       report:
+        historical_behavior: "Historical Behavior"
+        liquid_assets_section: "Liquid Assets"
+        fixed_assets_section: "Fixed Assets"
+        short_term_liabilities_section: "Short-Term Liabilities"
+        long_term_liabilities_section: "Long-Term Liabilities"
+        table:
+          name: "Name"
+          category: "Category"
+          amount: "Amount"
+          no_category: "N/A"
+          subtotal_liquid: "Liquid Assets Subtotal"
+          subtotal_fixed: "Fixed Assets Subtotal"
+          subtotal_short_term: "Short-Term Liabilities Subtotal"
+          subtotal_long_term: "Long-Term Liabilities Subtotal"
+        empty:
+          liquid_assets: "No liquid assets recorded."
+          fixed_assets: "No fixed assets recorded."
+          short_term: "No short-term liabilities recorded."
+          long_term: "No long-term liabilities recorded."
         executive_summary:
           title: "Executive Summary"
           debt_to_assets_ratio: "Debt-to-Assets Ratio"

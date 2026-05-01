@@ -100,7 +100,11 @@
     class="row mb-4"
     data-controller="budget-category-chart"
     data-budget-category-chart-expense-data-value="<%= @expense_category_chart_data.to_json %>"
-    data-budget-category-chart-income-data-value="<%= @income_category_chart_data.to_json %>">
+    data-budget-category-chart-income-data-value="<%= @income_category_chart_data.to_json %>"
+    data-budget-category-chart-expense-title-value="<%= I18n.t('views.budgets.show.charts.expense_by_category') %>"
+    data-budget-category-chart-income-title-value="<%= I18n.t('views.budgets.show.charts.income_by_category') %>"
+    data-budget-category-chart-currency-value="<%= current_currency_code %>"
+    data-budget-category-chart-locale-value="<%= I18n.locale %>">
     <div class="col-md-6 mb-3">
       <div class="card h-100">
         <div class="card-body">

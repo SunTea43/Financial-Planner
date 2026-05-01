@@ -101,7 +101,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h5 class="mb-0">Comportamiento Histórico</h5>
+          <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.historical_behavior") %></h5>
         </div>
         <div class="card-body">
           <canvas id="historicalLineChart" style="max-height: 400px;"></canvas>
@@ -115,7 +115,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header">
-        <h5 class="mb-0">Activos Líquidos</h5>
+        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.liquid_assets_section") %></h5>
       </div>
       <div class="card-body">
         <% liquid_assets = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
@@ -123,29 +123,29 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th class="text-end">Monto</th>
+                <th><%= I18n.t("views.balance_sheets.report.table.name") %></th>
+                <th><%= I18n.t("views.balance_sheets.report.table.category") %></th>
+                <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.amount") %></th>
               </tr>
             </thead>
             <tbody>
               <% liquid_assets.each do |asset| %>
                 <tr>
                   <td><%= asset.name %></td>
-                  <td><%= asset.category || "N/A" %></td>
+                  <td><%= asset.category.presence || I18n.t("views.balance_sheets.report.table.no_category") %></td>
                   <td class="text-end"><strong><%= number_to_currency(asset.amount) %></strong></td>
                 </tr>
               <% end %>
             </tbody>
             <tfoot>
               <tr class="table-primary">
-                <th colspan="2">Subtotal Activos Líquidos</th>
+                <th colspan="2"><%= I18n.t("views.balance_sheets.report.table.subtotal_liquid") %></th>
                 <th class="text-end"><%= number_to_currency(liquid_assets.sum(&:amount)) %></th>
               </tr>
             </tfoot>
           </table>
         <% else %>
-          <p class="text-muted">No hay activos líquidos registrados.</p>
+          <p class="text-muted"><%= I18n.t("views.balance_sheets.report.empty.liquid_assets") %></p>
         <% end %>
       </div>
     </div>
@@ -154,7 +154,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header">
-        <h5 class="mb-0">Activos Fijos</h5>
+        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.fixed_assets_section") %></h5>
       </div>
       <div class="card-body">
         <% fixed_assets = @balance_sheet.assets.select { |a| a.item_type == 'fixed' } %>
@@ -162,29 +162,29 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th class="text-end">Monto</th>
+                <th><%= I18n.t("views.balance_sheets.report.table.name") %></th>
+                <th><%= I18n.t("views.balance_sheets.report.table.category") %></th>
+                <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.amount") %></th>
               </tr>
             </thead>
             <tbody>
               <% fixed_assets.each do |asset| %>
                 <tr>
                   <td><%= asset.name %></td>
-                  <td><%= asset.category || "N/A" %></td>
+                  <td><%= asset.category.presence || I18n.t("views.balance_sheets.report.table.no_category") %></td>
                   <td class="text-end"><strong><%= number_to_currency(asset.amount) %></strong></td>
                 </tr>
               <% end %>
             </tbody>
             <tfoot>
               <tr class="table-primary">
-                <th colspan="2">Subtotal Activos Fijos</th>
+                <th colspan="2"><%= I18n.t("views.balance_sheets.report.table.subtotal_fixed") %></th>
                 <th class="text-end"><%= number_to_currency(fixed_assets.sum(&:amount)) %></th>
               </tr>
             </tfoot>
           </table>
         <% else %>
-          <p class="text-muted">No hay activos fijos registrados.</p>
+          <p class="text-muted"><%= I18n.t("views.balance_sheets.report.empty.fixed_assets") %></p>
         <% end %>
       </div>
     </div>
@@ -195,7 +195,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header bg-warning">
-        <h5 class="mb-0">Pasivos a Corto Plazo</h5>
+        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.short_term_liabilities_section") %></h5>
       </div>
       <div class="card-body">
         <% short_term = @balance_sheet.liabilities.select { |l| l.item_type == 'short_term' } %>
@@ -203,8 +203,8 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th class="text-end">Monto</th>
+                <th><%= I18n.t("views.balance_sheets.report.table.name") %></th>
+                <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.amount") %></th>
               </tr>
             </thead>
             <tbody>
@@ -217,13 +217,13 @@
             </tbody>
             <tfoot>
               <tr class="table-danger">
-                <th>Subtotal Pasivos Corto Plazo</th>
+                <th><%= I18n.t("views.balance_sheets.report.table.subtotal_short_term") %></th>
                 <th class="text-end"><%= number_to_currency(short_term.sum(&:amount)) %></th>
               </tr>
             </tfoot>
           </table>
         <% else %>
-          <p class="text-muted">No hay pasivos a corto plazo registrados.</p>
+          <p class="text-muted"><%= I18n.t("views.balance_sheets.report.empty.short_term") %></p>
         <% end %>
       </div>
     </div>
@@ -232,7 +232,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header bg-danger text-white">
-        <h5 class="mb-0">Pasivos a Largo Plazo</h5>
+        <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.long_term_liabilities_section") %></h5>
       </div>
       <div class="card-body">
         <% long_term = @balance_sheet.liabilities.select { |l| l.item_type == 'long_term' } %>
@@ -240,8 +240,8 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th class="text-end">Monto</th>
+                <th><%= I18n.t("views.balance_sheets.report.table.name") %></th>
+                <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.amount") %></th>
               </tr>
             </thead>
             <tbody>
@@ -254,13 +254,13 @@
             </tbody>
             <tfoot>
               <tr class="table-danger">
-                <th>Subtotal Pasivos Largo Plazo</th>
+                <th><%= I18n.t("views.balance_sheets.report.table.subtotal_long_term") %></th>
                 <th class="text-end"><%= number_to_currency(long_term.sum(&:amount)) %></th>
               </tr>
             </tfoot>
           </table>
         <% else %>
-          <p class="text-muted">No hay pasivos a largo plazo registrados.</p>
+          <p class="text-muted"><%= I18n.t("views.balance_sheets.report.empty.long_term") %></p>
         <% end %>
       </div>
     </div>

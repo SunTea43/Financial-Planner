@@ -4,7 +4,11 @@ import Chart from "chart.js/auto"
 export default class extends Controller {
   static values = {
     expenseData: Object,
-    incomeData: Object
+    incomeData: Object,
+    expenseTitle: String,
+    incomeTitle: String,
+    currency: String,
+    locale: String
   }
 
   connect() {
@@ -37,13 +41,15 @@ export default class extends Controller {
           },
           title: {
             display: true,
-            text: "Distribucion de gastos por categoria"
+            text: this.expenseTitleValue
           },
           tooltip: {
             callbacks: {
-              label(context) {
+              label: (context) => {
                 const value = context.raw || 0
-                return `${context.label}: ${new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(value)}`
+                const locale = this.localeValue || "es"
+                const currency = this.currencyValue || "COP"
+                return `${context.label}: ${new Intl.NumberFormat(locale, { style: "currency", currency }).format(value)}`
               }
             }
           }
@@ -78,13 +84,15 @@ export default class extends Controller {
           },
           title: {
             display: true,
-            text: "Distribucion de ingresos por categoria"
+            text: this.incomeTitleValue
           },
           tooltip: {
             callbacks: {
-              label(context) {
+              label: (context) => {
                 const value = context.raw || 0
-                return `${context.label}: ${new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(value)}`
+                const locale = this.localeValue || "es"
+                const currency = this.currencyValue || "COP"
+                return `${context.label}: ${new Intl.NumberFormat(locale, { style: "currency", currency }).format(value)}`
               }
             }
           }

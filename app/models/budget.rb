@@ -110,8 +110,13 @@ class Budget < ApplicationRecord
   end
 
   def top_expense_category_total
-    grouped = expense_items.group_by { |item| item.category.presence || "__uncategorized__" }
-    grouped.values.map { |items| items.sum { |item| item.amount.to_f } }.max.to_f
+    categorized = expense_items.select { |item| item.category.present? }
+    return 0.0 if categorized.empty?
+
+    categorized.group_by(&:category)
+               .values
+               .map { |items| items.sum { |item| item.amount.to_f } }
+               .max.to_f
   end
 
   def uncategorized_expenses_total

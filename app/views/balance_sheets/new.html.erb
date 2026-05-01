@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
   <div class="col-md-12">
-    <h1>Nuevo Balance General</h1>
+    <h1><%= I18n.t('views.balance_sheets.new.title') %></h1>
     <p class="text-muted"><%= I18n.t("views.common.current_currency", currency: current_currency_code) %></p>
     
     <%= simple_form_for @balance_sheet do |f| %>
@@ -8,13 +8,13 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-6">
-              <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: "Sin cuenta específica", label: "Cuenta (opcional)" %>
+              <%= f.input :account_id, collection: current_user.accounts, label_method: :name, value_method: :id, include_blank: I18n.t('views.common.none_specific'), label: BalanceSheet.human_attribute_name(:account_id) %>
             </div>
             <div class="col-md-6">
-              <%= f.input :recorded_at, label: "Fecha y Hora de Registro", as: :string, input_html: { type: 'datetime-local', value: f.object.recorded_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M") } %>
+              <%= f.input :recorded_at, label: BalanceSheet.human_attribute_name(:recorded_at), as: :string, input_html: { type: 'datetime-local', value: f.object.recorded_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M") } %>
             </div>
           </div>
-          <%= f.input :notes, label: "Notas", as: :text, input_html: { rows: 2 } %>
+          <%= f.input :notes, label: BalanceSheet.human_attribute_name(:notes), as: :text, input_html: { rows: 2 } %>
         </div>
       </div>
 
@@ -29,29 +29,30 @@
               <div class="card-body p-3">
                 <div class="row g-2">
                   <div class="col-12">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" name="balance_sheet[assets_attributes][NEW_RECORD][name]" class="form-control" placeholder="Nombre (ej: Efectivo)" />
+                    <label class="form-label"><%= Asset.human_attribute_name(:name) %></label>
+                    <input type="text" name="balance_sheet[assets_attributes][NEW_RECORD][name]" class="form-control" placeholder="<%= Asset.human_attribute_name(:name) %>" />
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label">Tipo</label>
+                    <label class="form-label"><%= Asset.human_attribute_name(:item_type) %></label>
                     <select name="balance_sheet[assets_attributes][NEW_RECORD][item_type]" class="form-select">
-                      <option value="">Seleccionar</option>
-                      <option value="liquid">Líquido</option>
-                      <option value="fixed">Fijo</option>
+                      <option value=""><%= I18n.t('views.common.select_prompt') %></option>
+                      <% Asset.translated_item_types.each do |label, value| %>
+                        <option value="<%= value %>"><%= label %></option>
+                      <% end %>
                     </select>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label">Monto</label>
-                    <input type="number" step="0.01" name="balance_sheet[assets_attributes][NEW_RECORD][amount]" class="form-control" placeholder="Monto" />
+                    <label class="form-label"><%= Asset.human_attribute_name(:amount) %></label>
+                    <input type="number" step="0.01" name="balance_sheet[assets_attributes][NEW_RECORD][amount]" class="form-control" placeholder="<%= Asset.human_attribute_name(:amount) %>" />
                   </div>
                 </div>
                 <div class="mt-2">
-                  <label class="form-label">Categoría</label>
-                  <input type="text" name="balance_sheet[assets_attributes][NEW_RECORD][category]" class="form-control" placeholder="Categoría (opcional)" />
+                  <label class="form-label"><%= Asset.human_attribute_name(:category) %></label>
+                  <input type="text" name="balance_sheet[assets_attributes][NEW_RECORD][category]" class="form-control" placeholder="<%= Asset.human_attribute_name(:category) %>" />
                 </div>
                 <div class="mt-2">
-                  <label class="form-label">Descripción</label>
-                  <textarea name="balance_sheet[assets_attributes][NEW_RECORD][description]" class="form-control" rows="1" placeholder="Descripción"></textarea>
+                  <label class="form-label"><%= Asset.human_attribute_name(:description) %></label>
+                  <textarea name="balance_sheet[assets_attributes][NEW_RECORD][description]" class="form-control" rows="1" placeholder="<%= Asset.human_attribute_name(:description) %>"></textarea>
                 </div>
                 <input type="hidden" name="balance_sheet[assets_attributes][NEW_RECORD][position]" value="999" />
               </div>
@@ -59,13 +60,13 @@
           </template>
 
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0 text-primary">Activos</h3>
-            <button type="button" class="btn btn-sm btn-outline-primary" data-action="click->nested-form#add">+ Agregar Activo</button>
+            <h3 class="mb-0 text-primary"><%= I18n.t('views.balance_sheets.edit.assets_section') %></h3>
+            <button type="button" class="btn btn-sm btn-outline-primary" data-action="click->nested-form#add">+ <%= I18n.t('views.balance_sheets.edit.add_asset') %></button>
           </div>
           
           <div id="assets" data-controller="sortable" data-nested-form-target="container">
             <%= f.simple_fields_for :assets do |asset_form| %>
-              <div class="card mb-3 asset-fields nested-fields shadow-sm border-primary">
+              <div class="card mb-3 asset-fields nested-fields shadow-sm border-primary" data-new-record="<%= asset_form.object.persisted? ? 'false' : 'true' %>">
                 <div class="card-header drag-handle d-flex justify-content-between align-items-center py-1" style="cursor: move;">
                   <span class="text-muted small">☰ <%= I18n.t('views.balance_sheets.edit.reorder') %></span>
                   <button type="button" class="btn-close btn-close-sm" data-action="click->nested-form#remove" aria-label="Close"></button>
@@ -73,17 +74,17 @@
                 <div class="card-body p-3">
                   <div class="row g-2">
                     <div class="col-12">
-                      <%= asset_form.input :name, label: false, placeholder: "Nombre (ej: Efectivo)" %>
+                      <%= asset_form.input :name, label: false, placeholder: Asset.human_attribute_name(:name) %>
                     </div>
                     <div class="col-md-6">
-                      <%= asset_form.input :item_type, label: false, collection: Asset::ASSET_TYPES, prompt: "Tipo" %>
+                      <%= asset_form.input :item_type, label: false, collection: Asset.translated_item_types, prompt: I18n.t('views.common.select_prompt') %>
                     </div>
                     <div class="col-md-6">
-                      <%= asset_form.input :amount, label: false, as: :decimal, input_html: { step: 0.01 }, placeholder: "Monto" %>
+                      <%= asset_form.input :amount, label: false, as: :decimal, input_html: { step: 0.01 }, placeholder: Asset.human_attribute_name(:amount) %>
                     </div>
                   </div>
-                  <%= asset_form.input :category, label: false, placeholder: "Categoría (opcional)" %>
-                  <%= asset_form.input :description, label: false, as: :text, input_html: { rows: 1 }, placeholder: "Descripción" %>
+                  <%= asset_form.input :category, label: false, placeholder: Asset.human_attribute_name(:category) %>
+                  <%= asset_form.input :description, label: false, as: :text, input_html: { rows: 1 }, placeholder: Asset.human_attribute_name(:description) %>
                   <%= asset_form.input :position, as: :hidden %>
                   <%= asset_form.input :id, as: :hidden if asset_form.object.persisted? %>
                   <%= asset_form.input :_destroy, as: :hidden %>
@@ -103,25 +104,26 @@
               <div class="card-body p-3">
                 <div class="row g-2">
                   <div class="col-12">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" name="balance_sheet[liabilities_attributes][NEW_RECORD][name]" class="form-control" placeholder="Nombre (ej: Tarjeta)" />
+                    <label class="form-label"><%= Liability.human_attribute_name(:name) %></label>
+                    <input type="text" name="balance_sheet[liabilities_attributes][NEW_RECORD][name]" class="form-control" placeholder="<%= Liability.human_attribute_name(:name) %>" />
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label">Tipo</label>
+                    <label class="form-label"><%= Liability.human_attribute_name(:item_type) %></label>
                     <select name="balance_sheet[liabilities_attributes][NEW_RECORD][item_type]" class="form-select">
-                      <option value="">Seleccionar</option>
-                      <option value="short_term">Corto Plazo</option>
-                      <option value="long_term">Largo Plazo</option>
+                      <option value=""><%= I18n.t('views.common.select_prompt') %></option>
+                      <% Liability.translated_item_types.each do |label, value| %>
+                        <option value="<%= value %>"><%= label %></option>
+                      <% end %>
                     </select>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label">Monto</label>
-                    <input type="number" step="0.01" name="balance_sheet[liabilities_attributes][NEW_RECORD][amount]" class="form-control" placeholder="Monto" />
+                    <label class="form-label"><%= Liability.human_attribute_name(:amount) %></label>
+                    <input type="number" step="0.01" name="balance_sheet[liabilities_attributes][NEW_RECORD][amount]" class="form-control" placeholder="<%= Liability.human_attribute_name(:amount) %>" />
                   </div>
                 </div>
                 <div class="mt-2">
-                  <label class="form-label">Descripción</label>
-                  <textarea name="balance_sheet[liabilities_attributes][NEW_RECORD][description]" class="form-control" rows="1" placeholder="Descripción"></textarea>
+                  <label class="form-label"><%= Liability.human_attribute_name(:description) %></label>
+                  <textarea name="balance_sheet[liabilities_attributes][NEW_RECORD][description]" class="form-control" rows="1" placeholder="<%= Liability.human_attribute_name(:description) %>"></textarea>
                 </div>
                 <input type="hidden" name="balance_sheet[liabilities_attributes][NEW_RECORD][position]" value="999" />
               </div>
@@ -129,13 +131,13 @@
           </template>
 
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0 text-info">Pasivos</h3>
-            <button type="button" class="btn btn-sm btn-outline-info" data-action="click->nested-form#add">+ Agregar Pasivo</button>
+            <h3 class="mb-0 text-info"><%= I18n.t('views.balance_sheets.edit.liabilities_section') %></h3>
+            <button type="button" class="btn btn-sm btn-outline-info" data-action="click->nested-form#add">+ <%= I18n.t('views.balance_sheets.edit.add_liability') %></button>
           </div>
           
           <div id="liabilities" data-controller="sortable" data-nested-form-target="container">
             <%= f.simple_fields_for :liabilities do |liability_form| %>
-              <div class="card mb-3 liability-fields nested-fields shadow-sm border-info">
+              <div class="card mb-3 liability-fields nested-fields shadow-sm border-info" data-new-record="<%= liability_form.object.persisted? ? 'false' : 'true' %>">
                 <div class="card-header drag-handle d-flex justify-content-between align-items-center py-1" style="cursor: move;">
                   <span class="text-muted small">☰ <%= I18n.t('views.balance_sheets.edit.reorder') %></span>
                   <button type="button" class="btn-close btn-close-sm" data-action="click->nested-form#remove" aria-label="Close"></button>
@@ -143,16 +145,16 @@
                 <div class="card-body p-3">
                   <div class="row g-2">
                     <div class="col-12">
-                      <%= liability_form.input :name, label: false, placeholder: "Nombre (ej: Tarjeta)" %>
+                      <%= liability_form.input :name, label: false, placeholder: Liability.human_attribute_name(:name) %>
                     </div>
                     <div class="col-md-6">
-                      <%= liability_form.input :item_type, label: false, collection: Liability::LIABILITY_TYPES, prompt: "Tipo" %>
+                      <%= liability_form.input :item_type, label: false, collection: Liability.translated_item_types, prompt: I18n.t('views.common.select_prompt') %>
                     </div>
                     <div class="col-md-6">
-                      <%= liability_form.input :amount, label: false, as: :decimal, input_html: { step: 0.01 }, placeholder: "Monto" %>
+                      <%= liability_form.input :amount, label: false, as: :decimal, input_html: { step: 0.01 }, placeholder: Liability.human_attribute_name(:amount) %>
                     </div>
                   </div>
-                  <%= liability_form.input :description, label: false, as: :text, input_html: { rows: 1 }, placeholder: "Descripción" %>
+                  <%= liability_form.input :description, label: false, as: :text, input_html: { rows: 1 }, placeholder: Liability.human_attribute_name(:description) %>
                   <%= liability_form.input :position, as: :hidden %>
                   <%= liability_form.input :id, as: :hidden if liability_form.object.persisted? %>
                   <%= liability_form.input :_destroy, as: :hidden %>
@@ -164,8 +166,8 @@
       </div>
 
       <div class="sticky-bottom bg-white p-3 shadow-lg border-top mt-5 d-flex justify-content-between">
-        <%= link_to "Cancelar", balance_sheets_path, class: "btn btn-secondary" %>
-        <%= f.submit "Crear Balance General", class: "btn btn-primary" %>
+        <%= link_to I18n.t('views.balance_sheets.edit.cancel'), balance_sheets_path, class: "btn btn-secondary" %>
+        <%= f.submit I18n.t('views.balance_sheets.new.submit_create'), class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
