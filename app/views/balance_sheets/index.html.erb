@@ -7,7 +7,7 @@
   <div class="row">
     <% @balance_sheets.each do |balance_sheet| %>
       <div class="col-md-6 mb-4">
-        <%= cell(BalanceSheetCell, balance_sheet).call(:summary) %>
+        <%= render(BalanceSheets::SummaryComponent.new(balance_sheet: balance_sheet)) %>
         <div class="d-flex justify-content-between mt-2">
           <%= link_to I18n.t('views.balance_sheets.show.back'), balance_sheet, class: "btn btn-sm btn-primary" %>
           <%= link_to I18n.t('views.balance_sheets.show.edit'), edit_balance_sheet_path(balance_sheet), class: "btn btn-sm btn-secondary" %>
