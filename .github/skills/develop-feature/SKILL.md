@@ -24,9 +24,25 @@ A feature description in natural language with:
 
 2. Create an isolated worktree and branch
 - Always implement features in a dedicated git worktree, never in the main workspace.
-- Start from `main` and create both branch and worktree in one step.
-- Recommended command:
-	`git worktree add -b <branch-name> ../<repo-name>_<branch-name> main`
+- Use `<worktree-dir>` for filesystem-safe directory naming (for example, replace `/` in branch names with `-`).
+- For a new branch from `main`, create branch and worktree in one step:
+
+```bash
+git worktree add -b <branch-name> ../<repo-name>_<worktree-dir> main
+```
+
+- If the branch already exists, do not use `-b`:
+
+```bash
+git worktree add ../<repo-name>_<worktree-dir> <branch-name>
+```
+
+- Check current worktrees before creating a new one:
+
+```bash
+git worktree list
+```
+
 - Enter the new worktree directory before any code change, test, commit, or PR action.
 
 3. Implement the feature
@@ -62,7 +78,12 @@ A feature description in natural language with:
 
 9. Clean up the worktree when finished
 - After work is merged or no longer needed, remove the temporary worktree:
-	`git worktree remove ../<repo-name>_<branch-name>`
+
+```bash
+cd <path-to-main-repo>
+git worktree remove ../<repo-name>_<worktree-dir>
+```
+
 - Keep only active feature worktrees to avoid stale directories.
 
 ## Notes
