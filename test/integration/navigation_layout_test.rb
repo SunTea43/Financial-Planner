@@ -11,7 +11,7 @@ class NavigationLayoutTest < ActionDispatch::IntegrationTest
     get dashboard_index_url
     assert_response :success
 
-    assert_select "#mainSidebar.offcanvas-lg.offcanvas-start", count: 1
+    assert_select "#mainSidebar.offcanvas.offcanvas-start", count: 1
     assert_select "#mainSidebar .offcanvas-body .list-group a[href='#{authenticated_root_path}']", count: 1
     assert_select "#mainSidebar .offcanvas-body .list-group a[href='#{accounts_path}']", count: 1
     assert_select "#mainSidebar .offcanvas-body .list-group a[href='#{balance_sheets_path}']", count: 1

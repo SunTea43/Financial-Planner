@@ -62,12 +62,12 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     get dashboard_index_url
     assert_response :success
 
-    assert_select "aside .list-group a[href='#{authenticated_root_path}']", count: 1
-    assert_select "aside .list-group a[href='#{accounts_path}']", count: 1
-    assert_select "aside .list-group a[href='#{balance_sheets_path}']", count: 1
-    assert_select "aside .list-group a[href='#{budgets_path}']", count: 1
-    assert_select "aside .list-group a[href='#{savings_plans_path}']", count: 1
-    assert_select "aside .list-group a[href='#{reports_path}']", count: 1
+    assert_select "#mainSidebar .list-group a[href='#{authenticated_root_path}']", count: 1
+    assert_select "#mainSidebar .list-group a[href='#{accounts_path}']", count: 1
+    assert_select "#mainSidebar .list-group a[href='#{balance_sheets_path}']", count: 1
+    assert_select "#mainSidebar .list-group a[href='#{budgets_path}']", count: 1
+    assert_select "#mainSidebar .list-group a[href='#{savings_plans_path}']", count: 1
+    assert_select "#mainSidebar .list-group a[href='#{reports_path}']", count: 1
 
     assert_select "nav .dropdown-menu a[href='#{edit_user_registration_path}']", count: 1
     assert_select "nav .dropdown-menu a[href='#{data_export_path}']", count: 1
