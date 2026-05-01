@@ -30,15 +30,35 @@
            classes << "active" if current_page?(path)
            classes.join(" ")
          end %>
+      <% sidebar_items = [
+           [ "Dashboard", authenticated_root_path ],
+           [ "Cuentas", accounts_path ],
+           [ "Balance General", balance_sheets_path ],
+           [ "Presupuestos", budgets_path ],
+           [ "Planes de Ahorro", savings_plans_path ],
+           [ "Reportes", reports_path ]
+         ] %>
 
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <button
-            class="btn btn-outline-light me-2"
+            class="btn btn-outline-light me-2 d-lg-none"
             type="button"
             data-bs-toggle="offcanvas"
-            data-bs-target="#mainSidebar"
-            aria-controls="mainSidebar"
+            data-bs-target="#mainSidebarMobile"
+            aria-controls="mainSidebarMobile"
+            aria-label="Mostrar u ocultar menu lateral"
+          >
+            <i class="bi bi-layout-sidebar-inset"></i>
+            <span class="ms-1">Menu</span>
+          </button>
+          <button
+            class="btn btn-outline-light me-2 d-none d-lg-inline-flex"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainSidebarDesktop"
+            aria-controls="mainSidebarDesktop"
+            aria-expanded="true"
             aria-label="Mostrar u ocultar menu lateral"
           >
             <i class="bi bi-layout-sidebar-inset"></i>
@@ -68,19 +88,16 @@
         </div>
       </nav>
 
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="mainSidebar" aria-labelledby="mainSidebarLabel">
+      <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="mainSidebarMobile" aria-labelledby="mainSidebarMobileLabel">
         <div class="offcanvas-header border-bottom">
-          <h5 class="offcanvas-title" id="mainSidebarLabel">Navegacion</h5>
+          <h5 class="offcanvas-title" id="mainSidebarMobileLabel">Navegacion</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-0">
           <div class="list-group list-group-flush">
-            <%= link_to "Dashboard", authenticated_root_path, class: sidebar_link_class.call(authenticated_root_path) %>
-            <%= link_to "Cuentas", accounts_path, class: sidebar_link_class.call(accounts_path) %>
-            <%= link_to "Balance General", balance_sheets_path, class: sidebar_link_class.call(balance_sheets_path) %>
-            <%= link_to "Presupuestos", budgets_path, class: sidebar_link_class.call(budgets_path) %>
-            <%= link_to "Planes de Ahorro", savings_plans_path, class: sidebar_link_class.call(savings_plans_path) %>
-            <%= link_to "Reportes", reports_path, class: sidebar_link_class.call(reports_path) %>
+            <% sidebar_items.each do |label, path| %>
+              <%= link_to label, path, class: sidebar_link_class.call(path) %>
+            <% end %>
           </div>
         </div>
       </div>
@@ -100,7 +117,23 @@
           </div>
         <% end %>
 
-        <%= yield %>
+        <div class="d-flex align-items-start gap-4">
+          <div class="d-none d-lg-block">
+            <div class="collapse collapse-horizontal show" id="mainSidebarDesktop">
+              <div class="border rounded bg-body" style="width: 260px;">
+                <div class="list-group list-group-flush">
+                  <% sidebar_items.each do |label, path| %>
+                    <%= link_to label, path, class: sidebar_link_class.call(path) %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <main class="flex-grow-1">
+            <%= yield %>
+          </main>
+        </div>
       </div>
     <% else %>
       <div class="container-fluid mt-4">
