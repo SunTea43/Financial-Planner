@@ -50,11 +50,13 @@ en:
         assets_conversion:
           title: "Assets Conversion"
           factor_label: "Conversion factor"
+          factor_placeholder: "Empty = use current rate"
           currency_label: "Target currency (optional)"
           currency_placeholder: "Ex: USD"
           apply: "Apply"
           reset: "Reset"
           current_factor: "Current factor applied to assets: %{factor}"
+          base_currency: "Assets base currency: %{currency}"
           converted_total_assets: "Converted Total Assets"
           converted_liquid_assets: "Converted Liquid Assets"
         table:

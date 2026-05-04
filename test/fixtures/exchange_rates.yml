@@ -1,0 +1,13 @@
+cop_to_usd_recent:
+  base_currency: COP
+  quote_currency: USD
+  rate: 0.0002500000
+  fetched_at: 2026-05-04 10:00:00
+  source: open_er_api
+
+usd_to_cop_recent:
+  base_currency: USD
+  quote_currency: COP
+  rate: 4000.0000000000
+  fetched_at: 2026-05-04 10:00:00
+  source: open_er_api

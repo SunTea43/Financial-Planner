@@ -51,8 +51,10 @@ class BalanceSheetsController < ApplicationController
   end
 
   def report
-    @assets_conversion_factor = parse_assets_conversion_factor
+    @assets_base_currency = assets_base_currency
     @assets_currency = parse_assets_currency
+    @assets_conversion_factor_input = params[:assets_conversion_factor].to_s
+    @assets_conversion_factor = resolve_assets_conversion_factor
     @assets_chart_data = prepare_assets_chart_data
     @liabilities_chart_data = prepare_liabilities_chart_data
     @historical_chart_data = prepare_historical_chart_data
@@ -153,18 +155,32 @@ class BalanceSheetsController < ApplicationController
 
   def parse_assets_conversion_factor
     raw_factor = params[:assets_conversion_factor]
-    return BigDecimal("1") if raw_factor.blank?
+    return nil if raw_factor.blank?
 
     parsed_factor = BigDecimal(raw_factor.to_s)
-    parsed_factor.positive? ? parsed_factor : BigDecimal("1")
+    parsed_factor.positive? ? parsed_factor : nil
   rescue ArgumentError
-    BigDecimal("1")
+    nil
   end
 
   def parse_assets_currency
     return nil if params[:assets_currency].blank?
 
     params[:assets_currency].to_s.upcase.gsub(/[^A-Z]/, "").first(6).presence
+  end
+
+  def assets_base_currency
+    @balance_sheet.account&.preferred_currency || Account::DEFAULT_CURRENCY
+  end
+
+  def resolve_assets_conversion_factor
+    parse_assets_conversion_factor || current_assets_exchange_rate || BigDecimal("1")
+  end
+
+  def current_assets_exchange_rate
+    return nil unless @assets_currency.present?
+
+    ExchangeRate.latest_rate(base_currency: @assets_base_currency, quote_currency: @assets_currency)
   end
 
   def prepare_liabilities_chart_data

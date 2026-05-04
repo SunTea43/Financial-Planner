@@ -51,6 +51,43 @@ class BalanceSheetsControllerTest < ActionDispatch::IntegrationTest
     assert_equal BigDecimal("1"), assigns(:assets_conversion_factor)
   end
 
+  test "report action uses stored exchange rate when manual factor is missing" do
+    @balance_sheet.assets.create!(
+      name: "Cash",
+      item_type: "liquid",
+      category: "Efectivo",
+      amount: 100
+    )
+
+    get report_balance_sheet_path(@balance_sheet), params: { assets_currency: "usd" }
+
+    chart_data = assigns(:assets_chart_data)
+    idx = chart_data[:labels].index("Efectivo")
+
+    assert_not_nil idx
+    assert_equal 0.025, chart_data[:values][idx]
+    assert_equal BigDecimal("0.00025"), assigns(:assets_conversion_factor)
+    assert_equal "COP", assigns(:assets_base_currency)
+  end
+
+  test "report action prioritizes manual factor over stored exchange rate" do
+    @balance_sheet.assets.create!(
+      name: "Cash",
+      item_type: "liquid",
+      category: "Efectivo",
+      amount: 100
+    )
+
+    get report_balance_sheet_path(@balance_sheet), params: { assets_currency: "usd", assets_conversion_factor: "3" }
+
+    chart_data = assigns(:assets_chart_data)
+    idx = chart_data[:labels].index("Efectivo")
+
+    assert_not_nil idx
+    assert_equal 300.0, chart_data[:values][idx]
+    assert_equal BigDecimal("3"), assigns(:assets_conversion_factor)
+  end
+
   test "report action prepares liabilities chart data" do
     get report_balance_sheet_path(@balance_sheet)
     assert_not_nil assigns(:liabilities_chart_data)
