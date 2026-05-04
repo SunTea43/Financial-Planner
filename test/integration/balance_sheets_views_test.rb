@@ -114,4 +114,16 @@ class BalanceSheetsViewsTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".card-header", text: /Comparativa con Balance Anterior/, count: 0
   end
+
+  test "report renders assets conversion controls and converted amounts" do
+    @balance_sheet.assets.create!(name: "Efectivo", item_type: "liquid", amount: 1000.00)
+
+    get report_balance_sheet_path(@balance_sheet), params: { assets_conversion_factor: "1.5", assets_currency: "usd" }
+
+    assert_response :success
+    assert_select "#assets-conversion-controls"
+    assert_select "input[name='assets_currency'][value='USD']"
+    assert_select "#converted-assets-summary"
+    assert_select "th.text-end", text: I18n.t("views.balance_sheets.report.table.converted_amount")
+  end
 end

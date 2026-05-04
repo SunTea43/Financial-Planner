@@ -41,8 +41,36 @@
   </div>
 </div>
 
+<div class="card mb-4" id="assets-conversion-controls">
+  <div class="card-header">
+    <h5 class="mb-0"><%= I18n.t("views.balance_sheets.report.assets_conversion.title") %></h5>
+  </div>
+  <div class="card-body">
+    <%= form_with url: report_balance_sheet_path(@balance_sheet), method: :get, local: true, class: "row g-3 align-items-end" do %>
+      <div class="col-md-4">
+        <%= label_tag :assets_conversion_factor, I18n.t("views.balance_sheets.report.assets_conversion.factor_label"), class: "form-label" %>
+        <%= number_field_tag :assets_conversion_factor, @assets_conversion_factor.to_s("F"), min: 0.000001, step: 0.000001, class: "form-control" %>
+      </div>
+      <div class="col-md-4">
+        <%= label_tag :assets_currency, I18n.t("views.balance_sheets.report.assets_conversion.currency_label"), class: "form-label" %>
+        <%= text_field_tag :assets_currency, @assets_currency, maxlength: 6, class: "form-control", placeholder: I18n.t("views.balance_sheets.report.assets_conversion.currency_placeholder") %>
+      </div>
+      <div class="col-md-4 d-flex gap-2">
+        <%= submit_tag I18n.t("views.balance_sheets.report.assets_conversion.apply"), class: "btn btn-primary" %>
+        <%= link_to I18n.t("views.balance_sheets.report.assets_conversion.reset"), report_balance_sheet_path(@balance_sheet), class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+    <small class="text-muted d-block mt-3">
+      <%= I18n.t("views.balance_sheets.report.assets_conversion.current_factor", factor: number_with_precision(@assets_conversion_factor, precision: 6, strip_insignificant_zeros: true)) %>
+    </small>
+  </div>
+</div>
+
 <% liquid_assets_list = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
 <% liquid_assets_total = liquid_assets_list.sum(&:amount) %>
+<% conversion_factor = @assets_conversion_factor || BigDecimal("1") %>
+<% conversion_unit = converted_asset_currency_unit(@assets_currency) %>
+<% converted_currency_options = conversion_unit ? { unit: conversion_unit } : {} %>
 <% debt_to_assets_ratio = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.total_assets * 100) : nil %>
 <% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total / @balance_sheet.total_liabilities) : nil %>
 <% debt_to_equity = @balance_sheet.net_worth > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.net_worth) : nil %>
@@ -123,6 +151,16 @@
             </div>
           </div>
         </div>
+        <div class="row mt-2" id="converted-assets-summary">
+          <div class="col-md-6">
+            <small class="text-muted d-block"><%= I18n.t("views.balance_sheets.report.assets_conversion.converted_total_assets") %></small>
+            <strong class="text-primary"><%= number_to_currency(converted_asset_amount(@balance_sheet.total_assets, conversion_factor), converted_currency_options) %></strong>
+          </div>
+          <div class="col-md-6">
+            <small class="text-muted d-block"><%= I18n.t("views.balance_sheets.report.assets_conversion.converted_liquid_assets") %></small>
+            <strong class="text-primary"><%= number_to_currency(converted_asset_amount(liquid_assets_total, conversion_factor), converted_currency_options) %></strong>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -181,6 +219,7 @@
                 <th><%= I18n.t("views.balance_sheets.report.table.name") %></th>
                 <th><%= I18n.t("views.balance_sheets.report.table.category") %></th>
                 <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.amount") %></th>
+                <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.converted_amount") %></th>
               </tr>
             </thead>
             <tbody>
@@ -189,6 +228,7 @@
                   <td><%= asset.name %></td>
                   <td><%= asset.category.presence || I18n.t("views.balance_sheets.report.table.no_category") %></td>
                   <td class="text-end"><strong><%= number_to_currency(asset.amount) %></strong></td>
+                  <td class="text-end"><strong><%= number_to_currency(converted_asset_amount(asset.amount, conversion_factor), converted_currency_options) %></strong></td>
                 </tr>
               <% end %>
             </tbody>
@@ -196,6 +236,7 @@
               <tr class="table-primary">
                 <th colspan="2"><%= I18n.t("views.balance_sheets.report.table.subtotal_liquid") %></th>
                 <th class="text-end"><%= number_to_currency(liquid_assets.sum(&:amount)) %></th>
+                <th class="text-end"><%= number_to_currency(converted_asset_amount(liquid_assets.sum(&:amount), conversion_factor), converted_currency_options) %></th>
               </tr>
             </tfoot>
           </table>
@@ -220,6 +261,7 @@
                 <th><%= I18n.t("views.balance_sheets.report.table.name") %></th>
                 <th><%= I18n.t("views.balance_sheets.report.table.category") %></th>
                 <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.amount") %></th>
+                <th class="text-end"><%= I18n.t("views.balance_sheets.report.table.converted_amount") %></th>
               </tr>
             </thead>
             <tbody>
@@ -228,6 +270,7 @@
                   <td><%= asset.name %></td>
                   <td><%= asset.category.presence || I18n.t("views.balance_sheets.report.table.no_category") %></td>
                   <td class="text-end"><strong><%= number_to_currency(asset.amount) %></strong></td>
+                  <td class="text-end"><strong><%= number_to_currency(converted_asset_amount(asset.amount, conversion_factor), converted_currency_options) %></strong></td>
                 </tr>
               <% end %>
             </tbody>
@@ -235,6 +278,7 @@
               <tr class="table-primary">
                 <th colspan="2"><%= I18n.t("views.balance_sheets.report.table.subtotal_fixed") %></th>
                 <th class="text-end"><%= number_to_currency(fixed_assets.sum(&:amount)) %></th>
+                <th class="text-end"><%= number_to_currency(converted_asset_amount(fixed_assets.sum(&:amount), conversion_factor), converted_currency_options) %></th>
               </tr>
             </tfoot>
           </table>
