@@ -31,3 +31,29 @@ Required variable names:
 - Verify service variables in Railway UI.
 
 For historical context and the original notes, see RAILWAY_DEPLOYMENT.md in the project root.
+
+## Background Jobs (Solid Queue Worker)
+
+The application uses Solid Queue for background jobs (e.g., exchange rate updates). Jobs run in a **dedicated worker service** separate from the web server.
+
+### Setup
+
+1. In your Railway project, click **"+ New Service"** and select the same repository.
+2. Set its **Start Command** to:
+   ```
+   bin/jobs start
+   ```
+3. Add the same env vars as the web service (`RAILS_MASTER_KEY`, `DATABASE_URL`, etc.).
+4. Deploy the worker service.
+
+> Do **not** set `SOLID_QUEUE_IN_PUMA=true` on either service.
+
+### Scaling
+
+To increase job concurrency, set on the worker service:
+
+```
+JOB_CONCURRENCY=2
+```
+
+The default is `1` process with 3 threads each (configured in `config/queue.yml`).
