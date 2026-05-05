@@ -235,6 +235,32 @@ class BalanceSheetsControllerTest < ActionDispatch::IntegrationTest
     # Los datos deben corresponder a la cuenta del balance_sheet actual
   end
 
+  test "report action sets exchange_rate_stale false when no currency selected" do
+    get report_balance_sheet_path(@balance_sheet)
+
+    assert_equal false, assigns(:exchange_rate_stale)
+  end
+
+  test "report action sets exchange_rate_stale true when rate is missing" do
+    get report_balance_sheet_path(@balance_sheet), params: { assets_currency: "EUR" }
+
+    assert_equal true, assigns(:exchange_rate_stale)
+  end
+
+  test "report action sets exchange_rate_stale false when fresh rate exists" do
+    ExchangeRate.create!(
+      base_currency: "COP",
+      quote_currency: "EUR",
+      rate: BigDecimal("0.00022"),
+      fetched_at: 1.hour.ago,
+      source: "open_er_api"
+    )
+
+    get report_balance_sheet_path(@balance_sheet), params: { assets_currency: "EUR" }
+
+    assert_equal false, assigns(:exchange_rate_stale)
+  end
+
   test "should update balance sheet removing and reordering items" do
     removable_asset = @balance_sheet.assets.create!(name: "Old Asset", item_type: "liquid", amount: 1200, position: 2)
     remaining_asset = @balance_sheet.assets.create!(name: "Cash", item_type: "liquid", amount: 800, position: 3)

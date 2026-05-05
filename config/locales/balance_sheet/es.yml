@@ -61,6 +61,8 @@ es:
           base_currency: "Moneda base de activos: %{currency}"
           converted_total_assets: "Activos Totales Convertidos"
           converted_liquid_assets: "Activos Líquidos Convertidos"
+          stale_rate_warning: "La tasa de cambio almacenada tiene más de 24 horas. Los valores pueden no estar actualizados."
+          refresh_rates: "Actualizar tasas"
         table:
           name: "Nombre"
           category: "Categoría"

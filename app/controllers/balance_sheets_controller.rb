@@ -55,6 +55,7 @@ class BalanceSheetsController < ApplicationController
     @assets_currency = parse_assets_currency
     @assets_conversion_factor_input = params[:assets_conversion_factor].to_s
     @assets_conversion_factor = resolve_assets_conversion_factor
+      @exchange_rate_stale = exchange_rate_stale?
     @assets_chart_data = prepare_assets_chart_data
     @liabilities_chart_data = prepare_liabilities_chart_data
     @historical_chart_data = prepare_historical_chart_data
@@ -220,3 +221,9 @@ class BalanceSheetsController < ApplicationController
     }
   end
 end
+
+  def exchange_rate_stale?
+    return false unless @assets_currency.present?
+
+    ExchangeRate.stale?(base_currency: @assets_base_currency, quote_currency: @assets_currency)
+  end

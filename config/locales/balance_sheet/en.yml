@@ -59,6 +59,8 @@ en:
           base_currency: "Assets base currency: %{currency}"
           converted_total_assets: "Converted Total Assets"
           converted_liquid_assets: "Converted Liquid Assets"
+          stale_rate_warning: "The stored exchange rate is over 24 hours old. Values may be outdated."
+          refresh_rates: "Refresh rates"
         table:
           name: "Name"
           category: "Category"

@@ -122,7 +122,7 @@ class BalanceSheetsViewsTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "#assets-conversion-controls"
-    assert_select "input[name='assets_currency'][value='USD']"
+    assert_select "select[name='assets_currency'] option[value='USD'][selected]"
     assert_select "#converted-assets-summary"
     assert_select "th.text-end", text: I18n.t("views.balance_sheets.report.table.converted_amount")
   end

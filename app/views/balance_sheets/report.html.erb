@@ -53,7 +53,9 @@
       </div>
       <div class="col-md-4">
         <%= label_tag :assets_currency, I18n.t("views.balance_sheets.report.assets_conversion.currency_label"), class: "form-label" %>
-        <%= text_field_tag :assets_currency, @assets_currency, maxlength: 6, class: "form-control", placeholder: I18n.t("views.balance_sheets.report.assets_conversion.currency_placeholder") %>
+          <%= select_tag :assets_currency,
+            options_for_select([["—", ""]] + Account.currency_options, @assets_currency),
+            class: "form-select" %>
       </div>
       <div class="col-md-4 d-flex gap-2">
         <%= submit_tag I18n.t("views.balance_sheets.report.assets_conversion.apply"), class: "btn btn-primary" %>
@@ -290,6 +292,24 @@
         <% end %>
       </div>
     </div>
+    <% if @exchange_rate_stale %>
+      <div class="alert alert-warning d-flex align-items-center justify-content-between mt-3 mb-0" role="alert">
+        <span><i class="bi bi-exclamation-triangle me-2"></i><%= I18n.t("views.balance_sheets.report.assets_conversion.stale_rate_warning") %></span>
+        <%= button_to I18n.t("views.balance_sheets.report.assets_conversion.refresh_rates"),
+              refresh_exchange_rates_path,
+              method: :post,
+              class: "btn btn-sm btn-warning ms-3",
+              form: { data: { turbo: false } } %>
+      </div>
+    <% else %>
+      <div class="mt-3">
+        <%= button_to I18n.t("views.balance_sheets.report.assets_conversion.refresh_rates"),
+              refresh_exchange_rates_path,
+              method: :post,
+              class: "btn btn-sm btn-outline-secondary",
+              form: { data: { turbo: false } } %>
+      </div>
+    <% end %>
   </div>
 </div>
 
