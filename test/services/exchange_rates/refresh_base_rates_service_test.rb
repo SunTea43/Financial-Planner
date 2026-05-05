@@ -56,6 +56,24 @@ class ExchangeRates::RefreshBaseRatesServiceTest < ActiveSupport::TestCase
     assert_raises(RuntimeError) { service.call }
   end
 
+  test "call skips rates that are zero or negative" do
+    payload = {
+      fetched_at: FIXED_FETCHED_AT,
+      rates: { "USD" => 0.00025, "EUR" => 0, "GBP" => -1.0 },
+      source: "open_er_api"
+    }
+    stub_client = build_stub_client(payload)
+
+    ExchangeRate.where(base_currency: "COP", fetched_at: FIXED_FETCHED_AT).delete_all
+
+    service = ExchangeRates::RefreshBaseRatesService.new(base_currency: "COP", client: stub_client)
+
+    assert_difference("ExchangeRate.count", 1) do
+      result = service.call
+      assert_equal 1, result
+    end
+  end
+
   private
 
   def build_stub_client(payload)

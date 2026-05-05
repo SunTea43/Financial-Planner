@@ -32,10 +32,13 @@ module ExchangeRates
         raw_rate = rates[quote_currency]
         next if raw_rate.blank?
 
+        rate_value = BigDecimal(raw_rate.to_s)
+        next unless rate_value.positive?
+
         {
           base_currency: @base_currency,
           quote_currency: quote_currency,
-          rate: BigDecimal(raw_rate.to_s),
+          rate: rate_value,
           fetched_at: fetched_at,
           source: source,
           created_at: now,

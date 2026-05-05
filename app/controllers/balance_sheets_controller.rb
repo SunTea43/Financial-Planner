@@ -167,7 +167,8 @@ class BalanceSheetsController < ApplicationController
   def parse_assets_currency
     return nil if params[:assets_currency].blank?
 
-    params[:assets_currency].to_s.upcase.gsub(/[^A-Z]/, "").first(6).presence
+    candidate = params[:assets_currency].to_s.upcase.gsub(/[^A-Z]/, "").first(6)
+    Account::SUPPORTED_CURRENCIES.key?(candidate) ? candidate : nil
   end
 
   def assets_base_currency
