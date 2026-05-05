@@ -105,6 +105,15 @@
     data-budget-category-chart-income-title-value="<%= I18n.t('views.budgets.show.charts.income_by_category') %>"
     data-budget-category-chart-currency-value="<%= current_currency_code %>"
     data-budget-category-chart-locale-value="<%= I18n.locale %>">
+    <div class="col-12 mb-3">
+      <div class="d-flex justify-content-end align-items-center gap-2">
+        <label for="budgetChartViewMode" class="form-label mb-0"><%= I18n.t("views.budgets.show.charts.display_as") %></label>
+        <select id="budgetChartViewMode" class="form-select form-select-sm w-auto" data-action="change->budget-category-chart#toggleViewMode">
+          <option value="amount"><%= I18n.t("views.budgets.show.charts.amount") %></option>
+          <option value="percentage"><%= I18n.t("views.budgets.show.charts.percentage") %></option>
+        </select>
+      </div>
+    </div>
     <div class="col-md-6 mb-3">
       <div class="card h-100">
         <div class="card-body">

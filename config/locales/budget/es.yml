@@ -60,8 +60,11 @@ es:
         destroy: "Eliminar"
         uncategorized: "Sin categoría"
         charts:
+          amount: "Monto"
+          display_as: "Visualizar como"
           expense_by_category: "Distribución de gastos por categoría"
           income_by_category: "Distribución de ingresos por categoría"
+          percentage: "Porcentaje"
         indicators:
           savings_ratio: "Ahorro / Ingreso"
           investment_ratio: "Capacidad de inversión / Ingreso"

@@ -1,13 +1,38 @@
 import { Controller } from "@hotwired/stimulus"
 import Chart from "chart.js/auto"
+import {
+    buildChartDisplayData,
+    formatCurrency,
+    formatPercentage,
+    generateLegendLabels,
+    primaryValueFor,
+    secondaryValueFor,
+    tooltipLabel
+} from "./pie_chart_view_helpers"
 
 export default class extends Controller {
     static values = {
         assetsData: Object,
-        liabilitiesData: Object
+        liabilitiesData: Object,
+        assetsTitle: String,
+        liabilitiesTitle: String,
+        currency: String,
+        locale: String,
+        viewMode: { type: String, default: 'amount' }
     }
 
     connect() {
+        this.charts = []
+        this.renderCharts()
+    }
+
+    toggleViewMode(event) {
+        this.viewModeValue = event.target.value
+        this.renderCharts()
+    }
+
+    renderCharts() {
+        this.destroyCharts()
         this.renderAssetsChart()
         this.renderLiabilitiesChart()
     }
@@ -16,12 +41,14 @@ export default class extends Controller {
         const assetsCtx = document.getElementById('assetsPieChart')
         if (!assetsCtx || !this.assetsDataValue) return
 
-        new Chart(assetsCtx, {
+        const data = buildChartDisplayData(this.assetsDataValue, this.viewModeValue)
+
+        const chart = new Chart(assetsCtx, {
             type: 'pie',
             data: {
-                labels: this.assetsDataValue.labels,
+                labels: data.labels,
                 datasets: [{
-                    data: this.assetsDataValue.values,
+                    data: data.displayValues,
                     backgroundColor: [
                         '#28a745', // green
                         '#20c997', // teal
@@ -40,45 +67,41 @@ export default class extends Controller {
                 plugins: {
                     legend: {
                         position: 'bottom',
+                        labels: {
+                            generateLabels: (chartInstance) => generateLegendLabels(chartInstance, data, (chartData, index) => this.primaryValueFor(chartData, index))
+                        }
                     },
                     title: {
                         display: true,
-                        text: 'Distribución de Activos por Categoría',
+                        text: this.assetsTitleValue,
                         font: {
                             size: 16
                         }
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
-                                let label = context.label || ''
-                                if (label) {
-                                    label += ': '
-                                }
-                                const value = context.raw
-                                label += new Intl.NumberFormat('es-MX', {
-                                    style: 'currency',
-                                    currency: 'MXN'
-                                }).format(value)
-                                return label
-                            }
+                            label: (context) => tooltipLabel(context, data, (chartData, index) => this.primaryValueFor(chartData, index), (chartData, index) => this.secondaryValueFor(chartData, index))
                         }
                     }
                 }
             }
         })
+
+        this.charts.push(chart)
     }
 
     renderLiabilitiesChart() {
         const liabilitiesCtx = document.getElementById('liabilitiesPieChart')
         if (!liabilitiesCtx || !this.liabilitiesDataValue) return
 
-        new Chart(liabilitiesCtx, {
+        const data = buildChartDisplayData(this.liabilitiesDataValue, this.viewModeValue)
+
+        const chart = new Chart(liabilitiesCtx, {
             type: 'pie',
             data: {
-                labels: this.liabilitiesDataValue.labels,
+                labels: data.labels,
                 datasets: [{
-                    data: this.liabilitiesDataValue.values,
+                    data: data.displayValues,
                     backgroundColor: [
                         '#dc3545', // red
                         '#fd7e14', // orange
@@ -95,36 +118,56 @@ export default class extends Controller {
                 plugins: {
                     legend: {
                         position: 'bottom',
+                        labels: {
+                            generateLabels: (chartInstance) => generateLegendLabels(chartInstance, data, (chartData, index) => this.primaryValueFor(chartData, index))
+                        }
                     },
                     title: {
                         display: true,
-                        text: 'Distribución de Pasivos por Tipo',
+                        text: this.liabilitiesTitleValue,
                         font: {
                             size: 16
                         }
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
-                                let label = context.label || ''
-                                if (label) {
-                                    label += ': '
-                                }
-                                const value = context.raw
-                                label += new Intl.NumberFormat('es-MX', {
-                                    style: 'currency',
-                                    currency: 'MXN'
-                                }).format(value)
-                                return label
-                            }
+                            label: (context) => tooltipLabel(context, data, (chartData, index) => this.primaryValueFor(chartData, index), (chartData, index) => this.secondaryValueFor(chartData, index))
                         }
                     }
                 }
             }
         })
+
+        this.charts.push(chart)
     }
 
     disconnect() {
-        // Charts will be automatically destroyed when the element is removed
+        this.destroyCharts()
+    }
+
+    destroyCharts() {
+        this.charts.forEach((chart) => chart.destroy())
+        this.charts = []
+    }
+
+    primaryValueFor(data, index) {
+        return primaryValueFor(this.viewModeValue, data, index, (value) => this.formatCurrency(value), (value) => this.formatPercentage(value))
+    }
+
+    secondaryValueFor(data, index) {
+        return secondaryValueFor(this.viewModeValue, data, index, (value) => this.formatCurrency(value), (value) => this.formatPercentage(value))
+    }
+
+    formatCurrency(value) {
+        const locale = this.localeValue || 'es'
+        const currency = this.currencyValue || 'COP'
+
+        return formatCurrency(locale, currency, value)
+    }
+
+    formatPercentage(value) {
+        const locale = this.localeValue || 'es'
+
+        return formatPercentage(locale, value)
     }
 }

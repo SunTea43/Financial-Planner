@@ -49,6 +49,12 @@ es:
         fixed_assets_section: "Activos Fijos"
         short_term_liabilities_section: "Pasivos a Corto Plazo"
         long_term_liabilities_section: "Pasivos a Largo Plazo"
+        charts:
+          amount: "Monto"
+          assets_distribution: "Distribución de Activos por Categoría"
+          display_as: "Visualizar como"
+          liabilities_distribution: "Distribución de Pasivos por Tipo"
+          percentage: "Porcentaje"
         assets_conversion:
           title: "Conversión de Activos"
           factor_label: "Factor de conversión"
