@@ -48,6 +48,7 @@ The application uses Solid Queue for background jobs (e.g., exchange rate update
    | Variable | Description |
    |---|---|
    | `RAILS_MASTER_KEY` | Same value as the web service |
+   | `SECRET_KEY_BASE` | Same value as the web service — required so both containers sign payloads with the same key |
    | `DATABASE_URL` | Connection URL for the primary database |
    | `QUEUE_DATABASE_URL` | Connection URL for the Solid Queue database (`financial_planner_production_queue`) |
 
