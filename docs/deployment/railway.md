@@ -52,9 +52,11 @@ The application uses Solid Queue for background jobs (e.g., exchange rate update
    | `DATABASE_URL` | Connection URL for the primary database |
    | `QUEUE_DATABASE_URL` | Connection URL for the Solid Queue database (`financial_planner_production_queue`) |
 
-   > **Why `QUEUE_DATABASE_URL`?** Solid Queue uses a separate database (`queue` in `config/database.yml`). Rails resolves it via the `QUEUE_DATABASE_URL` env var. Without it, the worker will fail to find the Solid Queue tables.
+   > **Why `QUEUE_DATABASE_URL`?** Solid Queue uses a separate database (`queue` in `config/database.yml`). Rails resolves it via the `QUEUE_DATABASE_URL` env var. Without it, both the web and worker services will fail to enqueue or process jobs.
 
-4. Deploy the worker service.
+   > **Also required on the web service:** The web process uses `perform_later` to enqueue jobs, which writes directly to the queue database. Add `QUEUE_DATABASE_URL` to the web service as well.
+
+4. Deploy both services.
 
 > Do **not** set `SOLID_QUEUE_IN_PUMA=true` on either service.
 
