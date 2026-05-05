@@ -30,6 +30,7 @@ class Account < ApplicationRecord
   before_validation :set_default_preferred_currency
 
   validates :name, presence: true
+  validates :account_type, presence: true
   validates :preferred_currency, inclusion: { in: SUPPORTED_CURRENCIES.keys }
 
   enum :account_type, {
