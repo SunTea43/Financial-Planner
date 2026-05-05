@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "build:css:compile": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-    "build:css:fonts": "mkdir -p ./app/assets/builds/fonts && cp ./node_modules/bootstrap-icons/font/fonts/* ./app/assets/builds/fonts/",
+    "build:css:fonts": "node ./script/copy_bootstrap_icon_fonts.js",
     "build:css:prefix": "postcss ./app/assets/builds/application.css --use=autoprefixer --output=./app/assets/builds/application.css",
     "build:css": "yarn build:css:compile && yarn build:css:fonts && yarn build:css:prefix",
     "watch:css": "nodemon --watch ./app/assets/stylesheets/ --ext scss --exec \"yarn build:css\""
