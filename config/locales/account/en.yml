@@ -9,6 +9,14 @@ en:
         preferred_currency: "Currency"
         use_conversion_factors: "Show conversion options in reports"
         description: "Description"
+        account_type_list:
+          checking: "Checking"
+          savings: "Savings"
+          investment: "Investment"
+          credit_card: "Credit Card"
+          loan: "Loan"
+          investment_retirement: "Retirement Investment"
+          other: "Other"
   controllers:
     accounts:
       created: "Account created successfully."

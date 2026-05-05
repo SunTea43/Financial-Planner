@@ -72,7 +72,7 @@
             <% @accounts.each do |account| %>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <%= link_to account.name, account, class: "text-decoration-none" %>
-                <span class="badge bg-secondary"><%= account.account_type %></span>
+                <span class="badge bg-secondary"><%= account.translated_account_type %></span>
               </li>
             <% end %>
           </ul>

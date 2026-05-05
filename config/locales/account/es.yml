@@ -9,6 +9,14 @@ es:
         preferred_currency: "Moneda"
         use_conversion_factors: "Mostrar opciones de conversión en reportes"
         description: "Descripción"
+        account_type_list:
+          checking: "Cuenta Corriente"
+          savings: "Cuenta de Ahorros"
+          investment: "Inversión"
+          credit_card: "Tarjeta de Crédito"
+          loan: "Préstamo"
+          investment_retirement: "Jubilación / Pensión"
+          other: "Otro"
   controllers:
     accounts:
       created: "Cuenta creada exitosamente."

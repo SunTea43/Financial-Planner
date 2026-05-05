@@ -39,4 +39,20 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal "JPY", account.currency_format_options[:unit]
     assert_equal 0, account.currency_format_options[:precision]
   end
+
+  test "translated_account_type returns i18n translation for the account type" do
+    account = Account.new(user: users(:one), name: "Cuenta Corriente", account_type: "checking")
+
+    I18n.with_locale(:es) do
+      assert_equal "Cuenta Corriente", account.translated_account_type
+    end
+  end
+
+  test "translated_account_types class method returns translated options collection" do
+    I18n.with_locale(:es) do
+      collection = Account.translated_account_types
+      assert_includes collection.map(&:last), "checking"
+      assert_includes collection.map(&:first), "Cuenta Corriente"
+    end
+  end
 end
