@@ -68,17 +68,25 @@ Rails.application.configure do
 
   # Configure SMTP delivery using environment variables
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
+  smtp_user_name = ENV.fetch("SMTP_USER_NAME", nil).presence
+  smtp_password = ENV.fetch("SMTP_PASSWORD", nil).presence
+
+  smtp_settings = {
     address: ENV.fetch("SMTP_ADDRESS", "mailhog").presence || "mailhog",
     port: (ENV.fetch("SMTP_PORT", 1025).presence || 1025).to_i,
     domain: ENV.fetch("SMTP_DOMAIN", "localhost").presence || "localhost",
-    user_name: ENV.fetch("SMTP_USER_NAME", nil).presence,
-    password: ENV.fetch("SMTP_PASSWORD", nil).presence,
-    authentication: (ENV.fetch("SMTP_AUTHENTICATION", "plain").presence || "plain").to_sym,
+    user_name: smtp_user_name,
+    password: smtp_password,
     enable_starttls_auto: (ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO", "false").presence || "false") == "true",
     open_timeout: 60,
     read_timeout: 60
   }
+
+  if smtp_user_name.present? && smtp_password.present?
+    smtp_settings[:authentication] = (ENV.fetch("SMTP_AUTHENTICATION", "plain").presence || "plain").to_sym
+  end
+
+  config.action_mailer.smtp_settings = smtp_settings
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
