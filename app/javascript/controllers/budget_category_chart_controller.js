@@ -40,7 +40,6 @@ export default class extends Controller {
         datasets: [
           {
             data: data.displayValues,
-            rawValues: data.values,
             backgroundColor: ["#dc3545", "#fd7e14", "#ffc107", "#20c997", "#0dcaf0", "#6f42c1", "#6c757d"],
             borderWidth: 2
           }
@@ -83,7 +82,6 @@ export default class extends Controller {
         datasets: [
           {
             data: data.displayValues,
-            rawValues: data.values,
             backgroundColor: ["#198754", "#20c997", "#0dcaf0", "#0d6efd", "#6f42c1", "#adb5bd"],
             borderWidth: 2
           }

@@ -40,7 +40,6 @@ export default class extends Controller {
                 labels: data.labels,
                 datasets: [{
                     data: data.displayValues,
-                    rawValues: data.values,
                     backgroundColor: [
                         '#28a745', // green
                         '#20c997', // teal
@@ -94,7 +93,6 @@ export default class extends Controller {
                 labels: data.labels,
                 datasets: [{
                     data: data.displayValues,
-                    rawValues: data.values,
                     backgroundColor: [
                         '#dc3545', // red
                         '#fd7e14', // orange

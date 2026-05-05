@@ -211,7 +211,15 @@
 </div>
 
 <% if @balance_sheet.assets.any? || @balance_sheet.liabilities.any? %>
-  <div class="row mb-4" data-controller="balance-sheet-pie-chart" data-balance-sheet-pie-chart-assets-data-value="<%= @assets_chart_data.to_json %>" data-balance-sheet-pie-chart-liabilities-data-value="<%= @liabilities_chart_data.to_json %>" data-balance-sheet-pie-chart-assets-title-value="<%= I18n.t('views.balance_sheets.report.charts.assets_distribution') %>" data-balance-sheet-pie-chart-liabilities-title-value="<%= I18n.t('views.balance_sheets.report.charts.liabilities_distribution') %>" data-balance-sheet-pie-chart-currency-value="<%= current_currency_code %>" data-balance-sheet-pie-chart-locale-value="<%= I18n.locale %>">
+  <div
+    class="row mb-4"
+    data-controller="balance-sheet-pie-chart"
+    data-balance-sheet-pie-chart-assets-data-value="<%= @assets_chart_data.to_json %>"
+    data-balance-sheet-pie-chart-liabilities-data-value="<%= @liabilities_chart_data.to_json %>"
+    data-balance-sheet-pie-chart-assets-title-value="<%= I18n.t('views.balance_sheets.report.charts.assets_distribution') %>"
+    data-balance-sheet-pie-chart-liabilities-title-value="<%= I18n.t('views.balance_sheets.report.charts.liabilities_distribution') %>"
+    data-balance-sheet-pie-chart-currency-value="<%= current_currency_code %>"
+    data-balance-sheet-pie-chart-locale-value="<%= I18n.locale %>">
     <div class="col-12 mb-3">
       <div class="d-flex justify-content-end align-items-center gap-2">
         <label for="balanceSheetChartViewMode" class="form-label mb-0"><%= I18n.t("views.balance_sheets.report.charts.display_as") %></label>
