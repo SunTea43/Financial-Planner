@@ -61,18 +61,20 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "example.com"), protocol: "https" }
+  config.action_mailer.default_url_options = {
+    host: "financial-planner-production-2901.up.railway.app",
+    protocol: "https"
+  }
 
   # Configure SMTP delivery using environment variables
   config.action_mailer.delivery_method = :smtp
+  # Mail delivery in production is intentionally fixed to MailHog.
+  # This avoids runtime failures caused by missing SMTP env vars in Railway.
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
-    port: ENV.fetch("SMTP_PORT", 587).to_i,
-    domain: ENV.fetch("SMTP_DOMAIN", "example.com"),
-    user_name: ENV.fetch("SMTP_USER_NAME", nil),
-    password: ENV.fetch("SMTP_PASSWORD", nil),
-    authentication: :plain,
-    enable_starttls_auto: true,
+    address: "mailhog",
+    port: 1025,
+    domain: "localhost",
+    enable_starttls_auto: false,
     open_timeout: 60,
     read_timeout: 60
   }
