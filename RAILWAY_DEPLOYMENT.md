@@ -1,32 +1,6 @@
 # Railway Deployment Guide
 
-## Background Jobs (Solid Queue Worker)
-
-The application uses Solid Queue to process background jobs (e.g., exchange rate updates). In Railway, jobs run in a **dedicated worker service** separate from the web server.
-
-### Setting Up the Worker Service in Railway
-
-1. In your Railway project, click **"+ New Service"** and select the same repository.
-2. In the new service settings, set the **Start Command** to:
-   ```
-   bin/jobs start
-   ```
-3. Add the same environment variables required by the web service (especially `RAILS_MASTER_KEY` and `DATABASE_URL`).
-4. Deploy the worker service.
-
-> **Note:** Do **not** set `SOLID_QUEUE_IN_PUMA=true` on either service. That option embeds the worker inside Puma and is replaced by this dedicated service.
-
-### Scaling the Worker
-
-To increase job concurrency, set this variable on the worker service:
-
-```
-JOB_CONCURRENCY=2
-```
-
-The default is `1` process. Each process runs 3 threads (configured in `config/queue.yml`).
-
----
+> Background job (worker) setup instructions have moved to [docs/deployment/railway.md](docs/deployment/railway.md).
 
 ## Environment Variables Issue
 
