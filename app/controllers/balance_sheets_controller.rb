@@ -51,6 +51,11 @@ class BalanceSheetsController < ApplicationController
   end
 
   def report
+    @conversion_options_enabled = @balance_sheet.account&.use_conversion_factors?
+    @assets_base_currency = assets_base_currency
+    @assets_currency = @conversion_options_enabled ? parse_assets_currency : nil
+    @assets_conversion_factor_input = params[:assets_conversion_factor].to_s
+    @assets_conversion_factor = @conversion_options_enabled ? resolve_assets_conversion_factor : BigDecimal("1")
     @assets_chart_data = prepare_assets_chart_data
     @liabilities_chart_data = prepare_liabilities_chart_data
     @historical_chart_data = prepare_historical_chart_data
@@ -140,13 +145,43 @@ class BalanceSheetsController < ApplicationController
 
     assets_by_category.each do |category, assets|
       labels << (category || "Sin categoría")
-      values << assets.sum(&:amount)
+      values << (assets.sum(&:amount) * @assets_conversion_factor).to_f
     end
 
     {
       labels: labels,
       values: values
     }
+  end
+
+  def parse_assets_conversion_factor
+    raw_factor = params[:assets_conversion_factor]
+    return nil if raw_factor.blank?
+
+    parsed_factor = BigDecimal(raw_factor.to_s)
+    parsed_factor.positive? ? parsed_factor : nil
+  rescue ArgumentError
+    nil
+  end
+
+  def parse_assets_currency
+    return nil if params[:assets_currency].blank?
+
+    params[:assets_currency].to_s.upcase.gsub(/[^A-Z]/, "").first(6).presence
+  end
+
+  def assets_base_currency
+    @balance_sheet.account&.preferred_currency || Account::DEFAULT_CURRENCY
+  end
+
+  def resolve_assets_conversion_factor
+    parse_assets_conversion_factor || current_assets_exchange_rate || BigDecimal("1")
+  end
+
+  def current_assets_exchange_rate
+    return nil unless @assets_currency.present?
+
+    ExchangeRate.latest_rate(base_currency: @assets_base_currency, quote_currency: @assets_currency)
   end
 
   def prepare_liabilities_chart_data
@@ -157,7 +192,7 @@ class BalanceSheetsController < ApplicationController
 
     liabilities_by_type.each do |item_type, liabilities|
       labels << item_type.humanize
-      values << liabilities.sum(&:amount)
+      values << (liabilities.sum(&:amount) * @assets_conversion_factor).to_f
     end
 
     {
