@@ -21,6 +21,7 @@ one:
   name: MyString
   account_type: checking
   preferred_currency: COP
+  use_conversion_factors: true
   description: MyText
 
 two:
@@ -28,4 +29,5 @@ two:
   name: MyString
   account_type: savings
   preferred_currency: USD
+  use_conversion_factors: true
   description: MyText

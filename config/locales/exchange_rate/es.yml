@@ -1,0 +1,4 @@
+es:
+  controllers:
+    exchange_rates:
+      refresh_enqueued: "Actualización de tasas de cambio encolada. Los valores se actualizarán en breve."

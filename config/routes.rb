@@ -39,6 +39,12 @@ Rails.application.routes.draw do
 
   resources :savings_reports, only: [ :index ]
 
+  resources :exchange_rates, only: [] do
+    collection do
+      post :refresh
+    end
+  end
+
   resource :data_export, only: [ :show, :create ]
   resource :data_import, only: [ :new, :create ]
 

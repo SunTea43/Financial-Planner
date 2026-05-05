@@ -8,6 +8,9 @@
                   collection: Account.currency_options,
                   include_blank: false,
                   label: I18n.t("activerecord.attributes.account.preferred_currency") %>
+      <%= f.input :use_conversion_factors,
+          as: :boolean,
+          label: I18n.t("activerecord.attributes.account.use_conversion_factors") %>
       <%= f.input :description, label: "Descripción", as: :text, input_html: { rows: 4 } %>
       
       <div class="d-flex justify-content-between">

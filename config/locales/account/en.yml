@@ -7,6 +7,7 @@ en:
         name: "Name"
         account_type: "Account Type"
         preferred_currency: "Currency"
+        use_conversion_factors: "Show conversion options in reports"
         description: "Description"
   controllers:
     accounts:

@@ -1,0 +1,4 @@
+en:
+  controllers:
+    exchange_rates:
+      refresh_enqueued: "Exchange rate refresh enqueued. Values will update shortly."

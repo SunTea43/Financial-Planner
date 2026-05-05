@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_01_223559) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_04_213000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_01_223559) do
     t.string "name", null: false
     t.string "preferred_currency", default: "COP", null: false
     t.datetime "updated_at", null: false
+    t.boolean "use_conversion_factors", default: true, null: false
     t.bigint "user_id", null: false
     t.index [ "preferred_currency" ], name: "index_accounts_on_preferred_currency"
     t.index [ "user_id", "account_type" ], name: "index_accounts_on_user_id_and_account_type"
@@ -90,6 +91,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_01_223559) do
     t.index [ "periodicity" ], name: "index_budgets_on_periodicity"
     t.index [ "user_id", "start_date" ], name: "index_budgets_on_user_id_and_start_date"
     t.index [ "user_id" ], name: "index_budgets_on_user_id"
+  end
+
+  create_table "exchange_rates", force: :cascade do |t|
+    t.string "base_currency", null: false
+    t.datetime "created_at", null: false
+    t.datetime "fetched_at", null: false
+    t.string "quote_currency", null: false
+    t.decimal "rate", precision: 20, scale: 10, null: false
+    t.string "source", default: "open_er_api", null: false
+    t.datetime "updated_at", null: false
+    t.index [ "base_currency", "quote_currency", "fetched_at" ], name: "index_exchange_rates_on_base_quote_fetched_at", unique: true
+    t.index [ "base_currency", "quote_currency", "fetched_at" ], name: "index_exchange_rates_on_base_quote_fetched_at_desc", order: { fetched_at: :desc }
   end
 
   create_table "savings_plan_entries", force: :cascade do |t|
