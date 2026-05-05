@@ -27,7 +27,7 @@
         <p><strong>Fecha y Hora:</strong> <%= @balance_sheet.recorded_at.strftime("%d de %B de %Y a las %H:%M") %></p>
       </div>
       <div class="col-md-6">
-        <p><strong>Tipo de Cuenta:</strong> <%= @balance_sheet.account&.account_type&.humanize || "Sin especificar" %></p>
+        <p><strong>Tipo de Cuenta:</strong> <%= @balance_sheet.account&.translated_account_type || "Sin especificar" %></p>
       </div>
     </div>
     <% if @balance_sheet.notes.present? %>

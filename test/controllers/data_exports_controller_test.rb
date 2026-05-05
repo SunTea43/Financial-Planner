@@ -14,7 +14,7 @@ class DataExportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should download export file" do
-    account = @user.accounts.find { |a| Account::ACCOUNT_TYPES.include?(a.account_type) }
+    account = @user.accounts.find { |a| Account.account_types.key?(a.account_type) }
     account ||= @user.accounts.create!(name: "Cuenta principal", account_type: "checking")
     account.update!(preferred_currency: "USD")
 

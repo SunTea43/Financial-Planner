@@ -15,6 +15,8 @@
 #  index_accounts_on_user_id                   (user_id)
 #  index_accounts_on_user_id_and_account_type  (user_id,account_type)
 #
+require "translate_enum/active_record"
+
 class Account < ApplicationRecord
   DEFAULT_CURRENCY = "COP".freeze
   SUPPORTED_CURRENCIES = YAML.load_file(Rails.root.join("config/currencies.yml")).transform_values do |opts|
@@ -31,9 +33,16 @@ class Account < ApplicationRecord
   validates :account_type, presence: true
   validates :preferred_currency, inclusion: { in: SUPPORTED_CURRENCIES.keys }
 
-  ACCOUNT_TYPES = %w[checking savings investment credit_card loan investment_retirement other].freeze
-
-  validates :account_type, inclusion: { in: ACCOUNT_TYPES }
+  enum :account_type, {
+    checking: "checking",
+    savings: "savings",
+    investment: "investment",
+    credit_card: "credit_card",
+    loan: "loan",
+    investment_retirement: "investment_retirement",
+    other: "other"
+  }
+  translate_enum :account_type
 
   def self.currency_options
     SUPPORTED_CURRENCIES.keys.map do |code|

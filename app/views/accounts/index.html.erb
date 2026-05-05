@@ -11,7 +11,7 @@
           <div class="card-body">
             <h5 class="card-title"><%= account.name %></h5>
             <p class="card-text">
-              <span class="badge bg-secondary"><%= account.account_type %></span>
+              <span class="badge bg-secondary"><%= account.translated_account_type %></span>
             </p>
             <% if account.description.present? %>
               <p class="card-text text-muted"><%= truncate(account.description, length: 100) %></p>
