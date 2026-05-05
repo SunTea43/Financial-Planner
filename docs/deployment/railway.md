@@ -15,6 +15,12 @@ Environment variables are configured in Railway but not detected by the app.
 
 Required variable names:
 
+**Web service:**
+
+- RAILS_MASTER_KEY
+- SECRET_KEY_BASE
+- DATABASE_URL
+- QUEUE_DATABASE_URL
 - SMTP_ADDRESS
 - SMTP_PORT
 - SMTP_DOMAIN
@@ -22,7 +28,13 @@ Required variable names:
 - SMTP_PASSWORD
 - SMTP_FROM_ADDRESS
 - APP_HOST
+
+**Worker service (additional service running `bin/jobs start`):**
+
+- RAILS_MASTER_KEY
 - SECRET_KEY_BASE
+- DATABASE_URL
+- QUEUE_DATABASE_URL
 
 ## Debug options
 
