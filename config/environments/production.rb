@@ -62,20 +62,20 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {
-    host: ENV.fetch("APP_HOST", "financial-planner-production-2901.up.railway.app"),
+    host: ENV.fetch("APP_HOST", "financial-planner-production-2901.up.railway.app").presence || "financial-planner-production-2901.up.railway.app",
     protocol: "https"
   }
 
   # Configure SMTP delivery using environment variables
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch("SMTP_ADDRESS", "mailhog"),
-    port: ENV.fetch("SMTP_PORT", 1025).to_i,
-    domain: ENV.fetch("SMTP_DOMAIN", "localhost"),
-    user_name: ENV.fetch("SMTP_USER_NAME", nil),
-    password: ENV.fetch("SMTP_PASSWORD", nil),
-    authentication: ENV.fetch("SMTP_AUTHENTICATION", "plain").to_sym,
-    enable_starttls_auto: ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO", "false") == "true",
+    address: ENV.fetch("SMTP_ADDRESS", "mailhog").presence || "mailhog",
+    port: (ENV.fetch("SMTP_PORT", 1025).presence || 1025).to_i,
+    domain: ENV.fetch("SMTP_DOMAIN", "localhost").presence || "localhost",
+    user_name: ENV.fetch("SMTP_USER_NAME", nil).presence,
+    password: ENV.fetch("SMTP_PASSWORD", nil).presence,
+    authentication: (ENV.fetch("SMTP_AUTHENTICATION", "plain").presence || "plain").to_sym,
+    enable_starttls_auto: (ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO", "false").presence || "false") == "true",
     open_timeout: 60,
     read_timeout: 60
   }
