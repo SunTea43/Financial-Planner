@@ -97,8 +97,7 @@
 <% liquid_assets_list = @balance_sheet.assets.select { |a| a.item_type == 'liquid' } %>
 <% liquid_assets_total = liquid_assets_list.sum(&:amount) %>
 <% conversion_factor = @assets_conversion_factor || BigDecimal("1") %>
-<% conversion_unit = converted_asset_currency_unit(@assets_currency) %>
-<% converted_currency_options = conversion_unit ? { unit: conversion_unit } : {} %>
+<% converted_currency_options = converted_currency_format_options(@assets_currency) %>
 <% conversion_enabled = @conversion_options_enabled %>
 <% debt_to_assets_ratio = @balance_sheet.total_assets > 0 ? (@balance_sheet.total_liabilities / @balance_sheet.total_assets * 100) : nil %>
 <% liquidity_ratio = @balance_sheet.total_liabilities > 0 ? (liquid_assets_total / @balance_sheet.total_liabilities) : nil %>

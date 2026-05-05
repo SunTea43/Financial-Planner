@@ -7,7 +7,7 @@ module ExchangeRates
 
     def fetch_latest(base_currency:)
       uri = URI("#{API_BASE_URL}/#{base_currency}")
-      response = Net::HTTP.get_response(uri)
+      response = perform_request(uri)
       raise "Exchange rates request failed with status #{response.code}" unless response.is_a?(Net::HTTPSuccess)
 
       payload = JSON.parse(response.body)
@@ -27,6 +27,14 @@ module ExchangeRates
       return Time.current if unix_timestamp.blank?
 
       Time.zone.at(unix_timestamp.to_i)
+    end
+
+    def perform_request(uri)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == "https"
+      http.open_timeout = 5
+      http.read_timeout = 10
+      http.request(Net::HTTP::Get.new(uri.request_uri))
     end
   end
 end

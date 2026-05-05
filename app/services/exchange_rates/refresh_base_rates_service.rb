@@ -14,7 +14,7 @@ module ExchangeRates
       rows.size
     rescue StandardError => e
       Rails.logger.error("Failed to refresh exchange rates for #{@base_currency}: #{e.message}")
-      0
+      raise
     end
 
     private
