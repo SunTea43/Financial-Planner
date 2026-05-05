@@ -60,8 +60,11 @@ en:
         destroy: "Delete"
         uncategorized: "Uncategorized"
         charts:
+          amount: "Amount"
+          display_as: "Display as"
           expense_by_category: "Expense distribution by category"
           income_by_category: "Income distribution by category"
+          percentage: "Percentage"
         indicators:
           savings_ratio: "Savings / Income"
           investment_ratio: "Investment Capacity / Income"

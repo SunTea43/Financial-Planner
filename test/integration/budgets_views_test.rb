@@ -18,6 +18,8 @@ class BudgetsViewsTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#budget-indicators .card", minimum: 6
     assert_select "[data-controller='budget-category-chart']"
+    assert_select "#budgetChartViewMode option[value='amount']", count: 1
+    assert_select "#budgetChartViewMode option[value='percentage']", count: 1
     assert_select "#budgetExpenseCategoryChart"
     assert_select "#budgetIncomeCategoryChart"
   end

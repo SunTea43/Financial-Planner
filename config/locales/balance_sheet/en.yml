@@ -47,6 +47,12 @@ en:
         fixed_assets_section: "Fixed Assets"
         short_term_liabilities_section: "Short-Term Liabilities"
         long_term_liabilities_section: "Long-Term Liabilities"
+        charts:
+          amount: "Amount"
+          assets_distribution: "Asset Distribution by Category"
+          display_as: "Display as"
+          liabilities_distribution: "Liability Distribution by Type"
+          percentage: "Percentage"
         assets_conversion:
           title: "Assets Conversion"
           factor_label: "Conversion factor"

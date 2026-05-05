@@ -9,8 +9,14 @@ class BalanceSheetsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get report" do
+    @balance_sheet.assets.create!(name: "Cash", item_type: "liquid", category: "Efectivo", amount: 1000)
+    @balance_sheet.liabilities.create!(name: "Loan", item_type: "short_term", amount: 250)
+
     get report_balance_sheet_path(@balance_sheet)
     assert_response :success
+    assert_select "[data-controller='balance-sheet-pie-chart']"
+    assert_select "#balanceSheetChartViewMode option[value='amount']", count: 1
+    assert_select "#balanceSheetChartViewMode option[value='percentage']", count: 1
   end
 
   test "report action prepares assets chart data" do
