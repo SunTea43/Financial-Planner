@@ -95,3 +95,5 @@ end
 gem "annot8", "~> 1.0", group: :development
 
 gem "solargraph", "~> 0.58.3"
+
+gem "resend"
