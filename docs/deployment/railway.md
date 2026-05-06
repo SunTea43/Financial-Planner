@@ -15,6 +15,12 @@ Environment variables are configured in Railway but not detected by the app.
 
 Required variable names:
 
+**Web service:**
+
+- RAILS_MASTER_KEY
+- SECRET_KEY_BASE
+- DATABASE_URL
+- QUEUE_DATABASE_URL
 - SMTP_ADDRESS
 - SMTP_PORT
 - SMTP_DOMAIN
@@ -22,7 +28,13 @@ Required variable names:
 - SMTP_PASSWORD
 - SMTP_FROM_ADDRESS
 - APP_HOST
+
+**Worker service (additional service running `bin/jobs start`):**
+
+- RAILS_MASTER_KEY
 - SECRET_KEY_BASE
+- DATABASE_URL
+- QUEUE_DATABASE_URL
 
 ## Debug options
 
@@ -31,3 +43,41 @@ Required variable names:
 - Verify service variables in Railway UI.
 
 For historical context and the original notes, see RAILWAY_DEPLOYMENT.md in the project root.
+
+## Background Jobs (Solid Queue Worker)
+
+The application uses Solid Queue for background jobs (e.g., exchange rate updates). Jobs run in a **dedicated worker service** separate from the web server.
+
+### Setup
+
+1. In your Railway project, click **"+ New Service"** and select the same repository.
+2. Set its **Start Command** to:
+   ```
+   bin/jobs start
+   ```
+3. Add the required environment variables to the worker service:
+
+   | Variable | Description |
+   |---|---|
+   | `RAILS_MASTER_KEY` | Same value as the web service |
+   | `SECRET_KEY_BASE` | Same value as the web service — required so both containers sign payloads with the same key |
+   | `DATABASE_URL` | Connection URL for the primary database |
+   | `QUEUE_DATABASE_URL` | Connection URL for the Solid Queue database (`financial_planner_production_queue`) |
+
+   > **Why `QUEUE_DATABASE_URL`?** Solid Queue uses a separate database (`queue` in `config/database.yml`). Rails resolves it via the `QUEUE_DATABASE_URL` env var. Without it, both the web and worker services will fail to enqueue or process jobs.
+
+   > **Also required on the web service:** The web process uses `perform_later` to enqueue jobs, which writes directly to the queue database. Add `QUEUE_DATABASE_URL` to the web service as well.
+
+4. Deploy both services.
+
+> Do **not** set `SOLID_QUEUE_IN_PUMA=true` on either service.
+
+### Scaling
+
+To increase job concurrency, set on the worker service:
+
+```
+JOB_CONCURRENCY=2
+```
+
+The default is `1` process with 3 threads each (configured in `config/queue.yml`).

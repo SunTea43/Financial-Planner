@@ -1,5 +1,7 @@
 # Railway Deployment Guide
 
+> Background job (worker) setup instructions have moved to [docs/deployment/railway.md](docs/deployment/railway.md).
+
 ## Environment Variables Issue
 
 If environment variables defined in Railway are not being detected, follow these steps:
