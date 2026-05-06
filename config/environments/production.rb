@@ -68,8 +68,8 @@ Rails.application.configure do
 
   # Configure SMTP delivery using environment variables
   config.action_mailer.delivery_method = :smtp
-  smtp_address = ENV.fetch("SMTP_ADDRESS", "mailhog")
-  smtp_address = "mailhog" if smtp_address.strip.empty?
+  smtp_address = ENV.fetch("SMTP_ADDRESS", "mailhog").strip
+  smtp_address = "mailhog" if smtp_address.empty?
 
   smtp_user_name = ENV.fetch("SMTP_USER_NAME", nil)
   smtp_password = ENV.fetch("SMTP_PASSWORD", nil)
