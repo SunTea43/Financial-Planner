@@ -68,11 +68,16 @@ Rails.application.configure do
 
   # Configure SMTP delivery using environment variables
   config.action_mailer.delivery_method = :smtp
+  smtp_address = ENV.fetch("SMTP_ADDRESS", "mailhog")
+  smtp_address = "mailhog" if smtp_address.strip.empty?
+
   smtp_user_name = ENV.fetch("SMTP_USER_NAME", nil)
   smtp_password = ENV.fetch("SMTP_PASSWORD", nil)
+  smtp_user_name = nil if smtp_user_name&.strip == ""
+  smtp_password = nil if smtp_password&.strip == ""
 
   smtp_settings = {
-    address: ENV.fetch("SMTP_ADDRESS", "mailhog"),
+    address: smtp_address,
     port: ENV.fetch("SMTP_PORT", 1025).to_i,
     domain: ENV.fetch("SMTP_DOMAIN", "localhost"),
     enable_starttls_auto: ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO", "false") == "true",
