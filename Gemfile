@@ -24,6 +24,7 @@ gem "bcrypt", "~> 3.1.7"
 
 # Email delivery via Resend
 gem "resend"
+gem "net-imap", ">= 0.6.4"
 
 # Authentication
 gem "devise", "~> 5.0"

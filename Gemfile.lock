@@ -243,7 +243,7 @@ GEM
     msgpack (1.8.0)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
-    net-imap (0.6.3)
+    net-imap (0.6.4)
       date
       net-protocol
     net-pop (0.1.2)
@@ -541,6 +541,7 @@ DEPENDENCIES
   jbuilder
   kamal
   letter_opener
+  net-imap (>= 0.6.4)
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
