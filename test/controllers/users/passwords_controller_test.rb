@@ -31,6 +31,6 @@ class Users::PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[name='user[email]'][autocomplete='username']"
     assert_select "input[name='user[password]'][autocomplete='current-password']"
     assert_select "[data-controller='password-visibility']"
-    assert_select "button[data-action='click->password-visibility#toggle']"
+    assert_select "button[data-action='click->password-visibility#toggle']", count: 1
   end
 end
