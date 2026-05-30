@@ -1,6 +1,6 @@
 module Users
   class PasswordsController < Devise::PasswordsController
-    before_action :sign_out_current_user_for_password_reset, only: %i[ edit update ]
+    prepend_before_action :sign_out_current_user_for_password_reset, only: %i[ edit update ]
 
     private
 
