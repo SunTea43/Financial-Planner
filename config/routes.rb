@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   get "dashboard/index"
   get "home/index"
-  devise_for :users
+  devise_for :users, controllers: {
+    passwords: "users/passwords"
+  }
 
   authenticated :user do
     root "dashboard#index", as: :authenticated_root
