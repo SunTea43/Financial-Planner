@@ -9,16 +9,26 @@
     "build:css:fonts": "node ./script/copy_bootstrap_icon_fonts.js",
     "build:css:prefix": "postcss ./app/assets/builds/application.css --use=autoprefixer --output=./app/assets/builds/application.css",
     "build:css": "yarn build:css:compile && yarn build:css:fonts && yarn build:css:prefix",
+    "test:js": "jest",
     "watch:css": "nodemon --watch ./app/assets/stylesheets/ --ext scss --exec \"yarn build:css\""
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "autoprefixer": "^10.4.16",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.2",
-    "@popperjs/core": "^2.11.8",
-    "sass": "^1.69.5",
+    "nodemon": "^3.0.2",
     "postcss": "^8.4.32",
     "postcss-cli": "^10.1.0",
-    "autoprefixer": "^10.4.16",
-    "nodemon": "^3.0.2"
+    "sass": "^1.69.5"
+  },
+  "devDependencies": {
+    "@babel/core": "7",
+    "@babel/preset-env": "7",
+    "@hotwired/stimulus": "^3.2.2",
+    "babel-jest": "29",
+    "chart.js": "^4.5.1",
+    "jest": "29",
+    "jest-environment-jsdom": "29"
   }
 }
