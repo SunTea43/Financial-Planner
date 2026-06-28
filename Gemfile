@@ -98,4 +98,4 @@ end
 
 gem "annot8", "~> 1.0", group: :development
 
-gem "solargraph", "~> 0.59.2"
+gem "solargraph", "~> 0.60.2"
