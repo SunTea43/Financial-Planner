@@ -8,7 +8,7 @@ import {
     primaryValueFor,
     secondaryValueFor,
     tooltipLabel
-} from "./pie_chart_view_helpers"
+} from "controllers/pie_chart_view_helpers"
 
 export default class extends Controller {
     static values = {
