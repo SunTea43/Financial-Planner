@@ -3,6 +3,8 @@
   <%= link_to I18n.t('views.budgets.edit.new_title'), new_budget_path, class: "btn btn-primary" %>
 </div>
 
+<%= render "shared/account_filter", url: budgets_path, accounts: @accounts, account_id: @account_id %>
+
 <% if @budgets.any? %>
   <div class="row">
     <% @budgets.each do |budget| %>
@@ -10,7 +12,10 @@
         <div class="card h-100">
           <div class="card-header">
             <h5 class="mb-0"><%= budget.name %></h5>
-            <small class="text-muted"><span class="badge bg-info"><%= budget.translated_periodicity %></span></small>
+            <small class="text-muted">
+              <span class="badge bg-info"><%= budget.translated_periodicity %></span>
+              <span class="badge bg-secondary"><%= budget.account&.name || I18n.t("views.common.none_specific") %></span>
+            </small>
           </div>
           <div class="card-body">
             <p class="card-text">
@@ -51,4 +56,3 @@
     <%= link_to I18n.t('views.budgets.index.create_first'), new_budget_path, class: "btn btn-primary" %>
   </div>
 <% end %>
-

@@ -4,6 +4,9 @@
     <div class="d-flex justify-content-between align-items-center">
       <div>
         <h6 class="mb-1"><%= l(bs.recorded_at, format: :long) %></h6>
+        <small class="text-muted d-block">
+          <span class="badge bg-secondary"><%= bs.account&.name || I18n.t("views.common.none_specific") %></span>
+        </small>
         <small class="text-muted"><%= BalanceSheet.human_attribute_name(:net_worth) %></small>
       </div>
       <div class="text-end">

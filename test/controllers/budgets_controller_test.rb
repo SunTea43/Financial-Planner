@@ -17,6 +17,23 @@ class BudgetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should filter index by account" do
+    other_account = @user.accounts.create!(name: "Otra cuenta", account_type: "savings")
+    other_budget = @user.budgets.create!(
+      account: other_account,
+      name: "Presupuesto otra cuenta",
+      periodicity: "monthly",
+      start_date: Date.current.beginning_of_month,
+      end_date: Date.current.end_of_month
+    )
+
+    get budgets_url(account_id: @budget.account_id)
+    assert_response :success
+
+    assert_includes assigns(:budgets), @budget
+    assert_not_includes assigns(:budgets), other_budget
+  end
+
   test "new loads category suggestions for current user" do
     @budget.budget_items.create!(item_type: "expense", name: "Gym", amount: 90, category: "Bienestar")
 

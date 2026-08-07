@@ -4,7 +4,10 @@ class BudgetsController < ApplicationController
   before_action :load_budget_categories, only: [ :new, :edit, :create, :update ]
 
   def index
+    @account_id = params[:account_id]
+    @accounts = current_user.accounts.order(:name)
     @budgets = current_user.budgets.includes(:account, :budget_items)
+                           .by_account(@account_id)
                            .order(start_date: :desc)
   end
 

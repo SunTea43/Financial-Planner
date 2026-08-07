@@ -3,6 +3,8 @@
   <%= link_to I18n.t('views.balance_sheets.edit.new_title'), new_balance_sheet_path, class: "btn btn-primary" %>
 </div>
 
+<%= render "shared/account_filter", url: balance_sheets_path, accounts: @accounts, account_id: @account_id %>
+
 <% if @balance_sheets.any? %>
   <div class="row">
     <% @balance_sheets.each do |balance_sheet| %>

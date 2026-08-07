@@ -3,7 +3,10 @@ class BalanceSheetsController < ApplicationController
   before_action :set_account, only: [ :new, :create ]
 
   def index
+    @account_id = params[:account_id]
+    @accounts = current_user.accounts.order(:name)
     @balance_sheets = current_user.balance_sheets.includes(:account, :assets, :liabilities)
+                                   .by_account(@account_id)
                                    .latest
   end
 
