@@ -8,6 +8,25 @@ class BalanceSheetsControllerTest < ActionDispatch::IntegrationTest
     @balance_sheet = balance_sheets(:one)
   end
 
+  test "should get index" do
+    get balance_sheets_url
+    assert_response :success
+  end
+
+  test "should filter index by account" do
+    other_account = @user.accounts.create!(name: "Otra cuenta", account_type: "savings")
+    other_balance_sheet = @user.balance_sheets.create!(
+      account: other_account,
+      recorded_at: Time.current
+    )
+
+    get balance_sheets_url(account_id: @account.id)
+    assert_response :success
+
+    assert_includes assigns(:balance_sheets), @balance_sheet
+    assert_not_includes assigns(:balance_sheets), other_balance_sheet
+  end
+
   test "should get report" do
     @balance_sheet.assets.create!(name: "Cash", item_type: "liquid", category: "Efectivo", amount: 1000)
     @balance_sheet.liabilities.create!(name: "Loan", item_type: "short_term", amount: 250)

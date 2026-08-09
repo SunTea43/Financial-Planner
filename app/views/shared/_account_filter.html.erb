@@ -1,0 +1,19 @@
+<%# locals: (url:, accounts:, account_id:) %>
+<div class="card mb-4">
+  <div class="card-body">
+    <%= form_with url: url, method: :get, local: true do |f| %>
+      <div class="row align-items-end g-2">
+        <div class="col-md-8">
+          <%= f.label :account_id, Account.model_name.human, class: "form-label" %>
+          <%= f.select :account_id,
+                options_from_collection_for_select(accounts, :id, :name, account_id),
+                { include_blank: I18n.t("views.common.all_accounts") },
+                { class: "form-select" } %>
+        </div>
+        <div class="col-md-4">
+          <%= f.submit I18n.t("views.common.filter"), class: "btn btn-primary w-100" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

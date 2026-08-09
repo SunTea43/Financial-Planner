@@ -4,5 +4,7 @@ en:
       confirm_destroy: "Are you sure?"
       select_prompt: "Select"
       none_specific: "No specific account"
+      all_accounts: "All accounts"
+      filter: "Filter"
       current_currency: "Current currency: %{currency}"
       profile: "My profile"

@@ -28,6 +28,15 @@ class BalanceSheetsViewsTest < ActionDispatch::IntegrationTest
     assert_select ".card-body", text: /12\.345/
   end
 
+  test "index shows account name and filter form" do
+    get balance_sheets_path
+
+    assert_response :success
+    assert_select "form[action=?]", balance_sheets_path
+    assert_select "select[name=account_id]"
+    assert_select ".badge", text: @balance_sheet.account.name
+  end
+
   # --- show ---
 
   test "show renders show component with balance sheet header" do

@@ -5,6 +5,7 @@ es:
       budget_item: "Ítem de Presupuesto"
     attributes:
       budget:
+        account_id: "Cuenta"
         name: "Nombre"
         periodicity: "Periodicidad"
         start_date: "Fecha de Inicio"

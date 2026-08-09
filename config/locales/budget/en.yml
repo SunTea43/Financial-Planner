@@ -5,6 +5,7 @@ en:
       budget_item: "Budget Item"
     attributes:
       budget:
+        account_id: "Account"
         name: "Name"
         periodicity: "Periodicity"
         start_date: "Start Date"
