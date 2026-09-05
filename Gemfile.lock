@@ -181,7 +181,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.8, >= 1.8.1)
       terminal-table (>= 1.5.1)
-    image_processing (2.0.3)
+    image_processing (2.1.0)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -530,7 +530,7 @@ DEPENDENCIES
   devise-i18n
   erb_lint
   i18n-tasks (~> 1.0)
-  image_processing (~> 2.0)
+  image_processing (~> 2.1)
   importmap-rails
   jbuilder
   kamal
